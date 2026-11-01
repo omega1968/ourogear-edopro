@@ -106,7 +106,7 @@ function OG.XyzOperation(mode,rank,ct)
         if #ng>0 then Duel.Overlay(c,ng,true) end
         if #tg>0 then Duel.SendtoGrave(tg,REASON_MATERIAL|REASON_XYZ) end
         if tokenct>0 then
-            c:RegisterFlagEffect(OG.FLAG_XYZ_TOKEN_COUNT,RESET_EVENT|RESETS_STANDARD,0,1,tokenct)
+            c:RegisterFlagEffect(OG.FLAG_XYZ_TOKEN_COUNT,RESET_EVENT|(RESETS_STANDARD&~RESET_TOFIELD)|RESET_PHASE|PHASE_END,0,1,tokenct)
         end
         g:DeleteGroup()
     end
