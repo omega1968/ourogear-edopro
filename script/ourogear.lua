@@ -202,17 +202,6 @@ function OG.CreateToken(tp,source,pos)
     end
     return nil
 end
-function OG.MakeTokenUnreleasableThisTurn(token,source)
-    for _,code in ipairs({EFFECT_UNRELEASABLE_SUM,EFFECT_UNRELEASABLE_NONSUM}) do
-        local e=Effect.CreateEffect(source or token)
-        e:SetType(EFFECT_TYPE_SINGLE)
-        e:SetProperty(EFFECT_FLAG_CANNOT_DISABLE|EFFECT_FLAG_CLIENT_HINT)
-        e:SetCode(code)
-        e:SetValue(1)
-        e:SetReset(RESET_EVENT|RESETS_STANDARD|RESET_PHASE|PHASE_END)
-        token:RegisterEffect(e,true)
-    end
-end
 
 function OG.RegisterRitualLeftFieldTracker(c)
     local e=Effect.CreateEffect(c)

@@ -72,14 +72,10 @@ function s.gycost(e,tp,eg,ep,ev,re,r,rp,chk)
     Duel.SendtoDeck(c,nil,SEQ_DECKSHUFFLE,REASON_COST)
 end
 function s.thfilter(c)
-    return c:IsSetCard(Ourogear.SET) and c:IsRace(RACE_REPTILE) and c:IsLevel(4) and c:IsMonster() and c:IsAbleToHand()
+    return c:IsSetCard(Ourogear.SET) and c:IsRace(RACE_REPTILE) and c:IsLevel(4) and c:IsMonster() and not c:IsCode(id) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then
-        local c=e:GetHandler()
-        return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil)
-            or (c:IsLocation(LOCATION_GRAVE) and c:IsAbleToDeckAsCost() and s.thfilter(c))
-    end
+    if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
     Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function s.thop(e,tp)

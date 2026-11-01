@@ -3,7 +3,7 @@ if not Ourogear then Duel.LoadScript("ourogear.lua") end
 local s,id=GetID()
 function s.initial_effect(c)
     Ourogear.AddXyzProcedure(c,4,4,2)
-    -- Detach 1; Special Summon an Ourogear Token that cannot be Tributed this turn
+    -- Detach 1; Special Summon an Ourogear Token
     local e1=Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id,0))
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -33,8 +33,7 @@ function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
     Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function s.tkop(e,tp)
-    local token=Ourogear.CreateToken(tp,e:GetHandler())
-    if token then Ourogear.MakeTokenUnreleasableThisTurn(token,e:GetHandler()) end
+    Ourogear.CreateToken(tp,e:GetHandler())
 end
 function s.attfilter(c,e,tp)
     return c:IsControler(1-tp) and c:IsLocation(LOCATION_MZONE)

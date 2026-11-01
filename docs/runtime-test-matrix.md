@@ -2,7 +2,7 @@
 
 This checklist is for one deliberate EDOPro test pass after the automated checks are green. The repository already validates the database, compiles every Lua file, and loads every card's `initial_effect` through Project Ignis' ocgcore-backed ScriptChecker. These tests cover interactions that require an actual duel state.
 
-Automated coverage now also includes 33 callback regressions and 12 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
+Automated coverage now also includes 36 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
 
 ## Core loading
 
@@ -39,7 +39,7 @@ For Ritefang, Riteveil, and Ritebind:
 
 Specific field/GY effects:
 
-- [ ] Ritefang negates a face-up monster until the End Phase and its GY effect shuffles itself, then searches a Level 4 Ourogear Reptile.
+- [ ] Ritefang negates a face-up monster until the End Phase and its GY effect shuffles itself, then searches a Level 4 Ourogear Reptile with a different name.
 - [ ] Riteveil flips a face-up opponent monster face-down and its GY effect shuffles itself, then searches an Ourogear Spell/Trap.
 - [ ] Ritebind prevents attacking and Fusion/Synchro/Xyz/Link material use for the turn and its GY effect shuffles itself, then Special Summons a Level 4 Reptile from hand or banishment.
 - [ ] GY effects are ignition effects and cannot be used during the opponent's turn.
@@ -84,9 +84,9 @@ Test Rank 4 and Rank 8 separately.
 
 ## Rank 4 effects / inherited effects
 
-- [ ] Vector Frame detaches 2 and searches exactly 2 differently named Ourogear cards.
+- [ ] Vector Frame detaches 2 and searches exactly 2 differently named Ourogear cards, excluding Vector Frame.
 - [ ] A WIND Machine Xyz with Vector Frame as material gains 500 ATK/DEF.
-- [ ] Relay Frame detaches 1 to create a Token that cannot be Tributed that turn.
+- [ ] Relay Frame detaches 1 to create a Token that can be Tributed immediately.
 - [ ] A WIND Machine Xyz with Relay Frame as material can attach 1 monster from an opponent's successful Special Summon.
 - [ ] If that attached monster is itself an Xyz Monster, its former materials do not improperly carry over.
 - [ ] Breach Frame detaches 1 and can destroy 1 or 2 opponent cards.
@@ -128,7 +128,7 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 
 ### Skyforge Nexus
 
-- [ ] Searches any Ourogear card once per turn.
+- [ ] Searches any Ourogear card other than Skyforge Nexus once per turn.
 - [ ] Prevents only the first destruction of your Ourogear Spell/Trap by an opponent's card effect each turn.
 - [ ] Places 1 or 2 Ourogear Continuous Spells/Traps from GY face-up without treating that placement as activation.
 - [ ] Re-placing Skyforge after it leaves the field gives a fresh soft once-per-turn search/placement, matching the printed text.

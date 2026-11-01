@@ -51,6 +51,7 @@ function Card:IsSpellTrap() return self:IsType(TYPE_SPELL|TYPE_TRAP) end
 function Card:IsMonster() return self:IsType(TYPE_MONSTER) or self:IsType(TYPE_TOKEN) end
 function Card:IsLevel(lv) return self.normal_level==lv end
 function Card:IsRank(rank) return self.rank==rank end
+function Card:IsCanBeSpecialSummoned() return not self.block_summon end
 function Card:IsCanBeXyzMaterial() return not self:IsType(TYPE_TOKEN) and not self.block_material end
 function Card:IsImmuneToEffect() return false end
 function Card:IsRelateToEffect() return true end
@@ -178,12 +179,12 @@ test('Negated Xyz cannot use its own Ritual Level effect',function()
     material_xyz.applied=nil; eq(material_xyz:GetRitualLevel(reptile),0)
     material_xyz.applied=base_ritual_effects
 end)
-test('Ritefang may search itself after its shuffle cost',function()
-    local fang=card({type=TYPE_MONSTER|TYPE_RITUAL,ourogear=true,race=RACE_REPTILE,normal_level=4,location=LOCATION_GRAVE})
+test('Ritefang cannot search itself after its shuffle cost',function()
+    local fang=card({id=990071004,type=TYPE_MONSTER|TYPE_RITUAL,ourogear=true,race=RACE_REPTILE,normal_level=4,location=LOCATION_GRAVE})
     local fe=Effect.CreateEffect(fang)
     local saved=Duel.IsExistingMatchingCard
     Duel.IsExistingMatchingCard=function() return false end
-    eq(functions[4].thtg(fe,0,nil,0,0,nil,0,0,0),true)
+    eq(functions[4].thtg(fe,0,nil,0,0,nil,0,0,0),false)
     Duel.IsExistingMatchingCard=saved
 end)
 test('Skyforge lets controller choose when only one restoration fits',function()
@@ -205,6 +206,32 @@ test('Skyforge excludes Forbidden and uniqueness-blocked cards',function()
     eq(functions[16].recfilter(c,0),false)
     c.forbidden=false; c.unique_blocked=true
     eq(functions[16].recfilter(c,0),false)
+end)
+test('Searches reject same-name copies and generic monsters',function()
+    for _,i in ipairs({1,4,10,16}) do
+        local same=card({id=990071000+i,ourogear=true,type=TYPE_MONSTER,race=RACE_REPTILE,normal_level=4})
+        eq(functions[i].thfilter(same),false)
+        same.id=123; same.ourogear=false
+        eq(functions[i].thfilter(same),false)
+        same.ourogear=true
+        eq(functions[i].thfilter(same),true)
+    end
+end)
+test('Ritebind still summons an unrelated non-WIND Level 4 Reptile',function()
+    local external=card({id=123,type=TYPE_MONSTER,race=RACE_REPTILE,attribute=ATTRIBUTE_EARTH,normal_level=4,location=LOCATION_HAND})
+    eq(functions[6].spfilter(external,e,0),true)
+    external.normal_level=8
+    eq(functions[6].spfilter(external,e,0),false)
+end)
+test('Relay Token has no extra Tribute restriction',function()
+    local create=Ourogear.CreateToken
+    local made=card({type=TYPE_TOKEN})
+    Ourogear.CreateToken=function() return made end
+    functions[11].tkop(e,0)
+    Ourogear.CreateToken=create
+    for _,te in ipairs(made.effects or {}) do
+        assert(te.Code~=EFFECT_UNRELEASABLE_SUM and te.Code~=EFFECT_UNRELEASABLE_NONSUM)
+    end
 end)
 print(string.format('%d/%d callback regressions passed',total-failures,total))
 if failures>0 then os.exit(1) end

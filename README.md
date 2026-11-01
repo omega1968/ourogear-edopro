@@ -49,7 +49,7 @@ python tools/validate.py
 python tools/build_package.py
 ```
 
-GitHub Actions also rebuilds the database, validates all IDs/references, installs Lua 5.3, runs `luac5.3 -p` against every Lua file, then loads the custom scripts through Project Ignis' ocgcore-backed ScriptChecker before building and uploading `Ourogear.zip`. It also runs 33 focused callback regressions and 16 real-engine scenarios covering Ritual support, negation, Xyz material transfer, Token substitutions, Material Loom costs, banishment returns, and Launch Harness triggers. These tests check specific rules and do not replace a complete duel test.
+GitHub Actions also rebuilds the database, validates all IDs/references, installs Lua 5.3, runs `luac5.3 -p` against every Lua file, then loads the custom scripts through Project Ignis' ocgcore-backed ScriptChecker before building and uploading `Ourogear.zip`. It also runs 36 focused callback regressions and 16 real-engine scenarios covering Ritual support, negation, Xyz material transfer, Token substitutions, Material Loom costs, banishment returns, and Launch Harness triggers. These tests check specific rules and do not replace a complete duel test.
 
 ## Important custom mechanics
 
@@ -70,7 +70,16 @@ The repository performs database integrity checks, Lua syntax compilation, and P
 
 - Rite Circuit's Level 4/8 substitution is automatic while it is face-up and active. It applies to your Ourogear monsters used for a Reptile Ritual Summon; the displayed Level remains unchanged.
 - Ordinary Ourogear Tokens can be Tributed by Ritefang/Riteveil/Ritebind's field-material Ritual effects. With Rite Circuit active, one ordinary Token can provide Level 8.
-- A Token created by Relay Frame cannot be Tributed during the turn it was created, as stated on Relay Frame.
+- Tokens created by Relay Frame can be Tributed immediately; Relay no longer adds a same-turn Tribute restriction.
 - Rite Circuit's own Quick Ritual effect uses Level 4 Reptiles from your Deck, so field Tokens are not eligible for that effect.
 - Mitsurugi Ritual requires Reptile materials. Ourogear Tokens are Machines; changing their Ritual Level does not change their Type.
 - Token-creating effects now offer either face-up Attack or Defense Position unless a game effect restricts the available positions.
+
+
+## Shorter card text and search limits
+
+The Xyz cards keep their listed materials, WIND Machine Xyz substitution/material transfer, and Rank-as-Level use for Reptile Rituals. The shared Token-substitution explanation is printed on Ourogear Token, with a short pointer on each Xyz. This is a display change to the custom procedure; the Xyz scripts still enforce all Token substitutions even though the Token has no separate card script.
+
+Level 4 Rituals and Rite Circuit have numbered effects and one final named once-per-turn clause instead of repeating that limit. Their Ritual material requirements are unchanged.
+
+Windscale, Ritefang, Vector Frame, and Skyforge Nexus exclude same-name cards from their searches. Their existing Ourogear/archetype and Level restrictions remain. Launch Harness already searches Level 4 Ourogear Reptile Ritual Monsters. Ritebind intentionally keeps its broader recursion: it may Special Summon any legal Level 4 Reptile from the hand or banishment, including non-Ourogear and non-WIND monsters. Rite Circuit still uses Level 4 Reptiles from the Deck.
