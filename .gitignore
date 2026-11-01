@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+expansion/ourogear.cdb
+database/cards.sql
