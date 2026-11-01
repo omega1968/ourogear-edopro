@@ -53,9 +53,8 @@ function s.recop(e,tp)
     local chosen=g:RandomSelect(1-tp,1)
     local rest=g:Clone()
     rest:Sub(chosen)
-    if Duel.SendtoHand(chosen,nil,REASON_EFFECT)>0 then
-        Duel.ConfirmCards(1-tp,chosen)
-    end
+    if Duel.SendtoHand(chosen,nil,REASON_EFFECT)==0 then return end
+    Duel.ConfirmCards(1-tp,chosen)
     if #rest>0 then
         Duel.SendtoDeck(rest,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)
     end
