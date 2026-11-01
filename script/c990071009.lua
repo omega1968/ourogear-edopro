@@ -40,7 +40,8 @@ function s.statval(e,c)
 end
 function s.choicecon(e,tp,eg,ep,ev,re,r,rp)
     if rp~=1-tp then return false end
-    return Duel.IsChainDisablable(ev) or Duel.GetFieldGroupCount(1-tp,LOCATION_EXTRA,0)>0
+    return Duel.IsChainDisablable(ev)
+        or (Duel.GetFieldGroupCount(1-tp,LOCATION_EXTRA,0)>0 and Duel.IsPlayerCanRemove(tp))
 end
 function s.choiceop(e,tp,eg,ep,ev,re,r,rp)
     local canneg=Duel.IsChainDisablable(ev)
