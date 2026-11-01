@@ -7,7 +7,7 @@ function s.initial_effect(c)
     -- Search any Ourogear card
     local e1=Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id,0)); e1:SetCategory(CATEGORY_TOHAND|CATEGORY_SEARCH)
-    e1:SetType(EFFECT_TYPE_IGNITION); e1:SetRange(LOCATION_FZONE); e1:SetCountLimit(1,{id,0})
+    e1:SetType(EFFECT_TYPE_IGNITION); e1:SetRange(LOCATION_FZONE); e1:SetCountLimit(1)
     e1:SetTarget(s.thtg); e1:SetOperation(s.thop); c:RegisterEffect(e1)
     -- The first Ourogear Spell/Trap that would be destroyed by an opponent's effect each turn is not destroyed
     local e2=Effect.CreateEffect(c)
@@ -16,7 +16,7 @@ function s.initial_effect(c)
     -- Place up to 2 Ourogear Continuous Spells/Traps from GY face-up
     local e3=Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id,1)); e3:SetCategory(CATEGORY_LEAVE_GRAVE)
-    e3:SetType(EFFECT_TYPE_IGNITION); e3:SetProperty(EFFECT_FLAG_CARD_TARGET); e3:SetRange(LOCATION_FZONE); e3:SetCountLimit(1,{id,1})
+    e3:SetType(EFFECT_TYPE_IGNITION); e3:SetProperty(EFFECT_FLAG_CARD_TARGET); e3:SetRange(LOCATION_FZONE); e3:SetCountLimit(1)
     e3:SetTarget(s.rectg); e3:SetOperation(s.recop); c:RegisterEffect(e3)
 end
 s.listed_series={Ourogear.SET}
