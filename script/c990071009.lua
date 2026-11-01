@@ -40,46 +40,50 @@ function s.statval(e,c)
 end
 function s.choicecon(e,tp,eg,ep,ev,re,r,rp)
     if rp~=1-tp then return false end
-    return Duel.IsChainDisablable(ev) or Duel.GetFieldGroupCount(1-tp,LOCATION_EXTRA,0)>0
+    return Duel.IsChainDisablable(ev)
+        or (Duel.GetFieldGroupCount(1-tp,LOCATION_EXTRA,0)>0 and Duel.IsPlayerCanRemove(tp))
 end
 function s.choiceop(e,tp,eg,ep,ev,re,r,rp)
     local canneg=Duel.IsChainDisablable(ev)
     local exg=Duel.GetFieldGroup(1-tp,LOCATION_EXTRA,0)
-    local canban=#exg>0
+    local canban=#exg>0 and Duel.IsPlayerCanRemove(tp)
     local op
     if canneg and canban then
         op=Duel.SelectEffect(1-tp,{true,aux.Stringid(id,1)},{true,aux.Stringid(id,2)})
-    elseif canneg then op=1 else op=2 end
+    elseif canneg then
+        op=1
+    elseif canban then
+        op=2
+    else
+        return
+    end
     if op==1 then
         Duel.NegateEffect(ev)
         return
     end
     local rg=exg:RandomSelect(1-tp,1)
-    if #rg==0 or Duel.Remove(rg,POS_FACEDOWN,REASON_EFFECT|REASON_TEMPORARY)==0 then return end
-    local bg=Duel.GetOperatedGroup():Filter(Card.IsLocation,nil,LOCATION_REMOVED)
-    if #bg==0 then return end
-    bg:KeepAlive()
-    local turn=Duel.GetTurnCount()
-    local e1=Effect.CreateEffect(e:GetHandler())
-    e1:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_CONTINUOUS)
-    e1:SetCode(EVENT_PHASE|PHASE_END)
-    e1:SetLabel(turn)
-    e1:SetLabelObject(bg)
-    e1:SetCountLimit(1)
-    e1:SetCondition(function(e) return Duel.GetTurnCount()>e:GetLabel() end)
-    e1:SetOperation(function(e)
-        local g=e:GetLabelObject()
-        local rg=g:Filter(Card.IsLocation,nil,LOCATION_REMOVED)
-        g:DeleteGroup()
-        if #rg>0 then Duel.SendtoDeck(rg,nil,SEQ_DECKSHUFFLE,REASON_EFFECT) end
-        e:Reset()
-    end)
-    e1:SetReset(RESET_PHASE|PHASE_END,2)
-    Duel.RegisterEffect(e1,tp)
+    if #rg==0 then return end
+    local activation_turn=Duel.GetTurnCount()
+    local opponent=1-tp
+    aux.RemoveUntil(
+        rg,POS_FACEDOWN,REASON_EFFECT,PHASE_END,id,e,tp,s.exretop,
+        function()
+            return Duel.GetTurnPlayer()==opponent and Duel.GetTurnCount()>activation_turn
+        end,
+        RESET_PHASE|PHASE_END,3
+    )
+end
+function s.exretop(rg,e,tp)
+    local g=rg:Filter(Card.IsLocation,nil,LOCATION_REMOVED)
+    if #g==0 then return end
+    Duel.SendtoDeck(g,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)
+    Duel.ShuffleExtra(1-tp)
 end
 function s.chainfilter(e,ct)
     local te=Duel.GetChainInfo(ct,CHAININFO_TRIGGERING_EFFECT)
     if not te then return false end
     local tc=te:GetHandler()
-    return Chain.IsTriggeringControler(ct,e:GetHandlerPlayer()) and tc:IsMonster() and tc:IsSetCard(Ourogear.SET)
+    return Chain.IsTriggeringControler(ct,e:GetHandlerPlayer())
+        and Chain.IsTriggeringLocation(ct,LOCATION_MZONE)
+        and tc:IsMonster() and tc:IsSetCard(Ourogear.SET)
 end

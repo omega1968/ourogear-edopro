@@ -1,11 +1,14 @@
 -- Ourogear Ritefang
 if not Ourogear then Duel.LoadScript("ourogear.lua") end
 local s,id=GetID()
+function s.fieldmatfilter(c,e,tp)
+    return c:IsLocation(LOCATION_MZONE) and c:IsControler(tp)
+end
 s.ritparams={
     lvtype=RITPROC_GREATER,
     filter=aux.FilterBoolFunction(Card.IsRace,RACE_REPTILE),
     location=LOCATION_DECK,
-    matfilter=aux.FilterBoolFunction(Card.IsLocation,LOCATION_MZONE)
+    matfilter=s.fieldmatfilter
 }
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -59,17 +62,9 @@ function s.negtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function s.negop(e,tp)
     local tc=Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() then return end
-    Duel.NegateRelatedChain(tc,RESET_TURN_SET)
-    local e1=Effect.CreateEffect(e:GetHandler())
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_DISABLE)
-    e1:SetReset(RESET_EVENT|RESETS_STANDARD|RESET_PHASE|PHASE_END)
-    tc:RegisterEffect(e1)
-    local e2=e1:Clone()
-    e2:SetCode(EFFECT_DISABLE_EFFECT)
-    e2:SetValue(RESET_TURN_SET)
-    tc:RegisterEffect(e2)
+    if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
+        tc:NegateEffects(e:GetHandler(),RESET_PHASE|PHASE_END,true)
+    end
 end
 function s.gycost(e,tp,eg,ep,ev,re,r,rp,chk)
     local c=e:GetHandler()

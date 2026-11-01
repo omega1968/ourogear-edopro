@@ -32,7 +32,7 @@ function s.posop(e,tp,eg)
         end
     end
 end
-function s.deffilter(c) return c:IsFaceup() and c:IsDefensePos() end
+function s.deffilter(c) return c:IsDefensePos() end
 function s.lockcon(e,tp) return Duel.GetMatchingGroupCount(s.deffilter,tp,0,LOCATION_MZONE,nil)>=4 end
 function s.aclimit(e,re,tp)
     local rc=re:GetHandler()

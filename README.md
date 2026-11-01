@@ -49,7 +49,7 @@ python tools/validate.py
 python tools/build_package.py
 ```
 
-GitHub Actions also rebuilds the database, validates all IDs/references, installs Lua 5.3, runs `luac5.3 -p` against every Lua file, builds `Ourogear.zip`, and uploads the ZIP as a workflow artifact on every push and pull request.
+GitHub Actions also rebuilds the database, validates all IDs/references, installs Lua 5.3, runs `luac5.3 -p` against every Lua file, then loads the custom scripts through Project Ignis' ocgcore-backed ScriptChecker before building and uploading `Ourogear.zip`.
 
 ## Important custom mechanics
 
@@ -63,4 +63,4 @@ The shared `script/ourogear.lua` implements the archetype-specific rules that no
 
 ## Runtime testing note
 
-The repository performs database integrity checks and Lua syntax compilation automatically. EDOPro itself is still the final authority for engine-level timing behavior, so the supplied test deck should be used to exercise the custom Xyz procedure, Ritual-from-Deck effects, inherited Xyz-material effects, and Continuous Spell/Trap interactions in an actual duel.
+The repository performs database integrity checks, Lua syntax compilation, and Project Ignis ocgcore script loading automatically. EDOPro itself is still the final authority for duel-state timing and the custom summon procedure. Use [`docs/runtime-test-matrix.md`](docs/runtime-test-matrix.md) for the one-time in-client validation pass covering the custom Xyz procedure, Ritual-from-Deck effects, inherited Xyz-material effects, DoomZ/Mitsurugi compatibility, and Continuous Spell/Trap interactions.

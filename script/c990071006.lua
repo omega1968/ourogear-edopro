@@ -1,7 +1,10 @@
 -- Ourogear Ritebind
 if not Ourogear then Duel.LoadScript("ourogear.lua") end
 local s,id=GetID()
-s.ritparams={lvtype=RITPROC_GREATER,filter=aux.FilterBoolFunction(Card.IsRace,RACE_REPTILE),location=LOCATION_DECK,matfilter=aux.FilterBoolFunction(Card.IsLocation,LOCATION_MZONE)}
+function s.fieldmatfilter(c,e,tp)
+    return c:IsLocation(LOCATION_MZONE) and c:IsControler(tp)
+end
+s.ritparams={lvtype=RITPROC_GREATER,filter=aux.FilterBoolFunction(Card.IsRace,RACE_REPTILE),location=LOCATION_DECK,matfilter=s.fieldmatfilter}
 function s.initial_effect(c)
     c:EnableReviveLimit()
     Ourogear.RegisterRitualLeftFieldTracker(c)

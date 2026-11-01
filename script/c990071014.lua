@@ -20,6 +20,7 @@ function s.initial_effect(c)
     -- The first 2 Extra Deck Special Summon attempts each turn are taxed
     local e2=Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id,1))
+    e2:SetCategory(CATEGORY_DISABLE_SUMMON|CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_CONTINUOUS)
     e2:SetCode(EVENT_SPSUMMON)
     e2:SetRange(LOCATION_MZONE)
@@ -58,19 +59,18 @@ function s.sumfilter(c,tp)
     return c:IsSummonPlayer(1-tp) and c:IsSummonLocation(LOCATION_EXTRA)
 end
 function s.sumcon(e,tp,eg)
-    return eg:IsExists(s.sumfilter,1,nil,tp)
+    return Duel.GetCurrentChain()==0 and eg:IsExists(s.sumfilter,1,nil,tp)
 end
 function s.desfilter(c) return c:IsDestructable() end
 function s.sumop(e,tp,eg)
     local opp=1-tp
     local dg=Duel.GetMatchingGroup(s.desfilter,opp,LOCATION_ONFIELD,0,nil)
-    local pay=false
-    if #dg>0 then pay=Duel.SelectYesNo(opp,aux.Stringid(id,2)) end
-    if pay then
+    if #dg>0 and Duel.SelectYesNo(opp,aux.Stringid(id,2)) then
         Duel.Hint(HINT_SELECTMSG,opp,HINTMSG_DESTROY)
         local sg=dg:Select(opp,1,1,nil)
-        if Duel.Destroy(sg,REASON_EFFECT)>0 then return end
+        if #sg>0 and Duel.Destroy(sg,REASON_EFFECT)>0 then
+            return
+        end
     end
-    local ng=eg:Filter(s.sumfilter,nil,tp)
-    if #ng>0 then Duel.NegateSummon(ng) end
+    Duel.NegateSummon(eg)
 end
