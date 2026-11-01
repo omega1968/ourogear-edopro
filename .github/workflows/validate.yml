@@ -34,6 +34,10 @@ jobs:
           rm ScriptChecker.zip
           curl --retry 5 --connect-timeout 30 --location --output libocgcore.so https://github.com/ProjectIgnis/bin/raw/master/libocgcore.so
           ./script_syntax_check upstream-cardscripts script
+      - name: Callback regression tests
+        run: lua5.3 tests/regression.lua upstream-cardscripts
+      - name: Real-engine board regressions
+        run: python tools/engine_regression.py upstream-cardscripts ./libocgcore.so
       - name: Build EDOPro ZIP
         run: python tools/build_package.py
       - name: Upload EDOPro package

@@ -53,6 +53,7 @@ function s.negop(e,tp)
         tc:RegisterEffect(e3)
     end
 end
-function s.atkcon(e,tp)
+function s.atkcon(e)
+    local tp=e:GetHandlerPlayer()
     return Duel.IsExistingMatchingCard(function(c) return c:IsFaceup() and Ourogear.IsWindMachine(c) end,tp,LOCATION_MZONE,0,1,nil)
 end

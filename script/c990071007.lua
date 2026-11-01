@@ -38,7 +38,7 @@ function s.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
     if rc and rc:IsAbleToRemove() then Duel.SetOperationInfo(0,CATEGORY_REMOVE,rc,1,0,0) end
 end
 function s.negop(e,tp,eg,ep,ev,re,r,rp)
-    if Duel.NegateActivation(ev)==0 then return end
+    if not Duel.NegateActivation(ev) then return end
     local rc=re:GetHandler()
     if rc and rc:IsRelateToEffect(re) then Duel.Remove(rc,POS_FACEUP,REASON_EFFECT) end
 end

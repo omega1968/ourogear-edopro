@@ -49,7 +49,7 @@ python tools/validate.py
 python tools/build_package.py
 ```
 
-GitHub Actions also rebuilds the database, validates all IDs/references, installs Lua 5.3, runs `luac5.3 -p` against every Lua file, then loads the custom scripts through Project Ignis' ocgcore-backed ScriptChecker before building and uploading `Ourogear.zip`.
+GitHub Actions also rebuilds the database, validates all IDs/references, installs Lua 5.3, runs `luac5.3 -p` against every Lua file, then loads the custom scripts through Project Ignis' ocgcore-backed ScriptChecker before building and uploading `Ourogear.zip`. It also runs 28 focused callback regressions and two real-engine board scenarios (with and without Rite Circuit). These tests check specific rules and do not replace a complete duel test.
 
 ## Important custom mechanics
 

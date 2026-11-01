@@ -27,7 +27,7 @@ function s.initial_effect(c)
     local e2=Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id,2))
     e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_SINGLE|EFFECT_TYPE_TRIGGER_O)
+    e2:SetType(EFFECT_TYPE_SINGLE|EFFECT_TYPE_TRIGGER_F)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_TO_GRAVE)
     e2:SetCountLimit(1,{id,2})
@@ -87,7 +87,7 @@ function s.tkcon(e,tp,eg,ep,ev,re,r,rp)
         and ec:IsReason(REASON_MATERIAL) and (ec:IsReason(REASON_RITUAL) or ec:IsReason(REASON_XYZ))
 end
 function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
+    if chk==0 then return Ourogear.CanCreateToken(e,tp) end
     Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function s.tkop(e,tp) Ourogear.CreateToken(tp,e:GetHandler()) end

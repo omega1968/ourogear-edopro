@@ -31,6 +31,7 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1,{id,2})
+    e3:SetCost(Ourogear.RevealRandomHandCost)
     e3:SetTarget(s.tktg)
     e3:SetOperation(s.tkop)
     c:RegisterEffect(e3)
@@ -64,13 +65,9 @@ function s.drop(e,tp)
     Duel.SendtoDeck(g,nil,SEQ_DECKBOTTOM,REASON_EFFECT)
 end
 function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)>0 end
+    if chk==0 then return Ourogear.CanCreateToken(e,tp) end
     Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function s.tkop(e,tp)
-    local hg=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
-    if #hg==0 or Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-    local rg=hg:RandomSelect(1-tp,1)
-    Duel.ConfirmCards(1-tp,rg)
     Ourogear.CreateToken(tp,e:GetHandler())
 end
