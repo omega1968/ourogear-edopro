@@ -83,5 +83,7 @@ function s.chainfilter(e,ct)
     local te=Duel.GetChainInfo(ct,CHAININFO_TRIGGERING_EFFECT)
     if not te then return false end
     local tc=te:GetHandler()
-    return Chain.IsTriggeringControler(ct,e:GetHandlerPlayer()) and tc:IsMonster() and tc:IsSetCard(Ourogear.SET)
+    return Chain.IsTriggeringControler(ct,e:GetHandlerPlayer())
+        and Chain.IsTriggeringLocation(ct,LOCATION_MZONE)
+        and tc:IsMonster() and tc:IsSetCard(Ourogear.SET)
 end
