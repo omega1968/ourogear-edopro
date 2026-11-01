@@ -10,9 +10,16 @@ Custom Yu-Gi-Oh! archetype for Project Ignis / EDOPro.
 - Setcode: `0x7f0` (`Ourogear`)
 - Database `ot`: `4`, matching the owner's existing custom-card CDB
 
-## Install
+## Install the validated build
 
-Copy the **contents** of `expansion/` into your EDOPro `expansions/` folder so that EDOPro can see:
+Every push/PR runs GitHub Actions to:
+
+1. build `ourogear.cdb` from `database/build_database.py`;
+2. compile-check all Lua files;
+3. validate the database IDs/schema and the test deck; and
+4. upload an installable artifact named **ourogear-edopro-expansion**.
+
+Download that artifact and copy its **contents** into your EDOPro `expansions/` folder:
 
 ```text
 expansions/
@@ -25,7 +32,9 @@ expansions/
     └── c21430021.lua
 ```
 
-Card pictures, when added, belong in `expansions/pics/` using the card ID as the filename, e.g. `21430001.jpg`.
+The generated SQLite database and generated SQL dump are intentionally not committed; the generator is the authoritative source so they cannot silently drift out of sync.
+
+Card pictures, once added, belong in `expansions/pics/` using the card ID as the filename, e.g. `21430001.jpg`.
 
 The pure-archetype test deck is in `deck/Ourogear-Test.ydk`.
 
@@ -41,26 +50,19 @@ Ourogear intentionally uses custom Xyz procedures:
 
 The archetype intentionally remains compatible with generic Reptile Ritual support (including Mitsurugi) and WIND Machine Xyz support (including DoomZ).
 
-## Regenerating the CDB
+## Build locally
 
-Run:
-
-```bash
-python database/build_database.py
-```
-
-This regenerates `expansion/ourogear.cdb` and `database/cards.sql` from the same source data.
-
-## Validation
-
-Run:
+From the repository root:
 
 ```bash
-python tools/validate.py
+python3 database/build_database.py
+python3 tools/validate.py
 ```
 
-The validator checks the CDB schema/IDs, script coverage, test-deck counts, and Lua syntax when a Lua compiler/runtime is available.
+This generates `expansion/ourogear.cdb` and `database/cards.sql` locally.
 
 ## Runtime testing
 
-The Lua and database are statically validated, but custom summon procedures can only be fully verified by the EDOPro duel engine. Before merging a release, run the focused checklist in [`docs/runtime-test-checklist.md`](docs/runtime-test-checklist.md). If EDOPro reports a script error, preserve the exact error text and card ID so it can be fixed without guessing.
+Static validation catches database, syntax, ID, and deck-construction errors, but a custom summon procedure can only be fully verified by the EDOPro duel engine. Before merging a release, run the focused checklist in [`docs/runtime-test-checklist.md`](docs/runtime-test-checklist.md).
+
+If EDOPro reports a script error, preserve the exact error text and card ID so it can be fixed against the precise failing code path rather than guessed at.
