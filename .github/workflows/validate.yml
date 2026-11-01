@@ -1,0 +1,34 @@
+name: Validate EDOPro expansion
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild database
+        run: python tools/build_cdb.py
+      - name: Validate database and references
+        run: python tools/validate.py
+      - name: Install Lua 5.3 compiler
+        run: sudo apt-get update && sudo apt-get install -y lua5.3
+      - name: Lua syntax check
+        run: |
+          set -e
+          for f in script/*.lua; do
+            echo "Checking $f"
+            luac5.3 -p "$f"
+          done
+      - name: Build EDOPro ZIP
+        run: python tools/build_package.py
+      - name: Upload EDOPro package
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ourogear-EDOPro
+          path: Ourogear.zip
