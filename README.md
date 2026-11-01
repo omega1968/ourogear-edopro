@@ -49,7 +49,7 @@ python tools/validate.py
 python tools/build_package.py
 ```
 
-GitHub Actions also rebuilds the database, validates all IDs/references, installs Lua 5.3, runs `luac5.3 -p` against every Lua file, then loads the custom scripts through Project Ignis' ocgcore-backed ScriptChecker before building and uploading `Ourogear.zip`. It also runs 33 focused callback regressions and 12 real-engine scenarios covering Ritual support, negation, Xyz material transfer, Token substitutions, Material Loom costs, banishment returns, and Launch Harness triggers. These tests check specific rules and do not replace a complete duel test.
+GitHub Actions also rebuilds the database, validates all IDs/references, installs Lua 5.3, runs `luac5.3 -p` against every Lua file, then loads the custom scripts through Project Ignis' ocgcore-backed ScriptChecker before building and uploading `Ourogear.zip`. It also runs 33 focused callback regressions and 16 real-engine scenarios covering Ritual support, negation, Xyz material transfer, Token substitutions, Material Loom costs, banishment returns, and Launch Harness triggers. These tests check specific rules and do not replace a complete duel test.
 
 ## Important custom mechanics
 
@@ -64,3 +64,13 @@ The shared `script/ourogear.lua` implements the archetype-specific rules that no
 ## Runtime testing note
 
 The repository performs database integrity checks, Lua syntax compilation, and Project Ignis ocgcore script loading automatically. EDOPro itself is still the final authority for duel-state timing and the custom summon procedure. Use [`docs/runtime-test-matrix.md`](docs/runtime-test-matrix.md) for the one-time in-client validation pass covering the custom Xyz procedure, Ritual-from-Deck effects, inherited Xyz-material effects, DoomZ/Mitsurugi compatibility, and Continuous Spell/Trap interactions.
+
+
+## Ritual Levels and Tokens
+
+- Rite Circuit's Level 4/8 substitution is automatic while it is face-up and active. It applies to your Ourogear monsters used for a Reptile Ritual Summon; the displayed Level remains unchanged.
+- Ordinary Ourogear Tokens can be Tributed by Ritefang/Riteveil/Ritebind's field-material Ritual effects. With Rite Circuit active, one ordinary Token can provide Level 8.
+- A Token created by Relay Frame cannot be Tributed during the turn it was created, as stated on Relay Frame.
+- Rite Circuit's own Quick Ritual effect uses Level 4 Reptiles from your Deck, so field Tokens are not eligible for that effect.
+- Mitsurugi Ritual requires Reptile materials. Ourogear Tokens are Machines; changing their Ritual Level does not change their Type.
+- Token-creating effects now offer either face-up Attack or Defense Position unless a game effect restricts the available positions.

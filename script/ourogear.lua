@@ -197,7 +197,7 @@ function OG.CreateToken(tp,source,pos)
     if not OG.CanCreateToken(nil,tp) then return nil end
     local token=Duel.CreateToken(tp,OG.TOKEN)
     OG.RegisterTokenRestrictions(token,source)
-    if Duel.SpecialSummon(token,0,tp,tp,false,false,pos or POS_FACEUP_DEFENSE)>0 then
+    if Duel.SpecialSummon(token,0,tp,tp,false,false,pos or POS_FACEUP)>0 then
         return token
     end
     return nil

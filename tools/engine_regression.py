@@ -9,6 +9,7 @@ parser.add_argument('cardscripts',type=pathlib.Path)
 parser.add_argument('core',type=pathlib.Path)
 parser.add_argument('--scenario', default='engine_regression.lua')
 parser.add_argument('--process', action='store_true')
+parser.add_argument('--token-position',choices=('attack','defense'),default='attack')
 args=parser.parse_args()
 UP=args.cardscripts.resolve()
 REPO=pathlib.Path(__file__).resolve().parents[1]
@@ -27,11 +28,11 @@ lib.OCG_DuelProcess.argtypes=[C.c_void_p]
 lib.OCG_DuelGetMessage.argtypes=[C.c_void_p,C.POINTER(C.c_uint32)]
 lib.OCG_DuelGetMessage.restype=C.c_void_p
 lib.OCG_DuelSetResponse.argtypes=[C.c_void_p,C.c_void_p,C.c_uint32]
-cards={c['id']:c for c in json.loads((REPO/'database/cards.json').read_text())};codes=(C.c_uint16*2)(0x1f99,0);errors=[]; messages=[]
+cards={c['id']:c for c in json.loads((REPO/'database/cards.json').read_text())};archetype_codes=(C.c_uint16*2)(0x1f99,0);errors=[]; messages=[]
 @DR
 def dataread(payload,code,p):
  c=cards.get(code,dict(id=code,type=0x81,atk=1000,**{'def':1000},level=8,race=1,attribute=1));d=p.contents
- d.code=code;d.type=c['type'];d.level=c['level'];d.race=c['race'];d.attribute=c['attribute'];d.attack=c['atk'];d.defense=c['def'];d.setcodes=codes if code in cards else C.POINTER(C.c_uint16)()
+ d.code=code;d.type=c['type'];d.level=c['level'];d.race=c['race'];d.attribute=c['attribute'];d.attack=c['atk'];d.defense=c['def'];d.setcodes=archetype_codes if code in cards else C.POINTER(C.c_uint16)()
 @SR
 def scriptread(payload,duel,name):
  n=name.decode()
@@ -61,7 +62,7 @@ for variant in (False,True):
     result=lib.OCG_CreateDuel(C.byref(duel),C.byref(opt))
     if result!=0:
         raise SystemExit(f'Could not create duel: {result}')
-    prefix=f"OG_TEST_VARIANT={'true' if variant else 'false'}\n".encode()
+    prefix=f"OG_TEST_VARIANT={'true' if variant else 'false'}\nOG_TEST_TOKEN_POSITION='{args.token_position}'\n".encode()
     script=prefix+(REPO/'tests'/args.scenario).read_bytes()
     try:
         result=lib.OCG_LoadScript(duel,script,len(script),b'ourogear-engine-regression.lua')
@@ -109,13 +110,20 @@ for variant in (False,True):
                         minimum,maximum,count=struct.unpack_from('<III',packet,3)
                         assert minimum==maximum
                         if minimum<count:
-                            codes=[struct.unpack_from('<I',packet,15+i*14)[0] for i in range(count)]
-                            assert len(set(codes))==1,'ambiguous material choice in fixture'
+                            offered_codes=[struct.unpack_from('<I',packet,15+i*14)[0] for i in range(count)]
+                            assert len(set(offered_codes))==1,'ambiguous material choice in fixture'
                         response=struct.pack('<II',0,minimum)+b''.join(struct.pack('<I',i) for i in range(minimum))
+                    elif packet[0]==23:  # This fixture's Ritual uses all offered Tokens.
+                        mandatory=struct.unpack_from('<I',packet,15)[0]
+                        assert mandatory==0
+                        count=struct.unpack_from('<I',packet,19)[0]
+                        offered_codes=[struct.unpack_from('<I',packet,23+i*18)[0] for i in range(count)]
+                        assert count in (1,2) and all(code==990071099 for code in offered_codes)
+                        response=struct.pack('<II',0,count)+b''.join(struct.pack('<I',i) for i in range(count))
                     elif packet[0]==12:  # The declining-Loom test chooses not to replace.
                         response=struct.pack('<I',0)
                     elif packet[0]==19:  # Fixed test choice: face-up Attack Position.
-                        response=struct.pack('<I',1)
+                        response=struct.pack('<I',4 if args.token_position=='defense' else 1)
                     else:
                         raise SystemExit(f'Unexpected action-test prompt: {packet.hex()}')
                     buf=C.create_string_buffer(response)
