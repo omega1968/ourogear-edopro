@@ -25,6 +25,15 @@ jobs:
             echo "Checking $f"
             luac5.3 -p "$f"
           done
+      - name: Project Ignis ocgcore script check
+        run: |
+          set -e
+          git clone --depth 1 https://github.com/ProjectIgnis/CardScripts.git upstream-cardscripts
+          curl --retry 5 --connect-timeout 30 --location --output ScriptChecker.zip https://github.com/ProjectIgnis/ScriptChecker/releases/latest/download/ScriptChecker-linux.zip
+          unzip -q ScriptChecker.zip
+          rm ScriptChecker.zip
+          curl --retry 5 --connect-timeout 30 --location --output libocgcore.so https://github.com/ProjectIgnis/bin/raw/master/libocgcore.so
+          ./script_syntax_check upstream-cardscripts script
       - name: Build EDOPro ZIP
         run: python tools/build_package.py
       - name: Upload EDOPro package
