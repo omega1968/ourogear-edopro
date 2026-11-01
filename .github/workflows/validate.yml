@@ -1,0 +1,28 @@
+name: Validate and package EDOPro expansion
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lua
+        run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - name: Build database
+        run: python3 database/build_database.py
+      - name: Validate database, scripts and test deck
+        run: python3 tools/validate.py
+      - name: Package installable expansion
+        run: |
+          mkdir -p package
+          cp expansion/ourogear.cdb package/
+          cp expansion/strings.conf package/
+          cp -r expansion/script package/script
+      - name: Upload installable expansion
+        uses: actions/upload-artifact@v4
+        with:
+          name: ourogear-edopro-expansion
+          path: package/
+          if-no-files-found: error
