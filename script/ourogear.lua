@@ -246,11 +246,13 @@ end
 local get_ritual_material=Duel.GetRitualMaterial
 local get_ritual_level=Card.GetRitualLevel
 function Duel.GetRitualMaterial(tp,check_level)
+    -- Passing an explicit nil to the native API is not the same as omitting it.
+    if check_level==nil then check_level=true end
     local g=get_ritual_material(tp,check_level)
     if check_level==false then return g end
     local extra=get_ritual_material(tp,false):Filter(function(c)
         return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsFaceup()
-            and c:IsSetCard(OG.SET) and c:IsType(TYPE_XYZ)
+            and c:IsSetCard(OG.SET) and c:IsType(TYPE_XYZ) and c:IsHasEffect(EFFECT_RITUAL_LEVEL)
     end,nil)
     g:Merge(extra)
     return g
@@ -258,11 +260,18 @@ end
 function Card.GetRitualLevel(c,rc)
     if not (c:IsSetCard(OG.SET) and c:IsType(TYPE_XYZ)) then return get_ritual_level(c,rc) end
     if not rc or not rc:IsRace(RACE_REPTILE) then return get_ritual_level(c,rc) end
-    for _,te in ipairs({c:IsHasEffect(EFFECT_RITUAL_LEVEL)}) do
+    local effects={c:IsHasEffect(EFFECT_RITUAL_LEVEL)}
+    for _,te in ipairs(effects) do
         if te:GetHandler():IsCode(990071017) then
             local value=te:GetValue()
             return type(value)=="function" and value(te,rc) or value
         end
     end
-    return c:GetRank()
+    for _,te in ipairs(effects) do
+        if te:GetHandler()==c then
+            local value=te:GetValue()
+            return type(value)=="function" and value(te,rc) or value
+        end
+    end
+    return get_ritual_level(c,rc)
 end

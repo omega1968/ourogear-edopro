@@ -2,6 +2,8 @@
 
 This checklist is for one deliberate EDOPro test pass after the automated checks are green. The repository already validates the database, compiles every Lua file, and loads every card's `initial_effect` through Project Ignis' ocgcore-backed ScriptChecker. These tests cover interactions that require an actual duel state.
 
+Automated coverage now also includes 33 callback regressions and 12 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
+
 ## Core loading
 
 - [ ] EDOPro starts with the expansion installed and reports no Lua/database errors.

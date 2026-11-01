@@ -25,18 +25,24 @@ function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk) if chk==0 then return Duel.IsExisting
 function s.thop(e,tp) Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND); local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil); if #g>0 then Duel.SendtoHand(g,nil,REASON_EFFECT); Duel.ConfirmCards(1-tp,g) end end
 function s.indtg(e,c) return c:IsSpellTrap() and c:IsSetCard(Ourogear.SET) end
 function s.indval(e,re,r,rp) return (r&REASON_EFFECT)~=0 and rp==1-e:GetHandlerPlayer() end
-function s.recfilter(c) return Ourogear.IsOurogearContinuousST(c) end
+function s.recfilter(c,tp) return Ourogear.IsOurogearContinuousST(c) and not c:IsForbidden() and c:CheckUniqueOnField(tp) end
 function s.rectg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-    if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and s.recfilter(chkc) end
+    if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and s.recfilter(chkc,tp) end
     local ft=Duel.GetLocationCount(tp,LOCATION_SZONE)
-    if chk==0 then return ft>0 and Duel.IsExistingTarget(s.recfilter,tp,LOCATION_GRAVE,0,1,nil) end
+    if chk==0 then return ft>0 and Duel.IsExistingTarget(s.recfilter,tp,LOCATION_GRAVE,0,1,nil,tp) end
     local ct=math.min(2,ft)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
-    local g=Duel.SelectTarget(tp,s.recfilter,tp,LOCATION_GRAVE,0,1,ct,nil)
+    local g=Duel.SelectTarget(tp,s.recfilter,tp,LOCATION_GRAVE,0,1,ct,nil,tp)
     Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,#g,tp,LOCATION_GRAVE)
 end
 function s.recop(e,tp)
-    local g=Duel.GetTargetCards(e)
+    local g=Duel.GetTargetCards(e):Filter(s.recfilter,nil,tp)
+    local ft=Duel.GetLocationCount(tp,LOCATION_SZONE)
+    if ft<=0 or #g==0 then return end
+    if #g>ft then
+        Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
+        g=g:Select(tp,ft,ft,nil)
+    end
     for tc in g:Iter() do
         if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 then break end
         if tc:IsRelateToEffect(e) and tc:IsSpellTrap() then Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true) end

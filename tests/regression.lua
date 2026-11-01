@@ -5,6 +5,7 @@ local scripts=arg[2] or 'script'
 Duel={LoadScript=function() end}
 dofile(upstream..'/constant.lua')
 local failures,total=0,0
+local select_index=1
 local function test(name,fn)
     total=total+1
     local ok,err=pcall(fn)
@@ -21,7 +22,7 @@ local function group(items)
     function g:FilterCount(fn,excluded,...) return #self:Filter(fn,excluded,...) end
     function g:Merge(other) for _,c in ipairs(other) do local found=false; for _,v in ipairs(self) do if v==c then found=true end end; if not found then self[#self+1]=c end end end
     function g:RandomSelect() return group({self[1]}) end
-    function g:Select() return group({self[1]}) end
+    function g:Select() return group({self[select_index]}) end
     function g:GetFirst() return self[1] end
     function g:IsExists(fn,n,excluded,...) return self:FilterCount(fn,excluded,...)>=n end
     return g
@@ -40,6 +41,13 @@ function Card:GetRank() return self.rank or 0 end
 function Card:IsCode(id) return self.id==id end
 function Card:IsHasEffect(code) return table.unpack((self.applied or {})[code] or {}) end
 function Card:IsStatus() return self.forbidden or false end
+function Card:IsForbidden() return self.forbidden or false end
+function Card:CheckUniqueOnField() return not self.unique_blocked end
+function Card:IsAbleToHand() return true end
+function Card:IsAbleToDeckAsCost() return true end
+function Card:IsSpell() return self:IsType(TYPE_SPELL) end
+function Card:IsTrap() return self:IsType(TYPE_TRAP) end
+function Card:IsSpellTrap() return self:IsType(TYPE_SPELL|TYPE_TRAP) end
 function Card:IsMonster() return self:IsType(TYPE_MONSTER) or self:IsType(TYPE_TOKEN) end
 function Card:IsLevel(lv) return self.normal_level==lv end
 function Card:IsRank(rank) return self.rank==rank end
@@ -122,6 +130,10 @@ end
 test('Token activation prohibited under summon lock',function() token_allowed=false; eq(functions[1].tktg(e,0,nil,0,0,nil,0,0,0),false); token_allowed=true end)
 test('Token activation legal with space and permission',function() eq(functions[1].tktg(e,0,nil,0,0,nil,0,0,0),true) end)
 material_normal=card({normal_level=4}); material_xyz=card({type=TYPE_XYZ,ourogear=true,player=0,location=LOCATION_MZONE,rank=8}); material_link=card({type=TYPE_LINK,player=0,location=LOCATION_MZONE})
+local base_ritual_effect=Effect.CreateEffect(material_xyz)
+base_ritual_effect:SetValue(function() return 8 end)
+local base_ritual_effects={[EFFECT_RITUAL_LEVEL]={base_ritual_effect}}
+material_xyz.applied=base_ritual_effects
 test('Ritual pool includes Ourogear Xyz but excludes ordinary Links',function() local g=Duel.GetRitualMaterial(0); eq(#g,2); eq(g[2],material_xyz) end)
 local reptile=card({race=RACE_REPTILE}); local warrior=card({race=RACE_WARRIOR})
 test('Ourogear Xyz provides Rank for Reptile Ritual',function() eq(material_xyz:GetRitualLevel(reptile),8) end)
@@ -129,7 +141,7 @@ test('Ourogear Xyz does not provide Level for other Ritual races',function() eq(
 test('Normal Ritual Levels remain unchanged',function() eq(material_normal:GetRitualLevel(reptile),4) end)
 local circuit=effect_for(17,EFFECT_RITUAL_LEVEL)
 test('Rite Circuit only changes Levels for Reptile Rituals',function() eq(circuit.Value(circuit,warrior),0); eq(circuit.Value(circuit,reptile),(4<<16)|8) end)
-test('Rite Circuit overrides Xyz Rank in Ritual lookup',function() material_xyz.applied={[EFFECT_RITUAL_LEVEL]={circuit}}; eq(material_xyz:GetRitualLevel(reptile),(4<<16)|8); material_xyz.applied=nil end)
+test('Rite Circuit overrides Xyz Rank in Ritual lookup',function() material_xyz.applied={[EFFECT_RITUAL_LEVEL]={circuit}}; eq(material_xyz:GetRitualLevel(reptile),(4<<16)|8); material_xyz.applied=base_ritual_effects end)
 local token=card({type=TYPE_TOKEN,attribute=ATTRIBUTE_WIND,race=RACE_MACHINE})
 test('WIND Machine Token substitute is allowed normally',function() eq(Ourogear.CanUseAsXyzMaterial(token,material_xyz,0),true) end)
 test('Token substitution respects material locks',function()
@@ -159,5 +171,40 @@ test('Relay inherited attach does not target',function() local te; for _,v in ip
 test('Relay cannot attach Tokens',function() token.player=1;token.location=LOCATION_MZONE;eq(functions[11].attfilter(token,e,0),false) end)
 test('Siege battle attach is mandatory',function() eq(effect_for(13,EVENT_BATTLE_DESTROYING).Type&EFFECT_TYPE_TRIGGER_F,EFFECT_TYPE_TRIGGER_F) end)
 test('Harness material Token trigger is mandatory',function() eq(effect_for(15,EVENT_TO_GRAVE).Type&EFFECT_TYPE_TRIGGER_F,EFFECT_TYPE_TRIGGER_F) end)
+test('Ritual pool forwards a real true default to native API',function()
+    material_calls={}; Duel.GetRitualMaterial(0); eq(material_calls[1],true)
+end)
+test('Negated Xyz cannot use its own Ritual Level effect',function()
+    material_xyz.applied=nil; eq(material_xyz:GetRitualLevel(reptile),0)
+    material_xyz.applied=base_ritual_effects
+end)
+test('Ritefang may search itself after its shuffle cost',function()
+    local fang=card({type=TYPE_MONSTER|TYPE_RITUAL,ourogear=true,race=RACE_REPTILE,normal_level=4,location=LOCATION_GRAVE})
+    local fe=Effect.CreateEffect(fang)
+    local saved=Duel.IsExistingMatchingCard
+    Duel.IsExistingMatchingCard=function() return false end
+    eq(functions[4].thtg(fe,0,nil,0,0,nil,0,0,0),true)
+    Duel.IsExistingMatchingCard=saved
+end)
+test('Skyforge lets controller choose when only one restoration fits',function()
+    local first=card({type=TYPE_SPELL|TYPE_CONTINUOUS,ourogear=true})
+    local second=card({type=TYPE_TRAP|TYPE_CONTINUOUS,ourogear=true})
+    local saved_count=Duel.GetLocationCount
+    local space,placed=1,nil
+    Duel.GetLocationCount=function() return space end
+    Duel.Hint=function() end
+    Duel.GetTargetCards=function() return group({first,second}) end
+    Duel.MoveToField=function(c) placed=c; space=space-1; return true end
+    select_index=2
+    functions[16].recop(e,0)
+    eq(placed,second)
+    select_index=1; Duel.GetLocationCount=saved_count
+end)
+test('Skyforge excludes Forbidden and uniqueness-blocked cards',function()
+    local c=card({type=TYPE_SPELL|TYPE_CONTINUOUS,ourogear=true,forbidden=true})
+    eq(functions[16].recfilter(c,0),false)
+    c.forbidden=false; c.unique_blocked=true
+    eq(functions[16].recfilter(c,0),false)
+end)
 print(string.format('%d/%d callback regressions passed',total-failures,total))
 if failures>0 then os.exit(1) end

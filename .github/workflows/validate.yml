@@ -36,8 +36,13 @@ jobs:
           ./script_syntax_check upstream-cardscripts script
       - name: Callback regression tests
         run: lua5.3 tests/regression.lua upstream-cardscripts
-      - name: Real-engine board regressions
-        run: python tools/engine_regression.py upstream-cardscripts ./libocgcore.so
+      - name: Real-engine board and action regressions
+        run: |
+          set -e
+          python tools/engine_regression.py upstream-cardscripts ./libocgcore.so
+          for scenario in engine_actions.lua engine_token_summon.lua engine_loom.lua engine_returns.lua engine_harness.lua; do
+            python tools/engine_regression.py upstream-cardscripts ./libocgcore.so --scenario "$scenario" --process
+          done
       - name: Build EDOPro ZIP
         run: python tools/build_package.py
       - name: Upload EDOPro package

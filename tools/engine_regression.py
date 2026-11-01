@@ -3,9 +3,12 @@ import argparse
 import ctypes as C
 import json
 import pathlib
+import struct
 parser=argparse.ArgumentParser(description='Focused real-card ocgcore tests; these are not full duel simulations.')
 parser.add_argument('cardscripts',type=pathlib.Path)
 parser.add_argument('core',type=pathlib.Path)
+parser.add_argument('--scenario', default='engine_regression.lua')
+parser.add_argument('--process', action='store_true')
 args=parser.parse_args()
 UP=args.cardscripts.resolve()
 REPO=pathlib.Path(__file__).resolve().parents[1]
@@ -19,7 +22,12 @@ class Player(C.Structure):_fields_=[('startingLP',C.c_uint32),('startingDrawCoun
 DR=C.CFUNCTYPE(None,C.c_void_p,C.c_uint32,C.POINTER(Data));SR=C.CFUNCTYPE(C.c_int,C.c_void_p,C.c_void_p,C.c_char_p);LH=C.CFUNCTYPE(None,C.c_void_p,C.c_char_p,C.c_int);DD=C.CFUNCTYPE(None,C.c_void_p,C.POINTER(Data))
 class Options(C.Structure):_fields_=[('seed',C.c_uint64*4),('flags',C.c_uint64),('team1',Player),('team2',Player),('cardReader',DR),('payload1',C.c_void_p),('scriptReader',SR),('payload2',C.c_void_p),('logHandler',LH),('payload3',C.c_void_p),('cardReaderDone',DD),('payload4',C.c_void_p),('enableUnsafeLibraries',C.c_uint8)]
 lib.OCG_CreateDuel.argtypes=[C.POINTER(C.c_void_p),C.POINTER(Options)];lib.OCG_DestroyDuel.argtypes=[C.c_void_p];lib.OCG_LoadScript.argtypes=[C.c_void_p,C.c_char_p,C.c_uint32,C.c_char_p];lib.OCG_LoadScript.restype=C.c_int
-cards={c['id']:c for c in json.loads((REPO/'database/cards.json').read_text())};codes=(C.c_uint16*2)(0x1f99,0);errors=[]
+lib.OCG_StartDuel.argtypes=[C.c_void_p]
+lib.OCG_DuelProcess.argtypes=[C.c_void_p]
+lib.OCG_DuelGetMessage.argtypes=[C.c_void_p,C.POINTER(C.c_uint32)]
+lib.OCG_DuelGetMessage.restype=C.c_void_p
+lib.OCG_DuelSetResponse.argtypes=[C.c_void_p,C.c_void_p,C.c_uint32]
+cards={c['id']:c for c in json.loads((REPO/'database/cards.json').read_text())};codes=(C.c_uint16*2)(0x1f99,0);errors=[]; messages=[]
 @DR
 def dataread(payload,code,p):
  c=cards.get(code,dict(id=code,type=0x81,atk=1000,**{'def':1000},level=8,race=1,attribute=1));d=p.contents
@@ -34,13 +42,14 @@ def scriptread(payload,duel,name):
  return 0
 @LH
 def log(payload,s,typ):
- msg=s.decode();print(typ,msg)
+ msg=s.decode();print(typ,msg);messages.append(msg)
  if typ==0:errors.append(msg)
 @DD
 def done(payload,p):pass
 
-for with_circuit in (False,True):
+for variant in (False,True):
     errors.clear()
+    messages.clear()
     opt=Options()
     opt.seed[:]=[1,2,3,4]
     opt.team1=opt.team2=Player(8000,0,0)
@@ -52,12 +61,67 @@ for with_circuit in (False,True):
     result=lib.OCG_CreateDuel(C.byref(duel),C.byref(opt))
     if result!=0:
         raise SystemExit(f'Could not create duel: {result}')
-    prefix=f"OG_TEST_WITH_CIRCUIT={'true' if with_circuit else 'false'}\n".encode()
-    script=prefix+(REPO/'tests/engine_regression.lua').read_bytes()
+    prefix=f"OG_TEST_VARIANT={'true' if variant else 'false'}\n".encode()
+    script=prefix+(REPO/'tests'/args.scenario).read_bytes()
     try:
         result=lib.OCG_LoadScript(duel,script,len(script),b'ourogear-engine-regression.lua')
         if result!=1 or errors:
-            raise SystemExit(f'Engine regression failed (Circuit={with_circuit}): {errors}')
+            raise SystemExit(f'Engine regression failed (variant={variant}): {errors}')
+        if args.process:
+            lib.OCG_StartDuel(duel)
+            for _ in range(256):
+                status=lib.OCG_DuelProcess(duel)
+                size=C.c_uint32()
+                ptr=lib.OCG_DuelGetMessage(duel,C.byref(size))
+                data=C.string_at(ptr,size.value)
+                packets=[]
+                offset=0
+                while offset<len(data):
+                    length=struct.unpack_from('<I',data,offset)[0]
+                    packets.append(data[offset+4:offset+4+length])
+                    offset+=4+length
+                if errors:
+                    raise SystemExit(f'Engine action error: {errors}')
+                if any(m.startswith('PASS actions:') for m in messages):
+                    break
+                if status==0:
+                    raise SystemExit('Duel ended before action assertions completed')
+                if status==1:
+                    packet=packets[-1]
+                    if packet[0]==18:  # Choose a legal Monster Zone; no strategic decision.
+                        player,count,blocked=struct.unpack_from('<BBI',packet,1)
+                        assert count==1
+                        seq=next(i for i in range(7) if not blocked&(1<<i))
+                        response=bytes([player,4,seq])
+                    elif packet[0]==16 and packet[3]==0:
+                        response=struct.pack('<i',-1)  # Decline optional responses in the scripted test.
+                    elif packet[0]==11:  # Activate the test-only ignition effect.
+                        offset=2
+                        for entry_size in (10,10,7,10,10):
+                            count=struct.unpack_from('<I',packet,offset)[0]
+                            offset+=4+count*entry_size
+                        count=struct.unpack_from('<I',packet,offset)[0]
+                        offset+=4
+                        found=[i for i in range(count) if struct.unpack_from('<Q',packet,offset+i*19+10)[0]==0x7fffff]
+                        assert len(found)==1,'test-only ignition effect unavailable'
+                        response=struct.pack('<I',(found[0]<<16)|5)
+                    elif packet[0]==15:  # The test requires every offered material.
+                        minimum,maximum,count=struct.unpack_from('<III',packet,3)
+                        assert minimum==maximum
+                        if minimum<count:
+                            codes=[struct.unpack_from('<I',packet,15+i*14)[0] for i in range(count)]
+                            assert len(set(codes))==1,'ambiguous material choice in fixture'
+                        response=struct.pack('<II',0,minimum)+b''.join(struct.pack('<I',i) for i in range(minimum))
+                    elif packet[0]==12:  # The declining-Loom test chooses not to replace.
+                        response=struct.pack('<I',0)
+                    elif packet[0]==19:  # Fixed test choice: face-up Attack Position.
+                        response=struct.pack('<I',1)
+                    else:
+                        raise SystemExit(f'Unexpected action-test prompt: {packet.hex()}')
+                    buf=C.create_string_buffer(response)
+                    lib.OCG_DuelSetResponse(duel,buf,len(response))
+            else:
+                raise SystemExit('Action test exceeded processing limit')
     finally:
         lib.OCG_DestroyDuel(duel)
 print('Both real-engine board scenarios passed.')
