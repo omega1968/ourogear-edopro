@@ -1,0 +1,36 @@
+-- Ourogear Riteveil
+if not Ourogear then Duel.LoadScript("ourogear.lua") end
+local s,id=GetID()
+s.ritparams={lvtype=RITPROC_GREATER,filter=aux.FilterBoolFunction(Card.IsRace,RACE_REPTILE),location=LOCATION_DECK,matfilter=aux.FilterBoolFunction(Card.IsLocation,LOCATION_MZONE)}
+function s.initial_effect(c)
+    c:EnableReviveLimit()
+    Ourogear.RegisterRitualLeftFieldTracker(c)
+    local e1=Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id,0)); e1:SetCategory(CATEGORY_RELEASE|CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_IGNITION); e1:SetRange(LOCATION_HAND); e1:SetCountLimit(1,{id,0})
+    e1:SetCost(s.ritcost); e1:SetTarget(Ritual.Target(s.ritparams)); e1:SetOperation(Ritual.Operation(s.ritparams)); c:RegisterEffect(e1)
+    local e2=Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id,1)); e2:SetType(EFFECT_TYPE_QUICK_O); e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET); e2:SetRange(LOCATION_MZONE); e2:SetCountLimit(1,{id,1})
+    e2:SetHintTiming(0,TIMINGS_CHECK_MONSTER|TIMING_MAIN_END); e2:SetTarget(s.postg); e2:SetOperation(s.posop); c:RegisterEffect(e2)
+    local e3=Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id,2)); e3:SetCategory(CATEGORY_TOHAND|CATEGORY_SEARCH|CATEGORY_TODECK)
+    e3:SetType(EFFECT_TYPE_IGNITION); e3:SetRange(LOCATION_GRAVE); e3:SetCountLimit(1,{id,2})
+    e3:SetCost(s.gycost); e3:SetTarget(s.thtg); e3:SetOperation(s.thop); c:RegisterEffect(e3)
+end
+s.listed_series={Ourogear.SET}
+function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk) if chk==0 then return e:GetHandler():IsDiscardable() end Duel.SendtoGrave(e:GetHandler(),REASON_COST|REASON_DISCARD) end
+function s.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+    if chkc then return chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() and chkc:IsCanTurnSet() end
+    if chk==0 then return Duel.IsExistingTarget(aux.AND(Card.IsFaceup,Card.IsCanTurnSet),tp,0,LOCATION_MZONE,1,nil) end
+    Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_POSCHANGE)
+    Duel.SelectTarget(tp,aux.AND(Card.IsFaceup,Card.IsCanTurnSet),tp,0,LOCATION_MZONE,1,1,nil)
+end
+function s.posop(e,tp)
+    local tc=Duel.GetFirstTarget()
+    if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE) end
+end
+function s.gycost(e,tp,eg,ep,ev,re,r,rp,chk) local c=e:GetHandler(); if chk==0 then return c:IsAbleToDeckAsCost() end Duel.SendtoDeck(c,nil,SEQ_DECKSHUFFLE,REASON_COST) end
+function s.thfilter(c) return c:IsSetCard(Ourogear.SET) and c:IsSpellTrap() and c:IsAbleToHand() end
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk) if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK) end
+function s.thop(e,tp) Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND); local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil); if #g>0 then Duel.SendtoHand(g,nil,REASON_EFFECT); Duel.ConfirmCards(1-tp,g) end end
