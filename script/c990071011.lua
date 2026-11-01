@@ -37,7 +37,7 @@ function s.tkop(e,tp)
     if token then Ourogear.MakeTokenUnreleasableThisTurn(token,e:GetHandler()) end
 end
 function s.attfilter(c,e,tp)
-    return c:IsControler(1-tp) and c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and not c:IsImmuneToEffect(e)
+    return c:IsControler(1-tp) and c:IsLocation(LOCATION_MZONE) and c:IsMonster() and not c:IsImmuneToEffect(e)
 end
 function s.attcon(e,tp,eg)
     return Ourogear.IsWindMachineXyz(e:GetHandler()) and eg:IsExists(s.attfilter,1,nil,e,tp)
@@ -53,6 +53,6 @@ function s.attop(e,tp)
     local xc=e:GetHandler()
     local tc=Duel.GetFirstTarget()
     if xc:IsFaceup() and xc:IsRelateToEffect(e) and tc and tc:IsRelateToEffect(e) and not tc:IsImmuneToEffect(e) then
-        Duel.Overlay(xc,tc)
+        Duel.Overlay(xc,tc,true)
     end
 end
