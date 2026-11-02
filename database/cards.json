@@ -132,7 +132,7 @@
     "level": 12,
     "race": 524288,
     "attribute": 8,
-    "desc": "Monsters your opponent controls lose 600 ATK/DEF for each other monster your opponent controls. Once per Chain, when your opponent activates a card or effect: Your opponent chooses 1; ● Negate that activated effect. ● Banish 1 random card from their Extra Deck face-down until the End Phase of their next turn. The activated effects of \"Ourogear\" monsters you control cannot be negated by your opponent.",
+    "desc": "Monsters your opponent controls lose 600 ATK/DEF for each other monster your opponent controls. Once per Chain, when your opponent activates a card or effect: Your opponent chooses 1; ● Negate that activated effect. ● Banish 1 random card from their Extra Deck face-down until the End Phase of their next turn.",
     "strings": [
       "Your opponent must negate their effect or temporarily banish a random Extra Deck card",
       "Negate the activated effect",

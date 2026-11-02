@@ -24,14 +24,6 @@ function s.initial_effect(c)
     e2:SetCondition(s.choicecon)
     e2:SetOperation(s.choiceop)
     c:RegisterEffect(e2)
-    -- Activated effects of your Ourogear monsters cannot be negated
-    local e3=Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_CANNOT_INACTIVATE)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetValue(s.chainfilter)
-    c:RegisterEffect(e3)
-    local e4=e3:Clone(); e4:SetCode(EFFECT_CANNOT_DISEFFECT); c:RegisterEffect(e4)
 end
 s.listed_series={Ourogear.SET}
 function s.statval(e,c)
@@ -78,12 +70,4 @@ function s.exretop(rg,e,tp)
     if #g==0 then return end
     Duel.SendtoDeck(g,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)
     Duel.ShuffleExtra(1-tp)
-end
-function s.chainfilter(e,ct)
-    local te=Duel.GetChainInfo(ct,CHAININFO_TRIGGERING_EFFECT)
-    if not te then return false end
-    local tc=te:GetHandler()
-    return Chain.IsTriggeringControler(ct,e:GetHandlerPlayer())
-        and Chain.IsTriggeringLocation(ct,LOCATION_MZONE)
-        and tc:IsMonster() and tc:IsSetCard(Ourogear.SET)
 end
