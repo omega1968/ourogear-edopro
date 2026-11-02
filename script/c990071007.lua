@@ -76,6 +76,3 @@ function s.negop(e,tp,eg,ep,ev,re,r,rp)
     local rc=re:GetHandler()
     if rc and rc:IsRelateToEffect(re) then Duel.Remove(rc,POS_FACEUP,REASON_EFFECT) end
 end
-function s.damtg(e,c)
-    return c:IsSetCard(Ourogear.SET) and c:GetBattleTarget()~=nil
-end
