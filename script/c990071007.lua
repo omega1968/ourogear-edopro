@@ -50,16 +50,18 @@ end
 function s.protected(e,c)
     return c:IsSetCard(Ourogear.SET)
 end
-function s.immune(e,re)
+function s.immune(e,re,c)
     local tp=e:GetHandlerPlayer()
     if re:GetHandlerPlayer()==tp or not re:IsActivated() then return false end
     local affected=Ourogear.AegisAffectedEffects
-    if affected[re] then return true end
-    affected[re]=true
+    local allowed=affected[re]
+    if allowed==c then return false end
+    if allowed then return true end
+    affected[re]=c
     return false
 end
 function s.resetprotection(e,tp,eg,ep,ev,re,r,rp)
-    if ev==1 then Ourogear.AegisAffectedEffects={} end
+    if re then Ourogear.AegisAffectedEffects[re]=nil end
 end
 function s.piercetg(e,c)
     return c:IsSetCard(Ourogear.SET)
