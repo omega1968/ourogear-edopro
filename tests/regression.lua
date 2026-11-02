@@ -122,7 +122,7 @@ test('Aegis protection stays stable for repeated checks of one card',function()
     eq(functions[7].immune(immunity,opponent_effect,allowed),false)
     eq(functions[7].immune(immunity,opponent_effect,blocked),true)
 end)
-test('Aegis protection resets for each activated effect',function()
+test('Aegis protection resets for each activated effect and Chain',function()
     local immunity=Effect.CreateEffect(card({player=0}))
     local opponent_effect={GetHandlerPlayer=function() return 1 end,IsActivated=function() return true end}
     local allowed,blocked=card({ourogear=true}),card({ourogear=true})
@@ -130,6 +130,8 @@ test('Aegis protection resets for each activated effect',function()
     eq(functions[7].immune(immunity,opponent_effect,allowed),false)
     functions[7].resetprotection(immunity,0,nil,0,2,opponent_effect,0,1)
     eq(functions[7].immune(immunity,opponent_effect,blocked),false)
+    functions[7].endprotection(immunity,0,nil,0,0,nil,0,0)
+    eq(functions[7].immune(immunity,opponent_effect,allowed),false)
 end)
 local hand=group({card()}); local reveals=0
 Duel.GetFieldGroup=function() return hand end
