@@ -45,9 +45,10 @@ function s.initial_effect(c)
     local e3=Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id,4))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_SINGLE|EFFECT_TYPE_TRIGGER_O)
+    e3:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_TRIGGER_O)
     e3:SetProperty(EFFECT_FLAG_DELAY)
     e3:SetCode(EVENT_EQUIP)
+    e3:SetRange(LOCATION_SZONE)
     e3:SetCountLimit(1,{id,3})
     e3:SetCondition(s.eqspcon)
     e3:SetTarget(s.eqsp_tg)
@@ -74,6 +75,8 @@ function s.actop(e,tp)
     if not tc or Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)==0 then return end
     if c:IsRelateToEffect(e) and c:IsLocation(LOCATION_SZONE) and not c:IsStatus(STATUS_LEAVE_CONFIRMED)
         and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
+        -- Mark our own optional equip so it does not also trigger this effect.
+        c:RegisterFlagEffect(id+100,RESET_EVENT|RESETS_STANDARD,0,1)
         Duel.Equip(tp,c,tc)
     end
 end
@@ -101,7 +104,14 @@ end
 function s.tkop(e,tp) Ourogear.CreateToken(tp,e:GetHandler()) end
 
 function s.eqspcon(e,tp,eg,ep,ev,re,r,rp)
-    return re and re:GetHandler()~=e:GetHandler()
+    local c=e:GetHandler()
+    if not eg or not eg:IsContains(c) then return false end
+    -- Suppress the trigger from this card's own activation effect.
+    if c:GetFlagEffect(id+100)>0 then
+        c:ResetFlagEffect(id+100)
+        return false
+    end
+    return true
 end
 function s.eqsp_tg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
