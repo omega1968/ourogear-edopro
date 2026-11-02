@@ -41,19 +41,16 @@ end
 function s.rmop(e,tp)
     local tc=Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
-    if Duel.Remove(tc,0,REASON_EFFECT|REASON_TEMPORARY)==0 then return end
-    tc:RegisterFlagEffect(id,RESETS_STANDARD_PHASE_END,0,1)
-    local g=Group.FromCards(tc); g:KeepAlive()
-    local e1=Effect.CreateEffect(e:GetHandler())
-    e1:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_CONTINUOUS)
-    e1:SetCode(EVENT_PHASE|PHASE_END)
-    e1:SetReset(RESET_PHASE|PHASE_END)
-    e1:SetLabelObject(g)
-    e1:SetOperation(function(e)
-        local rg=e:GetLabelObject(); local c=rg:GetFirst(); rg:DeleteGroup()
-        if c and c:GetFlagEffect(id)>0 then Duel.ReturnToField(c) end
-    end)
-    Duel.RegisterEffect(e1,tp)
+    local activation_turn=Duel.GetTurnCount()
+    aux.RemoveUntil(tc,nil,REASON_EFFECT,PHASE_END,id,e,tp,
+        function(rg)
+            local rc=rg:GetFirst()
+            if rc and rc:IsLocation(LOCATION_REMOVED) then Duel.ReturnToField(rc) end
+        end,
+        function()
+            return Duel.GetTurnPlayer()==tp and Duel.GetTurnCount()>activation_turn
+        end,
+        RESET_PHASE|PHASE_END,3)
 end
 function s.sumfilter(c,tp)
     return c:IsSummonPlayer(1-tp) and c:IsSummonLocation(LOCATION_EXTRA)

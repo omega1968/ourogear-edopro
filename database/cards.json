@@ -104,9 +104,9 @@
     "level": 8,
     "race": 524288,
     "attribute": 8,
-    "desc": "Once per turn, when your opponent activates a monster effect (Quick Effect): You can negate the activation, and if you do, banish that monster. \"Ourogear\" monsters you control cannot be destroyed by battle.",
+    "desc": "Once per turn, when your opponent activates a card or effect (Quick Effect): You can negate the activation, and if you do, banish that card. \"Ourogear\" monsters you control cannot be destroyed by battle. \"Ourogear\" monsters you control inflict double battle damage to your opponent.",
     "strings": [
-      "Negate an opponent's monster effect and banish that monster"
+      "Negate an opponent's card or effect and banish that card"
     ]
   },
   {
@@ -207,9 +207,9 @@
     "level": 8,
     "race": 32,
     "attribute": 8,
-    "desc": "2 Level 4 monsters + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, each WIND Machine Xyz Monster you control can replace 1 required material (transfer its materials).\nFor a Reptile Ritual Summon, treat this card's Rank as its Level.\nToken substitution: see \"Ourogear Token\".\n(1) Once per turn (Quick Effect): You can detach 1 material from this card, then target 1 card on the field; banish it until the End Phase.\n(2) The first 2 times each turn your opponent would Special Summon a monster(s) from the Extra Deck, they must destroy 1 card they control, or that Summon is negated.",
+    "desc": "2 Level 4 monsters + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, each WIND Machine Xyz Monster you control can replace 1 required material (transfer its materials).\nFor a Reptile Ritual Summon, treat this card's Rank as its Level.\nToken substitution: see \"Ourogear Token\".\n(1) Once per turn (Quick Effect): You can detach 1 material from this card, then target 1 card on the field; banish it until your next End Phase.\n(2) The first 2 times each turn your opponent would Special Summon a monster(s) from the Extra Deck, they must destroy 1 card they control, or that Summon is negated.",
     "strings": [
-      "Detach 1 material; temporarily banish 1 card on the field",
+      "Detach 1 material; banish 1 card until your next End Phase",
       "Apply the Extra Deck Summon tax",
       "Destroy 1 card you control to allow this Summon?"
     ]

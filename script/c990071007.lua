@@ -4,7 +4,7 @@ local s,id=GetID()
 function s.initial_effect(c)
     c:EnableReviveLimit()
     Ourogear.RegisterRitualLeftFieldTracker(c)
-    -- Negate an opponent's monster effect and banish that monster
+    -- Negate an opponent's card or effect activation and banish that card
     local e1=Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id,0))
     e1:SetCategory(CATEGORY_NEGATE|CATEGORY_REMOVE)
@@ -25,10 +25,19 @@ function s.initial_effect(c)
     e2:SetTarget(function(e,c) return c:IsSetCard(Ourogear.SET) end)
     e2:SetValue(1)
     c:RegisterEffect(e2)
+    -- Ourogear monsters inflict double battle damage
+    local e3=Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_CHANGE_BATTLE_DAMAGE)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetTargetRange(LOCATION_MZONE,0)
+    e3:SetTarget(s.damtg)
+    e3:SetValue(aux.ChangeBattleDamage(0,DOUBLE_DAMAGE))
+    c:RegisterEffect(e3)
 end
 s.listed_series={Ourogear.SET}
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
-    return rp==1-tp and re:IsMonsterEffect() and Duel.IsChainNegatable(ev)
+    return rp==1-tp and Duel.IsChainNegatable(ev)
         and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
 end
 function s.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -41,4 +50,7 @@ function s.negop(e,tp,eg,ep,ev,re,r,rp)
     if not Duel.NegateActivation(ev) then return end
     local rc=re:GetHandler()
     if rc and rc:IsRelateToEffect(re) then Duel.Remove(rc,POS_FACEUP,REASON_EFFECT) end
+end
+function s.damtg(e,c)
+    return c:IsSetCard(Ourogear.SET) and c:GetBattleTarget()~=nil
 end
