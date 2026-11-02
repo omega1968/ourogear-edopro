@@ -16,20 +16,54 @@ function s.initial_effect(c)
     e1:SetTarget(s.negtg)
     e1:SetOperation(s.negop)
     c:RegisterEffect(e1)
-    -- Ourogear monsters inflict double battle damage
+    -- Each opponent's activated effect can affect at most 1 Ourogear card you control.
+    local e2=Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetCode(EFFECT_IMMUNE_EFFECT)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(LOCATION_ONFIELD,0)
+    e2:SetTarget(s.protected)
+    e2:SetValue(s.immune)
+    c:RegisterEffect(e2)
+    -- Reset the per-effect limiter when a new Chain begins.
     local e3=Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_CHANGE_BATTLE_DAMAGE)
+    e3:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_CHAINING)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(LOCATION_MZONE,0)
-    e3:SetTarget(s.damtg)
-    e3:SetValue(aux.ChangeBattleDamage(0,DOUBLE_DAMAGE))
+    e3:SetOperation(s.resetprotection)
     c:RegisterEffect(e3)
+    -- Ourogear monsters inflict piercing battle damage while the opponent controls 2+ monsters.
+    local e4=Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetCode(EFFECT_PIERCE)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetTargetRange(LOCATION_MZONE,0)
+    e4:SetTarget(s.piercetg)
+    c:RegisterEffect(e4)
 end
 s.listed_series={Ourogear.SET}
+Ourogear.AegisAffectedEffects=Ourogear.AegisAffectedEffects or {}
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
     return rp==1-tp and Duel.IsChainNegatable(ev)
         and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
+end
+function s.protected(e,c)
+    return c:IsSetCard(Ourogear.SET)
+end
+function s.immune(e,re)
+    local tp=e:GetHandlerPlayer()
+    if re:GetHandlerPlayer()==tp or not re:IsActivated() then return false end
+    local affected=Ourogear.AegisAffectedEffects
+    if affected[re] then return true end
+    affected[re]=true
+    return false
+end
+function s.resetprotection(e,tp,eg,ep,ev,re,r,rp)
+    if ev==1 then Ourogear.AegisAffectedEffects={} end
+end
+function s.piercetg(e,c)
+    return c:IsSetCard(Ourogear.SET)
+        and Duel.GetFieldGroupCount(e:GetHandlerPlayer(),0,LOCATION_MZONE)>=2
 end
 function s.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return true end
