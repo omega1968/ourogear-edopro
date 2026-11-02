@@ -104,7 +104,7 @@
     "level": 8,
     "race": 524288,
     "attribute": 8,
-    "desc": "Once per turn, when your opponent activates a card or effect (Quick Effect): You can negate the activation, and if you do, banish that card. \"Ourogear\" monsters you control inflict double battle damage to your opponent.",
+    "desc": "Once per turn, when your opponent activates a card or effect (Quick Effect): You can negate the activation, and if you do, banish that card. Your opponent's activated card effects can affect no more than 1 \"Ourogear\" card you control at a time. If your opponent controls 2 or more monsters, \"Ourogear\" monsters you control inflict piercing battle damage.",
     "strings": [
       "Negate an opponent's card or effect and banish that card"
     ]
