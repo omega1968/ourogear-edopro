@@ -2,6 +2,12 @@
 if not Ourogear then Duel.LoadScript("ourogear.lua") end
 local s,id=GetID()
 function s.initial_effect(c)
+    -- Declare this as a valid generic Equip Spell target for effects that equip directly from the Deck (e.g. Drastea).
+    local el=Effect.CreateEffect(c)
+    el:SetType(EFFECT_TYPE_SINGLE)
+    el:SetCode(EFFECT_EQUIP_LIMIT)
+    el:SetValue(1)
+    c:RegisterEffect(el)
     -- Activate: Special Summon a Level 4 Ourogear Reptile, then optionally equip this card to it
     local e0=Effect.CreateEffect(c)
     e0:SetDescription(aux.Stringid(id,0))
@@ -56,19 +62,9 @@ function s.actop(e,tp)
     if not tc or Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)==0 then return end
     if c:IsRelateToEffect(e) and c:IsLocation(LOCATION_SZONE) and not c:IsStatus(STATUS_LEAVE_CONFIRMED)
         and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
-        if Duel.Equip(tp,c,tc) then
-            local el=Effect.CreateEffect(c)
-            el:SetType(EFFECT_TYPE_SINGLE)
-            el:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-            el:SetCode(EFFECT_EQUIP_LIMIT)
-            el:SetReset(RESET_EVENT|RESETS_STANDARD)
-            el:SetValue(s.eqlimit)
-            el:SetLabelObject(tc)
-            c:RegisterEffect(el)
-        end
+        Duel.Equip(tp,c,tc)
     end
 end
-function s.eqlimit(e,c) return e:GetLabelObject()==c end
 function s.thfilter(c)
     return c:IsSetCard(Ourogear.SET) and c:IsRace(RACE_REPTILE) and c:IsLevel(4) and c:IsRitualMonster() and c:IsAbleToHand()
 end
