@@ -113,6 +113,24 @@ local re={GetHandler=function() return card() end}
 test('Aegis does not banish after unsuccessful negation',function() banished=0; functions[7].negop(e,0,nil,0,1,re); eq(banished,0) end)
 Duel.NegateActivation=function() return true end
 test('Aegis banishes after successful negation',function() banished=0; functions[7].negop(e,0,nil,0,1,re); eq(banished,1) end)
+test('Aegis protection stays stable for repeated checks of one card',function()
+    local immunity=Effect.CreateEffect(card({player=0}))
+    local opponent_effect={GetHandlerPlayer=function() return 1 end,IsActivated=function() return true end}
+    local allowed,blocked=card({ourogear=true}),card({ourogear=true})
+    Ourogear.AegisAffectedEffects={}
+    eq(functions[7].immune(immunity,opponent_effect,allowed),false)
+    eq(functions[7].immune(immunity,opponent_effect,allowed),false)
+    eq(functions[7].immune(immunity,opponent_effect,blocked),true)
+end)
+test('Aegis protection resets for each activated effect',function()
+    local immunity=Effect.CreateEffect(card({player=0}))
+    local opponent_effect={GetHandlerPlayer=function() return 1 end,IsActivated=function() return true end}
+    local allowed,blocked=card({ourogear=true}),card({ourogear=true})
+    Ourogear.AegisAffectedEffects={}
+    eq(functions[7].immune(immunity,opponent_effect,allowed),false)
+    functions[7].resetprotection(immunity,0,nil,0,2,opponent_effect,0,1)
+    eq(functions[7].immune(immunity,opponent_effect,blocked),false)
+end)
 local hand=group({card()}); local reveals=0
 Duel.GetFieldGroup=function() return hand end
 Duel.ConfirmCards=function() reveals=reveals+1 end
