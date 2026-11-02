@@ -192,7 +192,7 @@
     "level": 8,
     "race": 32,
     "attribute": 8,
-    "desc": "2 Rank 4 Xyz Monsters + 1 Rank 4 \"Ourogear\" Xyz Monster\nFor this card's Xyz Summon, each WIND Machine Xyz Monster you control can replace 1 required material (transfer its materials).\nFor a Reptile Ritual Summon, treat this card's Rank as its Level.\nToken substitution: see \"Ourogear Token\".\n(1) This card can attack all monsters your opponent controls, once each.\n(2) If this card destroys an opponent's monster by battle: Attach that destroyed monster to this card as material.\n(3) This card gains 300 ATK/DEF for each material attached to it.\n(4) Once per turn (Quick Effect): You can detach 10 materials from this card; banish all cards your opponent controls.",
+    "desc": "2 Level 4 monsters + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, each WIND Machine Xyz Monster you control can replace 1 required material (transfer its materials).\nFor a Reptile Ritual Summon, treat this card's Rank as its Level.\nToken substitution: see \"Ourogear Token\".\n(1) This card can attack all monsters your opponent controls, once each.\n(2) If this card destroys an opponent's monster by battle: Attach that destroyed monster to this card as material.\n(3) This card gains 300 ATK/DEF for each material attached to it.\n(4) Once per turn (Quick Effect): You can detach 10 materials from this card; banish all cards your opponent controls.",
     "strings": [
       "Attach a monster this card destroyed by battle as material",
       "Detach 10 materials; banish all cards your opponent controls"
@@ -207,7 +207,7 @@
     "level": 8,
     "race": 32,
     "attribute": 8,
-    "desc": "2 Rank 4 Xyz Monsters + 1 Rank 4 \"Ourogear\" Xyz Monster\nFor this card's Xyz Summon, each WIND Machine Xyz Monster you control can replace 1 required material (transfer its materials).\nFor a Reptile Ritual Summon, treat this card's Rank as its Level.\nToken substitution: see \"Ourogear Token\".\n(1) Once per turn (Quick Effect): You can detach 1 material from this card, then target 1 card on the field; banish it until the End Phase.\n(2) The first 2 times each turn your opponent would Special Summon a monster(s) from the Extra Deck, they must destroy 1 card they control, or that Summon is negated.",
+    "desc": "2 Level 4 monsters + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, each WIND Machine Xyz Monster you control can replace 1 required material (transfer its materials).\nFor a Reptile Ritual Summon, treat this card's Rank as its Level.\nToken substitution: see \"Ourogear Token\".\n(1) Once per turn (Quick Effect): You can detach 1 material from this card, then target 1 card on the field; banish it until the End Phase.\n(2) The first 2 times each turn your opponent would Special Summon a monster(s) from the Extra Deck, they must destroy 1 card they control, or that Summon is negated.",
     "strings": [
       "Detach 1 material; temporarily banish 1 card on the field",
       "Apply the Extra Deck Summon tax",
