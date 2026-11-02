@@ -32,14 +32,21 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetOperation(s.resetprotection)
     c:RegisterEffect(e3)
-    -- Ourogear monsters inflict piercing battle damage while the opponent controls 2+ monsters.
+    -- Clear cached affected-card choices after the Chain, before an effect can be activated again.
     local e4=Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_FIELD)
-    e4:SetCode(EFFECT_PIERCE)
+    e4:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_CONTINUOUS)
+    e4:SetCode(EVENT_CHAIN_END)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetTargetRange(LOCATION_MZONE,0)
-    e4:SetTarget(s.piercetg)
+    e4:SetOperation(s.endprotection)
     c:RegisterEffect(e4)
+    -- Ourogear monsters inflict piercing battle damage while the opponent controls 2+ monsters.
+    local e5=Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_FIELD)
+    e5:SetCode(EFFECT_PIERCE)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetTargetRange(LOCATION_MZONE,0)
+    e5:SetTarget(s.piercetg)
+    c:RegisterEffect(e5)
 end
 s.listed_series={Ourogear.SET}
 Ourogear.AegisAffectedEffects=Ourogear.AegisAffectedEffects or {}
@@ -62,6 +69,9 @@ function s.immune(e,re,c)
 end
 function s.resetprotection(e,tp,eg,ep,ev,re,r,rp)
     if re then Ourogear.AegisAffectedEffects[re]=nil end
+end
+function s.endprotection(e,tp,eg,ep,ev,re,r,rp)
+    Ourogear.AegisAffectedEffects={}
 end
 function s.piercetg(e,c)
     return c:IsSetCard(Ourogear.SET)
