@@ -223,12 +223,13 @@
     "level": 0,
     "race": 0,
     "attribute": 0,
-    "desc": "When this card is activated: Special Summon 1 Level 4 \"Ourogear\" Reptile monster from your Deck, and if you do, you can equip this card to that monster. Once per turn, while this card is equipped to a monster: You can add 1 Level 4 \"Ourogear\" Reptile Ritual Monster from your Deck to your hand. If the equipped monster is used as material for a Ritual or Xyz Summon: Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each effect of \"Ourogear Launch Harness\" once per turn.",
+    "desc": "When this card is activated: Special Summon 1 Level 4 \"Ourogear\" Reptile monster from your Deck, and if you do, you can equip this card to that monster. If this card is equipped to a monster by another card effect: You can Special Summon 1 Level 4 \"Ourogear\" Reptile monster from your Deck. Once per turn, while this card is equipped to a monster: You can add 1 Level 4 \"Ourogear\" Reptile Ritual Monster from your Deck to your hand. If the equipped monster is used as material for a Ritual or Xyz Summon: Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each effect of \"Ourogear Launch Harness\" once per turn.",
     "strings": [
       "Special Summon 1 Level 4 \"Ourogear\" Reptile monster from your Deck",
       "Add 1 Level 4 \"Ourogear\" Reptile Ritual Monster from your Deck to your hand",
       "Special Summon an \"Ourogear Token\"",
-      "Equip \"Ourogear Launch Harness\" to the Summoned monster?"
+      "Equip \"Ourogear Launch Harness\" to the Summoned monster?",
+      "Special Summon 1 Level 4 \"Ourogear\" Reptile monster from your Deck?"
     ]
   },
   {

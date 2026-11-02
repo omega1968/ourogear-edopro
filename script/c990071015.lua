@@ -41,6 +41,18 @@ function s.initial_effect(c)
     e2:SetTarget(s.tktg)
     e2:SetOperation(s.tkop)
     c:RegisterEffect(e2)
+    -- If another card effect equips this card: Special Summon a Level 4 Ourogear Reptile
+    local e3=Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id,4))
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_SINGLE|EFFECT_TYPE_TRIGGER_O)
+    e3:SetProperty(EFFECT_FLAG_DELAY)
+    e3:SetCode(EVENT_EQUIP)
+    e3:SetCountLimit(1,{id,3})
+    e3:SetCondition(s.eqspcon)
+    e3:SetTarget(s.eqsp_tg)
+    e3:SetOperation(s.eqsp_op)
+    c:RegisterEffect(e3)
 end
 s.listed_series={Ourogear.SET}
 s.listed_names={Ourogear.TOKEN}
@@ -87,3 +99,19 @@ function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
     Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function s.tkop(e,tp) Ourogear.CreateToken(tp,e:GetHandler()) end
+
+function s.eqspcon(e,tp,eg,ep,ev,re,r,rp)
+    return re and re:GetHandler()~=e:GetHandler()
+end
+function s.eqsp_tg(e,tp,eg,ep,ev,re,r,rp,chk)
+    if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+        and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) end
+    Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
+end
+function s.eqsp_op(e,tp)
+    if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
+    Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+    local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
+    local tc=g:GetFirst()
+    if tc then Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP) end
+end
