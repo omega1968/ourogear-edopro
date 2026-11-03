@@ -175,8 +175,8 @@ test('Siege can use one Naga extra attack after attacking all monsters',function
     leviathan.applied={}
     eq(functions[13].atkallval(attack_all,card()),1)
 end)
+local siege_old_count,siege_old_group,siege_old_info,siege_old_remove=Duel.GetFieldGroupCount,Duel.GetFieldGroup,Duel.SetOperationInfo,Duel.Remove
 test('Siege can attack directly when clear and banishes field, hand, and GY together',function()
-    local old_count,old_group,old_info,old_remove=Duel.GetFieldGroupCount,Duel.GetFieldGroup,Duel.SetOperationInfo,Duel.Remove
     local monsters=0
     Duel.GetFieldGroupCount=function() return monsters end
     local direct=Effect.CreateEffect(cards[13])
@@ -196,8 +196,8 @@ test('Siege can attack directly when clear and banishes field, hand, and GY toge
     eq(info[6],loc)
     functions[13].rmop(e,0)
     eq(removed,#victims)
-    Duel.GetFieldGroupCount,Duel.GetFieldGroup,Duel.SetOperationInfo,Duel.Remove=old_count,old_group,old_info,old_remove
 end)
+Duel.GetFieldGroupCount,Duel.GetFieldGroup,Duel.SetOperationInfo,Duel.Remove=siege_old_count,siege_old_group,siege_old_info,siege_old_remove
 material_normal=card({normal_level=4}); material_xyz=card({type=TYPE_XYZ,ourogear=true,player=0,location=LOCATION_MZONE,rank=8}); material_link=card({type=TYPE_LINK,player=0,location=LOCATION_MZONE})
 local base_ritual_effect=Effect.CreateEffect(material_xyz)
 base_ritual_effect:SetValue(function() return 8 end)
