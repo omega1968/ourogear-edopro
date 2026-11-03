@@ -271,7 +271,7 @@
     "level": 0,
     "race": 0,
     "attribute": 0,
-    "desc": "While you control a face-up WIND Machine, \"Ourogear\" Xyz Monster, or \"Ourogear\" Ritual Monster, \"Ourogear\" monsters you control gain 500 ATK/DEF and cannot be targeted by your opponent's monster effects. Once per turn: You can add 1 \"Ourogear\" Continuous Spell/Trap from your Deck to your hand, except \"Ourogear Recovery Array\". Once per turn: You can send this face-up card to the GY; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each activated effect of \"Ourogear Recovery Array\" once per turn.",
+    "desc": "While you control both a face-up WIND Machine Xyz Monster and a face-up Reptile Ritual Monster, \"Ourogear\" monsters you control gain 500 ATK/DEF and cannot be targeted by your opponent's monster effects. Once per turn: You can add 1 \"Ourogear\" Continuous Spell/Trap from your Deck to your hand, except \"Ourogear Recovery Array\". Once per turn: You can send this face-up card to the GY; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each activated effect of \"Ourogear Recovery Array\" once per turn.",
     "strings": [
       "Add 1 \"Ourogear\" Continuous Spell/Trap from your Deck to your hand",
       "Send this card to the GY; Special Summon an \"Ourogear Token\""
