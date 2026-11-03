@@ -2,7 +2,7 @@
 
 This checklist is for one deliberate EDOPro test pass after the automated checks are green. The repository already validates the database, compiles every Lua file, and loads every card's `initial_effect` through Project Ignis' ocgcore-backed ScriptChecker. These tests cover interactions that require an actual duel state.
 
-Automated coverage now also includes 41 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
+Automated coverage now also includes 43 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
 
 ## Core loading
 
@@ -100,15 +100,14 @@ Test Rank 4 and Rank 8 separately.
 For Siege Leviathan:
 
 - [ ] It can attack every opponent monster once each.
-- [ ] It can attack directly only as a later attack in the Battle Phase, after it has already attacked and the opponent controls no monsters.
+- [ ] It can attack directly when the opponent controls no monsters, including on its first attack.
 - [ ] A monster it destroys by battle is attached as material.
 - [ ] ATK/DEF updates by 300 for every currently attached material.
-- [ ] Its once-per-turn Quick Effect banishes all cards the opponent controls, in their hand, and in their GY together, without detaching material.
+- [ ] Its once-per-turn Quick Effect requires detaching 10 materials, then banishes all cards the opponent controls, in their hand, and in their GY together.
 
 For Dominion Ark:
 
 - [ ] Its Quick Effect detaches 1 and temporarily banishes a field card until the End Phase.
-- [ ] Skyforge prevents the first destruction of another Ourogear Spell/Trap, but does not protect itself.
 - [ ] The first two legal Extra Deck Special Summon attempts each turn prompt the opponent to destroy 1 card they control.
 - [ ] If they successfully destroy a card, the Summon proceeds.
 - [ ] If they decline/cannot successfully destroy a card, the Summon attempt is negated.
@@ -132,7 +131,7 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 ### Skyforge Nexus
 
 - [ ] Searches any Ourogear card other than Skyforge Nexus once per turn.
-- [ ] Prevents only the first destruction of your Ourogear Spell/Trap by an opponent's card effect each turn.
+- [ ] Prevents the first destruction of another Ourogear Spell/Trap by an opponent's card effect each turn; Skyforge Nexus does not protect itself.
 - [ ] Places 1 or 2 Ourogear Continuous Spells/Traps from GY face-up without treating that placement as activation.
 - [ ] Re-placing Skyforge after it leaves the field gives a fresh soft once-per-turn search/placement, matching the printed text.
 
