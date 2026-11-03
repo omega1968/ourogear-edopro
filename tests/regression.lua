@@ -24,6 +24,7 @@ local function group(items)
     function g:RandomSelect() return group({self[1]}) end
     function g:Select() return group({self[select_index]}) end
     function g:GetFirst() return self[1] end
+    function g:Includes(c) for _,v in ipairs(self) do if v==c then return true end end; return false end
     function g:IsExists(fn,n,excluded,...) return self:FilterCount(fn,excluded,...)>=n end
     return g
 end
@@ -150,6 +151,14 @@ for i=1,3 do
 end
 test('Token activation prohibited under summon lock',function() token_allowed=false; eq(functions[1].tktg(e,0,nil,0,0,nil,0,0,0),false); token_allowed=true end)
 test('Token activation legal with space and permission',function() eq(functions[1].tktg(e,0,nil,0,0,nil,0,0,0),true) end)
+local vector_normal=card({normal_level=4,player=0,location=LOCATION_MZONE})
+local vector_ourogear=card({normal_level=4,ourogear=true,player=0,location=LOCATION_MZONE})
+local vector_generic=card({normal_level=4,player=0,location=LOCATION_MZONE})
+test('Vector Frame accepts two Level 4s with an Ourogear and rejects two generic monsters',function()
+    eq(Ourogear.ValidXyzGroup(group({vector_normal,vector_ourogear}),cards[10],0,4,4,2),true)
+    eq(Ourogear.ValidXyzGroup(group({vector_normal,vector_generic}),cards[10],0,4,4,2),false)
+    eq(Ourogear.ValidXyzGroup(group({vector_ourogear}),cards[10],0,4,4,2),false)
+end)
 material_normal=card({normal_level=4}); material_xyz=card({type=TYPE_XYZ,ourogear=true,player=0,location=LOCATION_MZONE,rank=8}); material_link=card({type=TYPE_LINK,player=0,location=LOCATION_MZONE})
 local base_ritual_effect=Effect.CreateEffect(material_xyz)
 base_ritual_effect:SetValue(function() return 8 end)
