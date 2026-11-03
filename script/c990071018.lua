@@ -24,12 +24,15 @@ function s.initial_effect(c)
 end
 s.listed_series={Ourogear.SET}
 s.listed_names={Ourogear.TOKEN}
-function s.supportfilter(c)
-    return c:IsFaceup() and (Ourogear.IsWindMachine(c)
-        or (c:IsSetCard(Ourogear.SET) and (c:IsType(TYPE_XYZ) or c:IsType(TYPE_RITUAL))))
-end
 function s.supportcon(e)
-    return Duel.IsExistingMatchingCard(s.supportfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
+    local tp=e:GetHandlerPlayer()
+    local has_xyz=Duel.IsExistingMatchingCard(function(c)
+        return c:IsFaceup() and Ourogear.IsWindMachineXyz(c)
+    end,tp,LOCATION_MZONE,0,1,nil)
+    local has_reptile_ritual=Duel.IsExistingMatchingCard(function(c)
+        return c:IsFaceup() and c:IsType(TYPE_RITUAL) and c:IsRace(RACE_REPTILE)
+    end,tp,LOCATION_MZONE,0,1,nil)
+    return has_xyz and has_reptile_ritual
 end
 function s.thfilter(c) return Ourogear.IsOurogearContinuousST(c) and not c:IsCode(id) and c:IsAbleToHand() end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk) if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK) end
