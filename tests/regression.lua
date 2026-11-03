@@ -107,7 +107,16 @@ Duel.GetFieldGroupCount=function(tp,selfloc,opploc) assert(tp~=nil,'missing play
 Duel.GetMatchingGroupCount=function(fn,tp) assert(tp~=nil,'missing player'); return 4 end
 Duel.IsExistingMatchingCard=function(fn,tp) assert(tp~=nil,'missing player'); return true end
 test('Naga field condition gets controller from effect',function() eq(functions[8].atkcon(e),true) end)
-test('Recovery Array field condition gets controller from effect',function() eq(functions[18].comeback(e),true) end)
+test('Recovery Array attack boost is always active',function()
+    local boost=effect_for(18,EFFECT_UPDATE_ATTACK)
+    assert(boost and boost.Condition==nil)
+    eq(boost.Value,500)
+end)
+test('Skyforge protection excludes Skyforge itself',function()
+    local protection=effect_for(16,EFFECT_INDESTRUCTABLE_COUNT)
+    eq(functions[16].indtg(protection,protection:GetHandler()),false)
+    eq(functions[16].indtg(protection,card({ourogear=true,type=TYPE_SPELL|TYPE_CONTINUOUS})),true)
+end)
 test('Suppression Grid field condition gets controller from effect',function() eq(functions[21].lockcon(e),true) end)
 local banished=0
 Duel.NegateActivation=function() return false end
@@ -176,6 +185,10 @@ test('Siege attacks every monster twice while Naga grants an extra attack',funct
     eq(functions[13].atkallval(attack_all,card()),1)
 end)
 local siege_old_count,siege_old_group,siege_old_info,siege_old_remove=Duel.GetFieldGroupCount,Duel.GetFieldGroup,Duel.SetOperationInfo,Duel.Remove
+test('Siege full banish requires its detach-10 cost',function()
+    local full_banish=effect_for(13,EVENT_FREE_CHAIN)
+    assert(full_banish and full_banish.Cost)
+end)
 test('Siege can attack directly whenever the opponent has no monsters',function()
     local monsters=0
     Duel.GetFieldGroupCount=function() return monsters end
@@ -243,6 +256,17 @@ test('Relay inherited attach does not target',function() local te; for _,v in ip
 test('Relay cannot attach Tokens',function() token.player=1;token.location=LOCATION_MZONE;eq(functions[11].attfilter(token,e,0),false) end)
 test('Siege battle attach is mandatory',function() eq(effect_for(13,EVENT_BATTLE_DESTROYING).Type&EFFECT_TYPE_TRIGGER_F,EFFECT_TYPE_TRIGGER_F) end)
 test('Harness material Token trigger is mandatory',function() eq(effect_for(15,EVENT_TO_GRAVE).Type&EFFECT_TYPE_TRIGGER_F,EFFECT_TYPE_TRIGGER_F) end)
+test('Harness accepts effect-based Xyz material reason without REASON_MATERIAL',function()
+    local harness=cards[15]
+    local target=card({reason=REASON_XYZ,previous=LOCATION_MZONE})
+    harness.GetPreviousEquipTarget=function() return target end
+    harness.previous=LOCATION_SZONE
+    harness.reason=REASON_LOST_TARGET
+    eq(functions[15].tkcon(Effect.CreateEffect(harness),0),true)
+    harness.GetPreviousEquipTarget=nil
+    harness.previous=nil
+    harness.reason=nil
+end)
 test('Ritual pool forwards a real true default to native API',function()
     material_calls={}; Duel.GetRitualMaterial(0); eq(material_calls[1],true)
 end)
