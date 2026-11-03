@@ -261,7 +261,7 @@ test('Siege battle attach is mandatory',function() eq(effect_for(13,EVENT_BATTLE
 test('Harness material Token trigger is mandatory',function() eq(effect_for(15,EVENT_TO_GRAVE).Type&EFFECT_TYPE_TRIGGER_F,EFFECT_TYPE_TRIGGER_F) end)
 test('Harness trigger activates when another effect equips it',function()
     local harness=cards[15]
-    local equipped=group({harness})
+    local equipped={IsContains=function(_,c) return c==harness end}
     eq(functions[15].eqspcon(Effect.CreateEffect(harness),0,equipped),true)
 end)
 test('Harness accepts effect-based Xyz material reason without REASON_MATERIAL',function()
