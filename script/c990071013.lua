@@ -7,7 +7,7 @@ function s.initial_effect(c)
     local e1=Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_ATTACK_ALL)
-    e1:SetValue(1)
+    e1:SetValue(s.atkallval)
     c:RegisterEffect(e1)
     -- Attach a monster destroyed by battle
     local e2=Effect.CreateEffect(c)
@@ -42,6 +42,20 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 s.listed_series={Ourogear.SET}
+function s.atkallval(e,tc)
+    local c=e:GetHandler()
+    local extra=0
+    for _,te in ipairs({c:IsHasEffect(EFFECT_EXTRA_ATTACK)}) do
+        local val=te:GetValue()
+        if type(val)=="function" then val=val(te,c) end
+        if val and val>extra then extra=val end
+    end
+    if extra<=0 then return 1 end
+    -- The core otherwise keeps the attack-all "once each" restriction active
+    -- through the bonus attacks. Permit only the bonus number of repeat attacks.
+    local repeats=c:GetAttackAnnouncedCount()-c:GetAttackedGroupCount()
+    return repeats<extra and 2 or 1
+end
 function s.atttg(e,tp,eg,ep,ev,re,r,rp,chk)
     local c=e:GetHandler(); local bc=c:GetBattleTarget()
     if chk==0 then return c:IsType(TYPE_XYZ) and bc and bc:IsMonster() and bc:IsCanBeXyzMaterial(c,tp,REASON_EFFECT) end
