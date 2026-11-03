@@ -261,7 +261,7 @@ test('Harness accepts effect-based Xyz material reason without REASON_MATERIAL',
     local target=card({reason=REASON_XYZ,previous=LOCATION_MZONE})
     harness.GetPreviousEquipTarget=function() return target end
     harness.previous=LOCATION_SZONE
-    harness.reason=REASON_LOST_TARGET
+    harness.reason=0
     eq(functions[15].tkcon(Effect.CreateEffect(harness),0),true)
     harness.GetPreviousEquipTarget=nil
     harness.previous=nil
