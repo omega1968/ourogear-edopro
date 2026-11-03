@@ -147,7 +147,7 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 
 ### Recovery Array
 
-- [ ] Its +500/+500 boost and protection from opponent's monster-effect targeting apply while you control a face-up WIND Machine, Ourogear Xyz, or Ourogear Ritual Monster.
+- [ ] Its +500/+500 boost and protection from opponent's monster-effect targeting apply only while you control both a face-up WIND Machine Xyz and a face-up Reptile Ritual Monster.
 - [ ] It searches only an Ourogear Continuous Spell/Trap other than itself.
 - [ ] The search remains its extension option; the always-on monster support gives a reason to keep it face-up.
 - [ ] Sending itself to the GY creates a Token once per turn.
