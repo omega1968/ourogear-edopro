@@ -108,6 +108,7 @@ For Siege Leviathan:
 For Dominion Ark:
 
 - [ ] Its Quick Effect detaches 1 and temporarily banishes a field card until the End Phase.
+- [ ] Skyforge prevents the first destruction of another Ourogear Spell/Trap, but does not protect itself.
 - [ ] The first two legal Extra Deck Special Summon attempts each turn prompt the opponent to destroy 1 card they control.
 - [ ] If they successfully destroy a card, the Summon proceeds.
 - [ ] If they decline/cannot successfully destroy a card, the Summon attempt is negated.
@@ -125,7 +126,7 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 - [ ] You may choose whether to equip Launch Harness to that summoned monster.
 - [ ] While equipped, it searches a Level 4 Ourogear Reptile Ritual Monster once per turn.
 - [ ] If the equipped monster becomes Ritual Material, Launch Harness reaches the GY as expected and creates a Token.
-- [ ] If the equipped monster becomes Xyz Material, Launch Harness reaches the GY as expected and creates a Token.
+- [ ] If the equipped monster becomes Xyz Material by a normal or effect-based Xyz Summon (including the DoomZ cheat effect), Launch Harness reaches the GY and creates a Token.
 - [ ] The Token effect does not falsely trigger when the equipped monster leaves for another reason.
 
 ### Skyforge Nexus
@@ -146,8 +147,9 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 
 ### Recovery Array
 
-- [ ] The +500/+500 and monster-effect targeting protection turn on only while the opponent controls more cards than you.
+- [ ] Its +500/+500 boost and protection from opponent's monster-effect targeting are always active for your Ourogear monsters.
 - [ ] It searches only an Ourogear Continuous Spell/Trap other than itself.
+- [ ] The search remains its extension option; the always-on monster support gives a reason to keep it face-up.
 - [ ] Sending itself to the GY creates a Token once per turn.
 
 ### Material Loom
