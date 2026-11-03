@@ -148,7 +148,7 @@
     "level": 4,
     "race": 32,
     "attribute": 8,
-    "desc": "2 Level 4 monsters + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, each WIND Machine Xyz Monster you control can replace 1 required material (transfer its materials).\nFor a Reptile Ritual Summon, treat this card's Rank as its Level.\nToken substitution: see \"Ourogear Token\".\n(1) Once per turn: You can detach 2 materials from this card; add 2 \"Ourogear\" cards with different names from your Deck to your hand, except \"Ourogear Vector Frame\".\n(2) A WIND Machine Xyz Monster that has this card as material gains 500 ATK/DEF.",
+    "desc": "1 Level 4 monster + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, each WIND Machine Xyz Monster you control can replace 1 required material (transfer its materials).\nFor a Reptile Ritual Summon, treat this card's Rank as its Level.\nToken substitution: see \"Ourogear Token\".\n(1) Once per turn: You can detach 2 materials from this card; add 2 \"Ourogear\" cards with different names from your Deck to your hand, except \"Ourogear Vector Frame\".\n(2) A WIND Machine Xyz Monster that has this card as material gains 500 ATK/DEF.",
     "strings": [
       "Detach 2 materials; add 2 differently named \"Ourogear\" cards other than \"Ourogear Vector Frame\""
     ]
