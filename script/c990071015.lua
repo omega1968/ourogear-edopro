@@ -94,8 +94,12 @@ function s.thop(e,tp)
 end
 function s.tkcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler(); local ec=c:GetPreviousEquipTarget()
-    return c:IsPreviousLocation(LOCATION_SZONE) and c:IsReason(REASON_LOST_TARGET) and ec
-        and ec:IsReason(REASON_MATERIAL) and (ec:IsReason(REASON_RITUAL) or ec:IsReason(REASON_XYZ))
+    if not c:IsPreviousLocation(LOCATION_SZONE) or not c:IsReason(REASON_LOST_TARGET) or not ec then return false end
+    -- Standard Ritual materials carry REASON_MATERIAL|REASON_RITUAL. DoomZ's effect-based
+    -- Xyz line may mark the equipped monster with REASON_XYZ without REASON_MATERIAL.
+    local ritual_material=ec:IsReason(REASON_MATERIAL) and ec:IsReason(REASON_RITUAL)
+    local xyz_material=ec:IsReason(REASON_XYZ)
+    return ritual_material or xyz_material
 end
 function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Ourogear.CanCreateToken(e,tp) end
