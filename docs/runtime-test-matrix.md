@@ -2,7 +2,7 @@
 
 This checklist is for one deliberate EDOPro test pass after the automated checks are green. The repository already validates the database, compiles every Lua file, and loads every card's `initial_effect` through Project Ignis' ocgcore-backed ScriptChecker. These tests cover interactions that require an actual duel state.
 
-Automated coverage now also includes 43 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
+Automated coverage now also includes 44 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
 
 ## Core loading
 
@@ -122,7 +122,8 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 ### Launch Harness
 
 - [ ] Activation Special Summons a Level 4 Ourogear Reptile from Deck.
-- [ ] You may choose whether to equip Launch Harness to that summoned monster.
+- [ ] After the summon, you may equip Launch Harness to any face-up monster you control, not only the monster just summoned.
+- [ ] If another effect equips Launch Harness from the Deck (such as DoomZ Drastea), its equip-triggered effect Special Summons a Level 4 Ourogear Reptile.
 - [ ] While equipped, it searches a Level 4 Ourogear Reptile Ritual Monster once per turn.
 - [ ] If the equipped monster becomes Ritual Material, Launch Harness reaches the GY as expected and creates a Token.
 - [ ] If the equipped monster becomes Xyz Material by a normal or effect-based Xyz Summon (including the DoomZ cheat effect), Launch Harness reaches the GY and creates a Token.
@@ -146,7 +147,7 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 
 ### Recovery Array
 
-- [ ] Its +500/+500 boost and protection from opponent's monster-effect targeting are always active for your Ourogear monsters.
+- [ ] Its +500/+500 boost and protection from opponent's monster-effect targeting apply while you control a face-up WIND Machine, Ourogear Xyz, or Ourogear Ritual Monster.
 - [ ] It searches only an Ourogear Continuous Spell/Trap other than itself.
 - [ ] The search remains its extension option; the always-on monster support gives a reason to keep it face-up.
 - [ ] Sending itself to the GY creates a Token once per turn.
