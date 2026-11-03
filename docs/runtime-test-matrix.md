@@ -2,7 +2,7 @@
 
 This checklist is for one deliberate EDOPro test pass after the automated checks are green. The repository already validates the database, compiles every Lua file, and loads every card's `initial_effect` through Project Ignis' ocgcore-backed ScriptChecker. These tests cover interactions that require an actual duel state.
 
-Automated coverage now also includes 39 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
+Automated coverage now also includes 40 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
 
 ## Core loading
 
@@ -52,6 +52,7 @@ Specific field/GY effects:
 - [ ] Twin-Gale Naga can target either a face-up monster or face-up Spell/Trap.
 - [ ] Naga negates the targeted card until the End Phase; a targeted monster also cannot attack or be Fusion/Synchro/Xyz/Link Material that turn.
 - [ ] Naga grants a second attack to each Ourogear monster while you control a WIND Machine.
+- [ ] With Naga active, Siege Leviathan can attack every opponent monster once and use its bonus attack to attack one of them again.
 
 For Ourogear Sovereign:
 
