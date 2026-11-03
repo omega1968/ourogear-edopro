@@ -100,7 +100,7 @@ Test Rank 4 and Rank 8 separately.
 For Siege Leviathan:
 
 - [ ] It can attack every opponent monster once each.
-- [ ] If the opponent controls no monsters, it can attack directly.
+- [ ] It can attack directly only as a later attack in the Battle Phase, after it has already attacked and the opponent controls no monsters.
 - [ ] A monster it destroys by battle is attached as material.
 - [ ] ATK/DEF updates by 300 for every currently attached material.
 - [ ] Its once-per-turn Quick Effect banishes all cards the opponent controls, in their hand, and in their GY together, without detaching material.
