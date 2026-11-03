@@ -175,6 +175,29 @@ test('Siege can use one Naga extra attack after attacking all monsters',function
     leviathan.applied={}
     eq(functions[13].atkallval(attack_all,card()),1)
 end)
+test('Siege can attack directly when clear and banishes field, hand, and GY together',function()
+    local old_count,old_group,old_info,old_remove=Duel.GetFieldGroupCount,Duel.GetFieldGroup,Duel.SetOperationInfo,Duel.Remove
+    local monsters=0
+    Duel.GetFieldGroupCount=function() return monsters end
+    local direct=Effect.CreateEffect(cards[13])
+    eq(functions[13].directcon(direct),true)
+    monsters=1
+    eq(functions[13].directcon(direct),false)
+    local loc=LOCATION_ONFIELD|LOCATION_HAND|LOCATION_GRAVE
+    local victims=group({card(),card(),card()})
+    Duel.GetFieldGroup=function(tp,own,opp) eq(own,0); eq(opp,loc); return victims end
+    local info
+    Duel.SetOperationInfo=function(...) info={...} end
+    local removed=0
+    Duel.Remove=function(g,pos,reason) removed=#g; eq(pos,POS_FACEUP); eq(reason,REASON_EFFECT); return removed end
+    eq(functions[13].rmtg(e,0,nil,0,0,nil,0,0,0),true)
+    functions[13].rmtg(e,0,nil,0,0,nil,0,0,1)
+    eq(info[2],CATEGORY_REMOVE)
+    eq(info[6],loc)
+    functions[13].rmop(e,0)
+    eq(removed,#victims)
+    Duel.GetFieldGroupCount,Duel.GetFieldGroup,Duel.SetOperationInfo,Duel.Remove=old_count,old_group,old_info,old_remove
+end)
 material_normal=card({normal_level=4}); material_xyz=card({type=TYPE_XYZ,ourogear=true,player=0,location=LOCATION_MZONE,rank=8}); material_link=card({type=TYPE_LINK,player=0,location=LOCATION_MZONE})
 local base_ritual_effect=Effect.CreateEffect(material_xyz)
 base_ritual_effect:SetValue(function() return 8 end)
