@@ -176,10 +176,13 @@ test('Siege can use one Naga extra attack after attacking all monsters',function
     eq(functions[13].atkallval(attack_all,card()),1)
 end)
 local siege_old_count,siege_old_group,siege_old_info,siege_old_remove=Duel.GetFieldGroupCount,Duel.GetFieldGroup,Duel.SetOperationInfo,Duel.Remove
-test('Siege can attack directly when clear and banishes field, hand, and GY together',function()
+test('Siege attacks directly only after it has attacked and the opponent has no monsters',function()
     local monsters=0
     Duel.GetFieldGroupCount=function() return monsters end
     local direct=Effect.CreateEffect(cards[13])
+    cards[13].attack_announced=0
+    eq(functions[13].directcon(direct),false)
+    cards[13].attack_announced=1
     eq(functions[13].directcon(direct),true)
     monsters=1
     eq(functions[13].directcon(direct),false)
