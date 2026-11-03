@@ -94,7 +94,7 @@ function s.thop(e,tp)
 end
 function s.tkcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler(); local ec=c:GetPreviousEquipTarget()
-    if not c:IsPreviousLocation(LOCATION_SZONE) or not c:IsReason(REASON_LOST_TARGET) or not ec then return false end
+    if not c:IsPreviousLocation(LOCATION_SZONE) or not ec then return false end
     -- Standard Ritual materials carry REASON_MATERIAL|REASON_RITUAL. DoomZ's effect-based
     -- Xyz line may mark the equipped monster with REASON_XYZ without REASON_MATERIAL.
     local ritual_material=ec:IsReason(REASON_MATERIAL) and ec:IsReason(REASON_RITUAL)
