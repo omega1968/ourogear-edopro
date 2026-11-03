@@ -107,13 +107,22 @@ Duel.GetFieldGroupCount=function(tp,selfloc,opploc) assert(tp~=nil,'missing play
 Duel.GetMatchingGroupCount=function(fn,tp) assert(tp~=nil,'missing player'); return 4 end
 Duel.IsExistingMatchingCard=function(fn,tp) assert(tp~=nil,'missing player'); return true end
 test('Naga field condition gets controller from effect',function() eq(functions[8].atkcon(e),true) end)
-test('Recovery Array aura requires an established Ourogear/WIND Machine body',function()
+test('Recovery Array aura requires both a WIND Machine Xyz and a Reptile Ritual',function()
     local boost=effect_for(18,EFFECT_UPDATE_ATTACK)
     assert(boost and boost.Condition==functions[18].supportcon)
-    eq(functions[18].supportfilter(card({attribute=ATTRIBUTE_WIND,race=RACE_MACHINE,faceup=true})),true)
-    eq(functions[18].supportfilter(card({ourogear=true,type=TYPE_XYZ,faceup=true})),true)
-    eq(functions[18].supportfilter(card({ourogear=true,type=TYPE_RITUAL,faceup=true})),true)
-    eq(functions[18].supportfilter(card({ourogear=true,type=TYPE_MONSTER,faceup=true})),false)
+    local saved=Duel.IsExistingMatchingCard
+    local wind_xyz=card({type=TYPE_XYZ,attribute=ATTRIBUTE_WIND,race=RACE_MACHINE,faceup=true})
+    local reptile_ritual=card({type=TYPE_RITUAL,race=RACE_REPTILE,faceup=true})
+    local field=group({wind_xyz,reptile_ritual})
+    Duel.IsExistingMatchingCard=function(fn,tp,loc,opp,n,ex)
+        return field:IsExists(fn,n,ex)
+    end
+    eq(functions[18].supportcon(e),true)
+    field=group({wind_xyz})
+    eq(functions[18].supportcon(e),false)
+    field=group({reptile_ritual})
+    eq(functions[18].supportcon(e),false)
+    Duel.IsExistingMatchingCard=saved
 end)
 test('Skyforge protection excludes Skyforge itself',function()
     local protection=effect_for(16,EFFECT_INDESTRUCTABLE_COUNT)
