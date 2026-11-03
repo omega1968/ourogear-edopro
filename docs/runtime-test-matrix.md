@@ -2,7 +2,7 @@
 
 This checklist is for one deliberate EDOPro test pass after the automated checks are green. The repository already validates the database, compiles every Lua file, and loads every card's `initial_effect` through Project Ignis' ocgcore-backed ScriptChecker. These tests cover interactions that require an actual duel state.
 
-Automated coverage now also includes 40 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
+Automated coverage now also includes 41 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
 
 ## Core loading
 
@@ -100,11 +100,10 @@ Test Rank 4 and Rank 8 separately.
 For Siege Leviathan:
 
 - [ ] It can attack every opponent monster once each.
+- [ ] If the opponent controls no monsters, it can attack directly.
 - [ ] A monster it destroys by battle is attached as material.
 - [ ] ATK/DEF updates by 300 for every currently attached material.
-- [ ] The detach-10 Quick Effect is unavailable below 10 materials.
-- [ ] With 9 materials and an unused Material Loom replacement, the detach-10 effect can be paid by first attaching the top card.
-- [ ] The detach-10 effect banishes all cards the opponent currently controls.
+- [ ] Its once-per-turn Quick Effect banishes all cards the opponent controls, in their hand, and in their GY together, without detaching material.
 
 For Dominion Ark:
 
