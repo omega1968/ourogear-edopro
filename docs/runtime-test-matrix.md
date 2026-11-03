@@ -2,7 +2,7 @@
 
 This checklist is for one deliberate EDOPro test pass after the automated checks are green. The repository already validates the database, compiles every Lua file, and loads every card's `initial_effect` through Project Ignis' ocgcore-backed ScriptChecker. These tests cover interactions that require an actual duel state.
 
-Automated coverage now also includes 38 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
+Automated coverage now also includes 39 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
 
 ## Core loading
 
@@ -85,6 +85,7 @@ Test Rank 4 and Rank 8 separately.
 
 ## Rank 4 effects / inherited effects
 
+- [ ] Vector Frame can be Xyz Summoned with exactly 1 Level 4 monster and 1 Level 4 Ourogear monster, applying its existing WIND Machine substitution rules.
 - [ ] Vector Frame detaches 2 and searches exactly 2 differently named Ourogear cards, excluding Vector Frame.
 - [ ] A WIND Machine Xyz with Vector Frame as material gains 500 ATK/DEF.
 - [ ] Relay Frame detaches 1 to create a Token that can be Tributed immediately.
