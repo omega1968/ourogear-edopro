@@ -57,6 +57,8 @@ function Card:IsCanBeXyzMaterial() return not self:IsType(TYPE_TOKEN) and not se
 function Card:IsImmuneToEffect() return false end
 function Card:IsRelateToEffect() return true end
 function Card:GetOverlayCount() return self.overlays or 0 end
+function Card:GetAttackAnnouncedCount() return self.attack_announced or 0 end
+function Card:GetAttackedGroupCount() return self.attacked_group_count or 0 end
 function Card:GetFlagEffect(code) return (self.flags or {})[code] or 0 end
 function Card:RegisterFlagEffect(code) self.flags=self.flags or {}; self.flags[code]=1 end
 function Card:RegisterEffect(e) self.effects=self.effects or {}; table.insert(self.effects,e) end
@@ -158,6 +160,20 @@ test('Vector Frame accepts two Level 4s with an Ourogear and rejects two generic
     eq(Ourogear.ValidXyzGroup(group({vector_normal,vector_ourogear}),cards[10],0,4,4,2),true)
     eq(Ourogear.ValidXyzGroup(group({vector_normal,vector_generic}),cards[10],0,4,4,2),false)
     eq(Ourogear.ValidXyzGroup(group({vector_ourogear}),cards[10],0,4,4,2),false)
+end)
+test('Siege can use one Naga extra attack after attacking all monsters',function()
+    local leviathan=cards[13]
+    local attack_all=Effect.CreateEffect(leviathan)
+    local naga_bonus=Effect.CreateEffect(cards[8])
+    naga_bonus:SetValue(1)
+    leviathan.applied={[EFFECT_EXTRA_ATTACK]={naga_bonus}}
+    leviathan.attack_announced=3
+    leviathan.attacked_group_count=3
+    eq(functions[13].atkallval(attack_all,card()),2)
+    leviathan.attack_announced=4
+    eq(functions[13].atkallval(attack_all,card()),1)
+    leviathan.applied={}
+    eq(functions[13].atkallval(attack_all,card()),1)
 end)
 material_normal=card({normal_level=4}); material_xyz=card({type=TYPE_XYZ,ourogear=true,player=0,location=LOCATION_MZONE,rank=8}); material_link=card({type=TYPE_LINK,player=0,location=LOCATION_MZONE})
 local base_ritual_effect=Effect.CreateEffect(material_xyz)
