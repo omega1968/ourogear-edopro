@@ -8,7 +8,7 @@ function s.initial_effect(c)
     el:SetCode(EFFECT_EQUIP_LIMIT)
     el:SetValue(1)
     c:RegisterEffect(el)
-    -- Activate: Special Summon a Level 4 Ourogear Reptile, then optionally equip this card to it
+    -- Activate: Special Summon a Level 4 Ourogear Reptile, then optionally equip to any face-up monster you control
     local e0=Effect.CreateEffect(c)
     e0:SetDescription(aux.Stringid(id,0))
     e0:SetCategory(CATEGORY_SPECIAL_SUMMON|CATEGORY_EQUIP)
@@ -74,10 +74,16 @@ function s.actop(e,tp)
     local tc=g:GetFirst()
     if not tc or Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)==0 then return end
     if c:IsRelateToEffect(e) and c:IsLocation(LOCATION_SZONE) and not c:IsStatus(STATUS_LEAVE_CONFIRMED)
+        and Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,0,1,nil)
         and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
-        -- Mark our own optional equip so it does not also trigger this effect.
-        c:RegisterFlagEffect(id+100,RESET_EVENT|RESETS_STANDARD,0,1)
-        Duel.Equip(tp,c,tc)
+        Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
+        local tg=Duel.SelectMatchingCard(tp,Card.IsFaceup,tp,LOCATION_MZONE,0,1,1,nil)
+        local target=tg:GetFirst()
+        if target and c:IsRelateToEffect(e) and c:IsLocation(LOCATION_SZONE) then
+            -- Mark our own optional equip so it does not also trigger this effect.
+            c:RegisterFlagEffect(id+100,RESET_EVENT|RESETS_STANDARD,0,1)
+            Duel.Equip(tp,c,target)
+        end
     end
 end
 function s.thfilter(c)
