@@ -3,7 +3,7 @@ if not Ourogear then Duel.LoadScript("ourogear.lua") end
 local s,id=GetID()
 function s.initial_effect(c)
     Ourogear.AddXyzProcedure(c,4,4,3)
-    -- Can attack each opponent's monster once, plus one bonus repeat while extra attacks apply.
+    -- Can attack each opponent's monster once, or twice while an extra attack applies.
     local e1=Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_ATTACK_ALL)
@@ -55,11 +55,7 @@ function s.atkallval(e,tc)
         if type(val)=="function" then val=val(te,c) end
         if val and val>extra then extra=val end
     end
-    if extra<=0 then return 1 end
-    -- The core otherwise keeps the attack-all "once each" restriction active
-    -- through the bonus attacks. Permit only the bonus number of repeat attacks.
-    local repeats=c:GetAttackAnnouncedCount()-c:GetAttackedGroupCount()
-    return repeats<extra and 2 or 1
+    return 1+extra
 end
 function s.atttg(e,tp,eg,ep,ev,re,r,rp,chk)
     local c=e:GetHandler(); local bc=c:GetBattleTarget()
@@ -72,8 +68,7 @@ function s.attop(e,tp)
     if c:IsRelateToEffect(e) and c:IsType(TYPE_XYZ) and bc and bc:IsRelateToEffect(e) then Duel.Overlay(c,bc,true) end
 end
 function s.directcon(e)
-    local c=e:GetHandler()
-    return c:GetAttackAnnouncedCount()>0 and Duel.GetFieldGroupCount(e:GetHandlerPlayer(),0,LOCATION_MZONE)==0
+    return Duel.GetFieldGroupCount(e:GetHandlerPlayer(),0,LOCATION_MZONE)==0
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
     local loc=LOCATION_ONFIELD|LOCATION_HAND|LOCATION_GRAVE
