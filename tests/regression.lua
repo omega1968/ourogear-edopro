@@ -161,27 +161,27 @@ test('Vector Frame accepts two Level 4s with an Ourogear and rejects two generic
     eq(Ourogear.ValidXyzGroup(group({vector_normal,vector_generic}),cards[10],0,4,4,2),false)
     eq(Ourogear.ValidXyzGroup(group({vector_ourogear}),cards[10],0,4,4,2),false)
 end)
-test('Siege can use one Naga extra attack after attacking all monsters',function()
+test('Siege attacks every monster twice while Naga grants an extra attack',function()
     local leviathan=cards[13]
     local attack_all=Effect.CreateEffect(leviathan)
     local naga_bonus=Effect.CreateEffect(cards[8])
     naga_bonus:SetValue(1)
     leviathan.applied={[EFFECT_EXTRA_ATTACK]={naga_bonus}}
-    leviathan.attack_announced=3
-    leviathan.attacked_group_count=3
-    eq(functions[13].atkallval(attack_all,card()),2)
-    leviathan.attack_announced=4
-    eq(functions[13].atkallval(attack_all,card()),1)
+    for _,counts in ipairs({{0,0},{3,3},{6,3},{9,6}}) do
+        leviathan.attack_announced=counts[1]
+        leviathan.attacked_group_count=counts[2]
+        eq(functions[13].atkallval(attack_all,card()),2)
+    end
     leviathan.applied={}
     eq(functions[13].atkallval(attack_all,card()),1)
 end)
 local siege_old_count,siege_old_group,siege_old_info,siege_old_remove=Duel.GetFieldGroupCount,Duel.GetFieldGroup,Duel.SetOperationInfo,Duel.Remove
-test('Siege attacks directly only after it has attacked and the opponent has no monsters',function()
+test('Siege can attack directly whenever the opponent has no monsters',function()
     local monsters=0
     Duel.GetFieldGroupCount=function() return monsters end
     local direct=Effect.CreateEffect(cards[13])
     cards[13].attack_announced=0
-    eq(functions[13].directcon(direct),false)
+    eq(functions[13].directcon(direct),true)
     cards[13].attack_announced=1
     eq(functions[13].directcon(direct),true)
     monsters=1
