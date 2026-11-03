@@ -107,10 +107,13 @@ Duel.GetFieldGroupCount=function(tp,selfloc,opploc) assert(tp~=nil,'missing play
 Duel.GetMatchingGroupCount=function(fn,tp) assert(tp~=nil,'missing player'); return 4 end
 Duel.IsExistingMatchingCard=function(fn,tp) assert(tp~=nil,'missing player'); return true end
 test('Naga field condition gets controller from effect',function() eq(functions[8].atkcon(e),true) end)
-test('Recovery Array attack boost is always active',function()
+test('Recovery Array aura requires an established Ourogear/WIND Machine body',function()
     local boost=effect_for(18,EFFECT_UPDATE_ATTACK)
-    assert(boost and boost.Condition==nil)
-    eq(boost.Value,500)
+    assert(boost and boost.Condition==functions[18].supportcon)
+    eq(functions[18].supportfilter(card({attribute=ATTRIBUTE_WIND,race=RACE_MACHINE,faceup=true})),true)
+    eq(functions[18].supportfilter(card({ourogear=true,type=TYPE_XYZ,faceup=true})),true)
+    eq(functions[18].supportfilter(card({ourogear=true,type=TYPE_RITUAL,faceup=true})),true)
+    eq(functions[18].supportfilter(card({ourogear=true,type=TYPE_MONSTER,faceup=true})),false)
 end)
 test('Skyforge protection excludes Skyforge itself',function()
     local protection=effect_for(16,EFFECT_INDESTRUCTABLE_COUNT)
@@ -256,6 +259,11 @@ test('Relay inherited attach does not target',function() local te; for _,v in ip
 test('Relay cannot attach Tokens',function() token.player=1;token.location=LOCATION_MZONE;eq(functions[11].attfilter(token,e,0),false) end)
 test('Siege battle attach is mandatory',function() eq(effect_for(13,EVENT_BATTLE_DESTROYING).Type&EFFECT_TYPE_TRIGGER_F,EFFECT_TYPE_TRIGGER_F) end)
 test('Harness material Token trigger is mandatory',function() eq(effect_for(15,EVENT_TO_GRAVE).Type&EFFECT_TYPE_TRIGGER_F,EFFECT_TYPE_TRIGGER_F) end)
+test('Harness trigger activates when another effect equips it',function()
+    local harness=cards[15]
+    local equipped=group({harness})
+    eq(functions[15].eqspcon(Effect.CreateEffect(harness),0,equipped),true)
+end)
 test('Harness accepts effect-based Xyz material reason without REASON_MATERIAL',function()
     local harness=cards[15]
     local target=card({reason=REASON_XYZ,previous=LOCATION_MZONE})
