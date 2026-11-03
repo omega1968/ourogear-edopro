@@ -23,7 +23,7 @@ s.listed_series={Ourogear.SET}
 function s.thfilter(c) return c:IsSetCard(Ourogear.SET) and not c:IsCode(id) and c:IsAbleToHand() end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk) if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK) end
 function s.thop(e,tp) Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND); local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil); if #g>0 then Duel.SendtoHand(g,nil,REASON_EFFECT); Duel.ConfirmCards(1-tp,g) end end
-function s.indtg(e,c) return c:IsSpellTrap() and c:IsSetCard(Ourogear.SET) end
+function s.indtg(e,c) return c~=e:GetHandler() and c:IsSpellTrap() and c:IsSetCard(Ourogear.SET) end
 function s.indval(e,re,r,rp) return (r&REASON_EFFECT)~=0 and rp==1-e:GetHandlerPlayer() end
 function s.recfilter(c,tp) return Ourogear.IsOurogearContinuousST(c) and not c:IsForbidden() and c:CheckUniqueOnField(tp) end
 function s.rectg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
