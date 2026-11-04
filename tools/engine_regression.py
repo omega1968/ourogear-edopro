@@ -90,6 +90,8 @@ for variant in (False,True):
                     raise SystemExit('Duel ended before action assertions completed')
                 if status==1:
                     packet=packets[-1]
+                    if args.scenario.startswith('engine_harness_'):
+                        print(f'PROMPT {packet.hex()}')
                     if packet[0]==18:  # Choose a legal Monster Zone; no strategic decision.
                         player,count,blocked=struct.unpack_from('<BBI',packet,1)
                         assert count==1
@@ -107,8 +109,8 @@ for variant in (False,True):
                         found=[i for i in range(count) if struct.unpack_from('<Q',packet,offset+i*19+10)[0]==0x7fffff]
                         assert len(found)==1,'test-only ignition effect unavailable'
                         response=struct.pack('<I',(found[0]<<16)|5)
-                    elif packet[0]==1:  # Field-reload notification; no response is required.
-                        continue
+                    elif packet[0]==1:  # Core reports the previous response was invalid.
+                        raise SystemExit(f'Engine rejected previous response before prompt: {packet.hex()}')
                         assert packet[5]>0 and packet[3]>0
                         response=struct.pack('<II',1,0)
                     elif packet[0]==15:  # The test requires every offered material.
