@@ -9,6 +9,7 @@ OG.TOKEN=990071099
 OG.FLAG_XYZ_TOKEN_COUNT=990071900
 OG.FLAG_RITUAL_LEFT_FIELD=990071901
 OG.FLAG_LOOM_USED=990071902
+OG.FLAG_LAUNCH_HARNESS_TOKEN=990071917
 
 function OG.IsOurogear(c)
     return c:IsSetCard(OG.SET)
@@ -201,6 +202,16 @@ function OG.CreateToken(tp,source,pos)
         return token
     end
     return nil
+end
+
+function OG.CanCreateLaunchHarnessToken(tp)
+    return Duel.GetFlagEffect(tp,OG.FLAG_LAUNCH_HARNESS_TOKEN)==0 and OG.CanCreateToken(nil,tp)
+end
+function OG.CreateLaunchHarnessToken(tp,source)
+    if not OG.CanCreateLaunchHarnessToken(tp) then return nil end
+    local token=OG.CreateToken(tp,source)
+    if token then Duel.RegisterFlagEffect(tp,OG.FLAG_LAUNCH_HARNESS_TOKEN,RESET_PHASE|PHASE_END,0,1) end
+    return token
 end
 
 function OG.RegisterRitualLeftFieldTracker(c)
