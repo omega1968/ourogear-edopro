@@ -92,11 +92,16 @@ for variant in (False,True):
                     packet=packets[-1]
                     if args.scenario.startswith('engine_harness_'):
                         print(f'PROMPT {packet.hex()}')
-                    if packet[0]==18:  # Choose a legal Monster Zone; no strategic decision.
+                    if packet[0]==18:
                         player,count,blocked=struct.unpack_from('<BBI',packet,1)
                         assert count==1
-                        seq=next(i for i in range(7) if not blocked&(1<<i))
-                        response=bytes([player,4,seq])
+                        if blocked & 0x1f00:  # Select a free Spell/Trap Zone for effect-based equips.
+                            mask=(blocked>>8)&0x1f
+                            seq=next(i for i in range(5) if not mask&(1<<i))
+                            response=bytes([player,4,seq])
+                        else:
+                            seq=next(i for i in range(7) if not blocked&(1<<i))
+                            response=bytes([player,4,seq])
                     elif packet[0]==16 and packet[3]==0:
                         response=struct.pack('<i',0 if args.accept_optional and packet[2]>0 else -1)  # Accept an offered trigger; pass when none are available.
                     elif packet[0]==11:  # Activate the test-only ignition effect.
