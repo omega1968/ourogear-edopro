@@ -107,6 +107,9 @@ for variant in (False,True):
                         found=[i for i in range(count) if struct.unpack_from('<Q',packet,offset+i*19+10)[0]==0x7fffff]
                         assert len(found)==1,'test-only ignition effect unavailable'
                         response=struct.pack('<I',(found[0]<<16)|5)
+                    elif packet[0]==1:  # Select the sole legal card offered by the scripted Harness effect.
+                        assert packet[5]>0 and packet[3]>0
+                        response=struct.pack('<II',1,0)
                     elif packet[0]==15:  # The test requires every offered material.
                         minimum,maximum,count=struct.unpack_from('<III',packet,3)
                         assert minimum==maximum
