@@ -9,6 +9,7 @@ parser.add_argument('cardscripts',type=pathlib.Path)
 parser.add_argument('core',type=pathlib.Path)
 parser.add_argument('--scenario', default='engine_regression.lua')
 parser.add_argument('--process', action='store_true')
+parser.add_argument('--accept-optional', action='store_true', help='Accept optional trigger effects in the scripted scenario')
 parser.add_argument('--token-position',choices=('attack','defense'),default='attack')
 args=parser.parse_args()
 UP=args.cardscripts.resolve()
@@ -95,7 +96,7 @@ for variant in (False,True):
                         seq=next(i for i in range(7) if not blocked&(1<<i))
                         response=bytes([player,4,seq])
                     elif packet[0]==16 and packet[3]==0:
-                        response=struct.pack('<i',-1)  # Decline optional responses in the scripted test.
+                        response=struct.pack('<i',0 if args.accept_optional else -1)  # Optionally accept the scenario trigger.
                     elif packet[0]==11:  # Activate the test-only ignition effect.
                         offset=2
                         for entry_size in (10,10,7,10,10):
