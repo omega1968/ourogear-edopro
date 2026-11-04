@@ -2,6 +2,8 @@
 
 This checklist is for one deliberate EDOPro test pass after the automated checks are green. The repository already validates the database, compiles every Lua file, and loads every card's `initial_effect` through Project Ignis' ocgcore-backed ScriptChecker. These tests cover interactions that require an actual duel state.
 
+Automated coverage now also includes 44 callback regressions and 16 real-engine scenarios. The action scenarios drive actual summon/cost operations with deterministic responses. The return scenarios exercise the real banishment/return callbacks and controlled turn predicates, rather than advancing whole turns. Checkboxes below remain a complete EDOPro client test pass, including UI and opponent interactions.
+
 ## Core loading
 
 - [ ] EDOPro starts with the expansion installed and reports no Lua/database errors.
@@ -37,18 +39,20 @@ For Ritefang, Riteveil, and Ritebind:
 
 Specific field/GY effects:
 
-- [ ] Ritefang negates a face-up monster until the End Phase and its GY effect shuffles itself, then searches a Level 4 Ourogear Reptile.
+- [ ] Ritefang negates a face-up monster until the End Phase and its GY effect shuffles itself, then searches a Level 4 Ourogear Reptile with a different name.
 - [ ] Riteveil flips a face-up opponent monster face-down and its GY effect shuffles itself, then searches an Ourogear Spell/Trap.
 - [ ] Ritebind prevents attacking and Fusion/Synchro/Xyz/Link material use for the turn and its GY effect shuffles itself, then Special Summons a Level 4 Reptile from hand or banishment.
 - [ ] GY effects are ignition effects and cannot be used during the opponent's turn.
 
 ## Level 8 / Level 12 Ritual Monsters
 
-- [ ] Aegis Basilisk negates an opponent's monster-effect activation and banishes that monster if the negation succeeds.
-- [ ] Aegis' battle-destruction protection applies to all Ourogear monsters you control.
+- [ ] Aegis Basilisk can negate an opponent's card/effect activation and banish that card if the negation succeeds.
+- [ ] For each opponent activated effect, at most 1 Ourogear card you control is affected.
+- [ ] If the opponent controls at least 2 monsters, Ourogear monsters you control inflict piercing battle damage.
 - [ ] Twin-Gale Naga can target either a face-up monster or face-up Spell/Trap.
 - [ ] Naga negates the targeted card until the End Phase; a targeted monster also cannot attack or be Fusion/Synchro/Xyz/Link Material that turn.
 - [ ] Naga grants a second attack to each Ourogear monster while you control a WIND Machine.
+- [ ] With Naga active, Siege Leviathan can attack every opponent monster once and use its bonus attack to attack one of them again.
 
 For Ourogear Sovereign:
 
@@ -82,9 +86,10 @@ Test Rank 4 and Rank 8 separately.
 
 ## Rank 4 effects / inherited effects
 
-- [ ] Vector Frame detaches 2 and searches exactly 2 differently named Ourogear cards.
+- [ ] Vector Frame can be Xyz Summoned with exactly 1 Level 4 monster and 1 Level 4 Ourogear monster, applying its existing WIND Machine substitution rules.
+- [ ] Vector Frame detaches 2 and searches exactly 2 differently named Ourogear cards, excluding Vector Frame.
 - [ ] A WIND Machine Xyz with Vector Frame as material gains 500 ATK/DEF.
-- [ ] Relay Frame detaches 1 to create a Token that cannot be Tributed that turn.
+- [ ] Relay Frame detaches 1 to create a Token that can be Tributed immediately.
 - [ ] A WIND Machine Xyz with Relay Frame as material can attach 1 monster from an opponent's successful Special Summon.
 - [ ] If that attached monster is itself an Xyz Monster, its former materials do not improperly carry over.
 - [ ] Breach Frame detaches 1 and can destroy 1 or 2 opponent cards.
@@ -95,11 +100,10 @@ Test Rank 4 and Rank 8 separately.
 For Siege Leviathan:
 
 - [ ] It can attack every opponent monster once each.
+- [ ] It can attack directly when the opponent controls no monsters, including on its first attack.
 - [ ] A monster it destroys by battle is attached as material.
 - [ ] ATK/DEF updates by 300 for every currently attached material.
-- [ ] The detach-10 Quick Effect is unavailable below 10 materials.
-- [ ] With 9 materials and an unused Material Loom replacement, the detach-10 effect can be paid by first attaching the top card.
-- [ ] The detach-10 effect banishes all cards the opponent currently controls.
+- [ ] Its once-per-turn Quick Effect requires detaching 10 materials, then banishes all cards the opponent controls, in their hand, and in their GY together.
 
 For Dominion Ark:
 
@@ -118,16 +122,17 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 ### Launch Harness
 
 - [ ] Activation Special Summons a Level 4 Ourogear Reptile from Deck.
-- [ ] You may choose whether to equip Launch Harness to that summoned monster.
+- [ ] After the summon, you may equip Launch Harness to any face-up monster you control, not only the monster just summoned.
+- [ ] If another effect equips Launch Harness from the Deck (such as DoomZ Drastea), its equip-triggered effect Special Summons a Level 4 Ourogear Reptile.
 - [ ] While equipped, it searches a Level 4 Ourogear Reptile Ritual Monster once per turn.
 - [ ] If the equipped monster becomes Ritual Material, Launch Harness reaches the GY as expected and creates a Token.
-- [ ] If the equipped monster becomes Xyz Material, Launch Harness reaches the GY as expected and creates a Token.
+- [ ] If the equipped monster becomes Xyz Material by a normal or effect-based Xyz Summon (including the DoomZ cheat effect), Launch Harness reaches the GY and creates a Token.
 - [ ] The Token effect does not falsely trigger when the equipped monster leaves for another reason.
 
 ### Skyforge Nexus
 
-- [ ] Searches any Ourogear card once per turn.
-- [ ] Prevents only the first destruction of your Ourogear Spell/Trap by an opponent's card effect each turn.
+- [ ] Searches any Ourogear card other than Skyforge Nexus once per turn.
+- [ ] Prevents the first destruction of another Ourogear Spell/Trap by an opponent's card effect each turn; Skyforge Nexus does not protect itself.
 - [ ] Places 1 or 2 Ourogear Continuous Spells/Traps from GY face-up without treating that placement as activation.
 - [ ] Re-placing Skyforge after it leaves the field gives a fresh soft once-per-turn search/placement, matching the printed text.
 
@@ -142,8 +147,9 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 
 ### Recovery Array
 
-- [ ] The +500/+500 and monster-effect targeting protection turn on only while the opponent controls more cards than you.
+- [ ] Its +500/+500 boost and protection from opponent's monster-effect targeting apply only while you control both a face-up WIND Machine Xyz and a face-up Reptile Ritual Monster.
 - [ ] It searches only an Ourogear Continuous Spell/Trap other than itself.
+- [ ] The search remains its extension option; the always-on monster support gives a reason to keep it face-up.
 - [ ] Sending itself to the GY creates a Token once per turn.
 
 ### Material Loom

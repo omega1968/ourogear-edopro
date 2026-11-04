@@ -2,7 +2,7 @@
 if not Ourogear then Duel.LoadScript("ourogear.lua") end
 local s,id=GetID()
 function s.initial_effect(c)
-    Ourogear.AddXyzProcedure(c,4,4,3)
+    Ourogear.AddXyzProcedure(c,4,4,2)
     -- Detach 2; add 2 differently named Ourogear cards
     local e1=Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id,0))
@@ -26,7 +26,7 @@ function s.initial_effect(c)
     local e2b=e2:Clone(); e2b:SetCode(EFFECT_UPDATE_DEFENSE); c:RegisterEffect(e2b)
 end
 s.listed_series={Ourogear.SET}
-function s.thfilter(c) return c:IsSetCard(Ourogear.SET) and c:IsAbleToHand() end
+function s.thfilter(c) return c:IsSetCard(Ourogear.SET) and not c:IsCode(id) and c:IsAbleToHand() end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
     local g=Duel.GetMatchingGroup(s.thfilter,tp,LOCATION_DECK,0,nil)
     if chk==0 then return g:GetClassCount(Card.GetCode)>=2 end

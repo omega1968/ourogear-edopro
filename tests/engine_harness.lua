@@ -1,0 +1,51 @@
+Duel.LoadScript('constant.lua')
+Duel.LoadScript('utility.lua')
+Debug.ReloadFieldBegin(0)
+Debug.SetPlayerInfo(0,8000,0,0)
+Debug.SetPlayerInfo(1,8000,0,0)
+local material=Debug.AddCard(990071001,0,0,LOCATION_MZONE,0,POS_FACEUP_ATTACK)
+local harness=Debug.AddCard(990071015,0,0,LOCATION_SZONE,0,POS_FACEUP)
+local driver=Debug.AddCard(990071018,0,0,LOCATION_SZONE,1,POS_FACEUP)
+local summoned,token
+if OG_TEST_VARIANT then
+    summoned=Debug.AddCard(990071004,0,0,LOCATION_HAND,0,POS_FACEDOWN)
+else
+    summoned=Debug.AddCard(990071011,0,0,LOCATION_EXTRA,0,POS_FACEDOWN)
+    token=Debug.AddCard(990071099,0,0,LOCATION_MZONE,1,POS_FACEUP_DEFENSE)
+    Debug.AddCard(990071002,0,0,LOCATION_DECK,0,POS_FACEDOWN)
+end
+local limit=Effect.CreateEffect(harness)
+limit:SetType(EFFECT_TYPE_SINGLE)
+limit:SetCode(EFFECT_EQUIP_LIMIT)
+limit:SetValue(function(e,c) return c==material end)
+harness:RegisterEffect(limit)
+assert(Debug.PreEquip(harness,material),'equip fixture failed')
+Debug.ReloadFieldEnd()
+local stage=0
+local run=Effect.CreateEffect(driver)
+run:SetType(EFFECT_TYPE_IGNITION)
+run:SetRange(LOCATION_SZONE)
+run:SetDescription(0x7fffff)
+run:SetCondition(function() return stage==0 end)
+run:SetOperation(function(e,tp)
+    stage=1
+    if OG_TEST_VARIANT then
+        summoned:SetMaterial(Group.FromCards(material))
+        Duel.ReleaseRitualMaterial(Group.FromCards(material))
+        Duel.SpecialSummon(summoned,SUMMON_TYPE_RITUAL,0,0,false,true,POS_FACEUP_ATTACK,1)
+        summoned:CompleteProcedure()
+    else
+        Duel.XyzSummon(0,summoned,nil,Group.FromCards(material,token),2,2)
+    end
+end)
+driver:RegisterEffect(run)
+local verify=run:Clone()
+verify:SetCondition(function() return stage==1 end)
+verify:SetOperation(function()
+    assert(harness:IsLocation(LOCATION_GRAVE),'Harness did not go to GY after material use')
+    assert(summoned:IsLocation(LOCATION_MZONE),'material summon failed')
+    assert(Duel.GetMatchingGroupCount(Card.IsCode,0,LOCATION_MZONE,0,nil,Ourogear.TOKEN)==1,'Harness did not create exactly one Token')
+    Debug.Message('PASS actions: Launch Harness creates its Token after Ritual/Xyz material use')
+    Duel.Win(0,0x99)
+end)
+driver:RegisterEffect(verify)

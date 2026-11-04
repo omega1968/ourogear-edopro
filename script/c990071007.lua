@@ -4,7 +4,7 @@ local s,id=GetID()
 function s.initial_effect(c)
     c:EnableReviveLimit()
     Ourogear.RegisterRitualLeftFieldTracker(c)
-    -- Negate an opponent's monster effect and banish that monster
+    -- Negate an opponent's card or effect activation and banish that card
     local e1=Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id,0))
     e1:SetCategory(CATEGORY_NEGATE|CATEGORY_REMOVE)
@@ -16,20 +16,66 @@ function s.initial_effect(c)
     e1:SetTarget(s.negtg)
     e1:SetOperation(s.negop)
     c:RegisterEffect(e1)
-    -- Ourogear monsters cannot be destroyed by battle
+    -- Each opponent's activated effect can affect at most 1 Ourogear card you control.
     local e2=Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e2:SetCode(EFFECT_IMMUNE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(LOCATION_MZONE,0)
-    e2:SetTarget(function(e,c) return c:IsSetCard(Ourogear.SET) end)
-    e2:SetValue(1)
+    e2:SetTargetRange(LOCATION_ONFIELD,0)
+    e2:SetTarget(s.protected)
+    e2:SetValue(s.immune)
     c:RegisterEffect(e2)
+    -- Reset the per-effect limiter when a new Chain begins.
+    local e3=Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_CHAINING)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetOperation(s.resetprotection)
+    c:RegisterEffect(e3)
+    -- Clear cached affected-card choices after the Chain, before an effect can be activated again.
+    local e4=Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_CONTINUOUS)
+    e4:SetCode(EVENT_CHAIN_END)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetOperation(s.endprotection)
+    c:RegisterEffect(e4)
+    -- Ourogear monsters inflict piercing battle damage while the opponent controls 2+ monsters.
+    local e5=Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_FIELD)
+    e5:SetCode(EFFECT_PIERCE)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetTargetRange(LOCATION_MZONE,0)
+    e5:SetTarget(s.piercetg)
+    c:RegisterEffect(e5)
 end
 s.listed_series={Ourogear.SET}
+Ourogear.AegisAffectedEffects=Ourogear.AegisAffectedEffects or {}
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
-    return rp==1-tp and re:IsMonsterEffect() and Duel.IsChainNegatable(ev)
+    return rp==1-tp and Duel.IsChainNegatable(ev)
         and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
+end
+function s.protected(e,c)
+    return c:IsSetCard(Ourogear.SET)
+end
+function s.immune(e,re,c)
+    local tp=e:GetHandlerPlayer()
+    if re:GetHandlerPlayer()==tp or not re:IsActivated() then return false end
+    local affected=Ourogear.AegisAffectedEffects
+    local allowed=affected[re]
+    if allowed==c then return false end
+    if allowed then return true end
+    affected[re]=c
+    return false
+end
+function s.resetprotection(e,tp,eg,ep,ev,re,r,rp)
+    if re then Ourogear.AegisAffectedEffects[re]=nil end
+end
+function s.endprotection(e,tp,eg,ep,ev,re,r,rp)
+    Ourogear.AegisAffectedEffects={}
+end
+function s.piercetg(e,c)
+    return c:IsSetCard(Ourogear.SET)
+        and Duel.GetFieldGroupCount(e:GetHandlerPlayer(),0,LOCATION_MZONE)>=2
 end
 function s.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return true end
@@ -38,7 +84,7 @@ function s.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
     if rc and rc:IsAbleToRemove() then Duel.SetOperationInfo(0,CATEGORY_REMOVE,rc,1,0,0) end
 end
 function s.negop(e,tp,eg,ep,ev,re,r,rp)
-    if Duel.NegateActivation(ev)==0 then return end
+    if not Duel.NegateActivation(ev) then return end
     local rc=re:GetHandler()
     if rc and rc:IsRelateToEffect(re) then Duel.Remove(rc,POS_FACEUP,REASON_EFFECT) end
 end

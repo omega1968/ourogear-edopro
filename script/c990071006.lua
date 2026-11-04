@@ -35,7 +35,7 @@ function s.lockop(e,tp)
     e2:SetValue(aux.cannotmatfilter(SUMMON_TYPE_FUSION,SUMMON_TYPE_SYNCHRO,SUMMON_TYPE_XYZ,SUMMON_TYPE_LINK)); e2:SetReset(RESET_EVENT|RESETS_STANDARD|RESET_PHASE|PHASE_END); tc:RegisterEffect(e2)
 end
 function s.gycost(e,tp,eg,ep,ev,re,r,rp,chk) local c=e:GetHandler(); if chk==0 then return c:IsAbleToDeckAsCost() end Duel.SendtoDeck(c,nil,SEQ_DECKSHUFFLE,REASON_COST) end
-function s.spfilter(c,e,tp) return c:IsRace(RACE_REPTILE) and c:IsLevel(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
+function s.spfilter(c,e,tp) return (not c:IsLocation(LOCATION_REMOVED) or c:IsFaceup()) and c:IsRace(RACE_REPTILE) and c:IsLevel(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND|LOCATION_REMOVED,0,1,nil,e,tp) end
     Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND|LOCATION_REMOVED)

@@ -13,7 +13,10 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_SZONE)
     e1:SetTargetRange(LOCATION_MZONE,0)
     e1:SetTarget(function(_,tc) return tc:IsSetCard(Ourogear.SET) end)
-    e1:SetValue(function() return (4<<16)|8 end)
+    e1:SetValue(function(_,rc)
+        if rc and rc:IsRace(RACE_REPTILE) then return (4<<16)|8 end
+        return 0
+    end)
     c:RegisterEffect(e1)
     -- Quick Ritual Summon an "Ourogear" Ritual Monster from the hand/GY using Level 4 Reptiles from the Deck.
     local e2=Effect.CreateEffect(c)
@@ -79,7 +82,7 @@ function s.tkcost(e,tp,eg,ep,ev,re,r,rp,chk)
     Duel.SendtoGrave(c,REASON_COST)
 end
 function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
+    if chk==0 then return Ourogear.CanCreateToken(e,tp) end
     Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function s.tkop(e,tp)

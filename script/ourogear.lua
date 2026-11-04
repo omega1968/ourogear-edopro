@@ -28,7 +28,25 @@ function OG.IsXyzSubstitute(c)
 end
 function OG.CanUseAsXyzMaterial(c,xyz,tp)
     if not c:IsFaceup() then return false end
-    if OG.IsWindMachineToken(c) then return true end
+    if OG.IsWindMachineToken(c) then
+        if c:IsStatus(STATUS_FORBIDDEN) then return false end
+        -- The core rejects all Tokens before consulting material restrictions.
+        -- This custom procedure consumes them, so explicitly preserve those restrictions.
+        for _,code in ipairs({EFFECT_CANNOT_BE_XYZ_MATERIAL,EFFECT_CANNOT_BE_MATERIAL}) do
+            for _,te in ipairs({c:IsHasEffect(code)}) do
+                local value=te:GetValue()
+                if type(value)=="function" then
+                    if code==EFFECT_CANNOT_BE_MATERIAL then
+                        value=value(te,xyz,SUMMON_TYPE_XYZ,tp)
+                    else
+                        value=value(te,xyz)
+                    end
+                end
+                if value and value~=0 then return false end
+            end
+        end
+        return true
+    end
     return c:IsCanBeXyzMaterial(xyz,tp)
 end
 function OG.XyzCandidate(c,xyz,tp,mode,rank)
@@ -48,7 +66,7 @@ function OG.FillsArchetypeSlot(c,mode,rank)
     return c:IsType(TYPE_XYZ) and c:IsRank(rank) and c:IsSetCard(OG.SET)
 end
 function OG.ValidXyzGroup(sg,xyz,tp,mode,rank,ct,mustg)
-    if #sg~=ct then return false end
+    if #sg~=ct or sg:FilterCount(OG.XyzCandidate,nil,xyz,tp,mode,rank)~=ct then return false end
     if mustg and not sg:Includes(mustg) then return false end
     if not sg:IsExists(OG.FillsArchetypeSlot,1,nil,mode,rank) then return false end
     return Duel.GetLocationCountFromEx(tp,tp,sg,xyz)>0
@@ -165,25 +183,35 @@ function OG.RegisterTokenRestrictions(token,source)
     e1:SetReset(RESET_EVENT|RESETS_STANDARD)
     token:RegisterEffect(e1,true)
 end
+function OG.CanCreateToken(e,tp)
+    return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+        and Duel.IsPlayerCanSpecialSummonMonster(tp,OG.TOKEN,OG.SET,TYPE_MONSTER|TYPE_NORMAL|TYPE_TOKEN,
+            0,0,4,RACE_MACHINE,ATTRIBUTE_WIND)
+end
+function OG.RevealRandomHandCost(e,tp,eg,ep,ev,re,r,rp,chk)
+    local hg=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
+    if chk==0 then return #hg>0 end
+    Duel.ConfirmCards(1-tp,hg:RandomSelect(1-tp,1))
+    Duel.ShuffleHand(tp)
+end
 function OG.CreateToken(tp,source,pos)
-    if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return nil end
+    if not OG.CanCreateToken(nil,tp) then return nil end
     local token=Duel.CreateToken(tp,OG.TOKEN)
     OG.RegisterTokenRestrictions(token,source)
-    if Duel.SpecialSummon(token,0,tp,tp,false,false,pos or POS_FACEUP_DEFENSE)>0 then
+    if Duel.SpecialSummon(token,0,tp,tp,false,false,pos or POS_FACEUP)>0 then
         return token
     end
     return nil
 end
-function OG.MakeTokenUnreleasableThisTurn(token,source)
-    for _,code in ipairs({EFFECT_UNRELEASABLE_SUM,EFFECT_UNRELEASABLE_NONSUM}) do
-        local e=Effect.CreateEffect(source or token)
-        e:SetType(EFFECT_TYPE_SINGLE)
-        e:SetProperty(EFFECT_FLAG_CANNOT_DISABLE|EFFECT_FLAG_CLIENT_HINT)
-        e:SetCode(code)
-        e:SetValue(1)
-        e:SetReset(RESET_EVENT|RESETS_STANDARD|RESET_PHASE|PHASE_END)
-        token:RegisterEffect(e,true)
-    end
+
+function OG.CanCreateLaunchHarnessToken(tp)
+    return Duel.GetFlagEffect(tp,OG.FLAG_LAUNCH_HARNESS_TOKEN)==0 and OG.CanCreateToken(nil,tp)
+end
+function OG.CreateLaunchHarnessToken(tp,source)
+    if not OG.CanCreateLaunchHarnessToken(tp) then return nil end
+    local token=OG.CreateToken(tp,source)
+    if token then Duel.RegisterFlagEffect(tp,OG.FLAG_LAUNCH_HARNESS_TOKEN,RESET_PHASE|PHASE_END,0,1) end
+    return token
 end
 
 function OG.CanCreateLaunchHarnessToken(tp)
@@ -219,4 +247,41 @@ function OG.IsOurogearMonster(c)
 end
 function OG.IsOurogearST(c)
     return c:IsSpellTrap() and c:IsSetCard(OG.SET)
+end
+
+-- The core excludes Level-less Xyz before evaluating EFFECT_RITUAL_LEVEL.
+-- Extend only the material pool and Ritual Level lookup for Ourogear Xyz;
+-- do not give them Levels for Synchro, ordinary Xyz, or other game mechanics.
+-- Standard Ritual helpers (including other archetypes' Ritual Spells) use these APIs.
+local get_ritual_material=Duel.GetRitualMaterial
+local get_ritual_level=Card.GetRitualLevel
+function Duel.GetRitualMaterial(tp,check_level)
+    -- Passing an explicit nil to the native API is not the same as omitting it.
+    if check_level==nil then check_level=true end
+    local g=get_ritual_material(tp,check_level)
+    if check_level==false then return g end
+    local extra=get_ritual_material(tp,false):Filter(function(c)
+        return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsFaceup()
+            and c:IsSetCard(OG.SET) and c:IsType(TYPE_XYZ) and c:IsHasEffect(EFFECT_RITUAL_LEVEL)
+    end,nil)
+    g:Merge(extra)
+    return g
+end
+function Card.GetRitualLevel(c,rc)
+    if not (c:IsSetCard(OG.SET) and c:IsType(TYPE_XYZ)) then return get_ritual_level(c,rc) end
+    if not rc or not rc:IsRace(RACE_REPTILE) then return get_ritual_level(c,rc) end
+    local effects={c:IsHasEffect(EFFECT_RITUAL_LEVEL)}
+    for _,te in ipairs(effects) do
+        if te:GetHandler():IsCode(990071017) then
+            local value=te:GetValue()
+            return type(value)=="function" and value(te,rc) or value
+        end
+    end
+    for _,te in ipairs(effects) do
+        if te:GetHandler()==c then
+            local value=te:GetValue()
+            return type(value)=="function" and value(te,rc) or value
+        end
+    end
+    return get_ritual_level(c,rc)
 end

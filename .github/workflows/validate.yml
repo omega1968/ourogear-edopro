@@ -34,6 +34,18 @@ jobs:
           rm ScriptChecker.zip
           curl --retry 5 --connect-timeout 30 --location --output libocgcore.so https://github.com/ProjectIgnis/bin/raw/master/libocgcore.so
           ./script_syntax_check upstream-cardscripts script
+      - name: Callback regression tests
+        run: lua5.3 tests/regression.lua upstream-cardscripts
+      - name: Real-engine board and action regressions
+        run: |
+          set -e
+          python tools/engine_regression.py upstream-cardscripts ./libocgcore.so
+          for scenario in engine_actions.lua engine_token_summon.lua engine_loom.lua engine_returns.lua engine_harness.lua engine_ritual_tokens.lua; do
+            python tools/engine_regression.py upstream-cardscripts ./libocgcore.so --scenario "$scenario" --process
+          done
+          python tools/engine_regression.py upstream-cardscripts ./libocgcore.so --scenario engine_ritual_tokens.lua --process --token-position defense
+          python tools/engine_regression.py upstream-cardscripts ./libocgcore.so --scenario engine_harness_external_equip.lua --process --accept-optional
+          python tools/engine_regression.py upstream-cardscripts ./libocgcore.so --scenario engine_harness_overlay.lua --process
       - name: Build EDOPro ZIP
         run: python tools/build_package.py
       - name: Upload EDOPro package

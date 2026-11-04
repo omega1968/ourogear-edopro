@@ -29,11 +29,14 @@ function s.posop(e,tp,eg)
             end)
             e1:SetReset(RESET_EVENT|RESETS_STANDARD)
             tc:RegisterEffect(e1)
+            local e2=e1:Clone()
+            e2:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+            tc:RegisterEffect(e2)
         end
     end
 end
 function s.deffilter(c) return c:IsDefensePos() end
-function s.lockcon(e,tp) return Duel.GetMatchingGroupCount(s.deffilter,tp,0,LOCATION_MZONE,nil)>=4 end
+function s.lockcon(e) local tp=e:GetHandlerPlayer(); return Duel.GetMatchingGroupCount(s.deffilter,tp,0,LOCATION_MZONE,nil)>=4 end
 function s.aclimit(e,re,tp)
     local rc=re:GetHandler()
     return re:IsMonsterEffect() and rc:IsControler(tp) and rc:IsLocation(LOCATION_MZONE) and rc:IsFaceup() and rc:IsDefensePos()
