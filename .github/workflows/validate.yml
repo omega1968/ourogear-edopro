@@ -44,6 +44,8 @@ jobs:
             python tools/engine_regression.py upstream-cardscripts ./libocgcore.so --scenario "$scenario" --process
           done
           python tools/engine_regression.py upstream-cardscripts ./libocgcore.so --scenario engine_ritual_tokens.lua --process --token-position defense
+          python tools/engine_regression.py upstream-cardscripts ./libocgcore.so --scenario engine_harness_external_equip.lua --process --accept-optional
+          python tools/engine_regression.py upstream-cardscripts ./libocgcore.so --scenario engine_harness_overlay.lua --process
       - name: Build EDOPro ZIP
         run: python tools/build_package.py
       - name: Upload EDOPro package
