@@ -138,7 +138,10 @@ function s.eqspcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.eqmvcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
-    return c:IsLocation(LOCATION_SZONE) and c:GetEquipTarget()~=nil
+    local prev=c:GetPreviousLocation()
+    -- The relation may not be exposed until after the movement event is checked.
+    -- Limit this fallback to external effects moving Harness from the Deck/GY.
+    return c:IsLocation(LOCATION_SZONE) and (prev==LOCATION_DECK or prev==LOCATION_GRAVE)
         and (not re or re:GetHandler()~=c)
 end
 function s.eqsp_tg(e,tp,eg,ep,ev,re,r,rp,chk)
