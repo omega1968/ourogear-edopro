@@ -52,6 +52,14 @@ function s.initial_effect(c)
     e3:SetTarget(s.eqsp_tg)
     e3:SetOperation(s.eqsp_op)
     c:RegisterEffect(e3)
+    -- Watch effect-based Xyz conversions that attach this Equip Spell directly as material.
+    aux.GlobalCheck(s,function()
+        local ge=Effect.CreateEffect(c)
+        ge:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_CONTINUOUS)
+        ge:SetCode(EVENT_MOVE)
+        ge:SetOperation(s.ovop)
+        Duel.RegisterEffect(ge,0)
+    end)
 end
 s.listed_series={Ourogear.SET}
 s.listed_names={Ourogear.TOKEN}
@@ -132,4 +140,17 @@ function s.eqsp_op(e,tp)
     local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
     local tc=g:GetFirst()
     if tc then Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP) end
+end
+
+function s.ovop(e,tp,eg,ep,ev,re,r,rp)
+    if not eg then return end
+    for tc in eg:Iter() do
+        if tc:IsCode(id) and tc:IsPreviousLocation(LOCATION_SZONE) and tc:IsLocation(LOCATION_OVERLAY)
+            and tc:IsReason(REASON_XYZ) then
+            local ec=tc:GetPreviousEquipTarget()
+            if ec and ec:IsReason(REASON_XYZ) then
+                Ourogear.CreateLaunchHarnessToken(tc:GetControler(),tc)
+            end
+        end
+    end
 end
