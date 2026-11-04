@@ -86,8 +86,6 @@ function s.actop(e,tp)
         local tg=Duel.SelectMatchingCard(tp,Card.IsFaceup,tp,LOCATION_MZONE,0,1,1,nil)
         local target=tg:GetFirst()
         if target and c:IsRelateToEffect(e) and c:IsLocation(LOCATION_SZONE) then
-            -- Mark our own optional equip so it does not also trigger this effect.
-            c:RegisterFlagEffect(id+100,RESET_EVENT|RESETS_STANDARD,0,1)
             Duel.Equip(tp,c,target)
         end
     end
@@ -121,12 +119,9 @@ function s.tkop(e,tp) Ourogear.CreateLaunchHarnessToken(tp,e:GetHandler()) end
 
 function s.eqspcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
-    -- Suppress the trigger from this card's own activation effect.
-    if c:GetFlagEffect(id+100)>0 then
-        c:ResetFlagEffect(id+100)
-        return false
-    end
-    return true
+    -- Do not repeat the summon for Harness's own optional equip during activation.
+    -- Equips performed by another card (such as Drastea) still resolve this effect.
+    return not re or re:GetHandler()~=c
 end
 function s.eqsp_tg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -146,7 +141,10 @@ function s.ovop(e,tp,eg,ep,ev,re,r,rp)
     for tc in eg:Iter() do
         if tc:IsCode(id) and tc:IsPreviousLocation(LOCATION_SZONE) and tc:IsLocation(LOCATION_OVERLAY) then
             local ec=tc:GetPreviousEquipTarget()
-            if ec and eg:IsContains(ec) and ec:IsLocation(LOCATION_OVERLAY) and ec:IsReason(REASON_XYZ) then
+            -- Drastea's conversion is an effect-based overlay, so the material may
+            -- carry REASON_EFFECT rather than REASON_XYZ. The paired move itself
+            -- confirms the equipped monster became Xyz Material.
+            if ec and eg:IsContains(ec) and ec:IsPreviousLocation(LOCATION_MZONE) and ec:IsLocation(LOCATION_OVERLAY) then
                 Ourogear.CreateLaunchHarnessToken(tc:GetControler(),tc)
             end
         end
