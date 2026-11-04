@@ -52,6 +52,19 @@ function s.initial_effect(c)
     e3:SetTarget(s.eqsp_tg)
     e3:SetOperation(s.eqsp_op)
     c:RegisterEffect(e3)
+    -- Backup for effects that equip this card directly from the Deck/GY to the S/T Zone.
+    -- Some effect-based equips do not reliably present EVENT_EQUIP on the Equip Spell.
+    local e4=Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id,4))
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetType(EFFECT_TYPE_SINGLE|EFFECT_TYPE_TRIGGER_O)
+    e4:SetProperty(EFFECT_FLAG_DELAY)
+    e4:SetCode(EVENT_MOVE)
+    e4:SetCountLimit(1,{id,0})
+    e4:SetCondition(s.eqmvcon)
+    e4:SetTarget(s.eqsp_tg)
+    e4:SetOperation(s.eqsp_op)
+    c:RegisterEffect(e4)
     -- Watch effect-based Xyz conversions that attach this Equip Spell directly as material.
     aux.GlobalCheck(s,function()
         local ge=Effect.CreateEffect(c)
@@ -122,6 +135,11 @@ function s.eqspcon(e,tp,eg,ep,ev,re,r,rp)
     -- Do not repeat the summon for Harness's own optional equip during activation.
     -- Equips performed by another card (such as Drastea) still resolve this effect.
     return not re or re:GetHandler()~=c
+end
+function s.eqmvcon(e,tp,eg,ep,ev,re,r,rp)
+    local c=e:GetHandler()
+    return c:IsLocation(LOCATION_SZONE) and c:GetEquipTarget()~=nil
+        and (not re or re:GetHandler()~=c)
 end
 function s.eqsp_tg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
