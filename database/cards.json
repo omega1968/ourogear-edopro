@@ -223,7 +223,7 @@
     "level": 0,
     "race": 0,
     "attribute": 0,
-    "desc": "When this card is activated: Special Summon 1 Level 4 \"Ourogear\" Reptile monster from your Deck, and if you do, you can equip this card to 1 face-up monster you control. If this card is equipped to a monster by another card effect: You can Special Summon 1 Level 4 \"Ourogear\" Reptile monster from your Deck. Once per turn, while this card is equipped to a monster: You can add 1 Level 4 \"Ourogear\" Reptile Ritual Monster from your Deck to your hand. If the equipped monster is used as material for a Ritual or Xyz Summon: Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each effect of \"Ourogear Launch Harness\" once per turn.",
+    "desc": "If this card is activated or equipped to a monster by a card effect: You can Special Summon 1 Level 4 \"Ourogear\" Reptile monster from your Deck, then, if this card is not equipped, you can equip it to 1 face-up monster you control. Once per turn, while this card is equipped to a monster: You can add 1 Level 4 \"Ourogear\" Reptile Ritual Monster from your Deck to your hand. If the monster equipped with this card is used as material for a Ritual or Xyz Summon: Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each effect of \"Ourogear Launch Harness\" once per turn.",
     "strings": [
       "Special Summon 1 Level 4 \"Ourogear\" Reptile monster from your Deck",
       "Add 1 Level 4 \"Ourogear\" Reptile Ritual Monster from your Deck to your hand",
