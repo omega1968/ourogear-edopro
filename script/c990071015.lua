@@ -72,6 +72,13 @@ function s.initial_effect(c)
         ge:SetCode(EVENT_MOVE)
         ge:SetOperation(s.ovop)
         Duel.RegisterEffect(ge,0)
+        -- Duel.Overlay attaches cards directly and does not emit EVENT_MOVE.
+        -- Scan after adjustment for Harness and its former equip target under one Xyz.
+        local ge2=Effect.CreateEffect(c)
+        ge2:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_CONTINUOUS)
+        ge2:SetCode(EVENT_ADJUST)
+        ge2:SetOperation(s.ovadj)
+        Duel.RegisterEffect(ge2,0)
     end)
 end
 s.listed_series={Ourogear.SET}
@@ -164,11 +171,28 @@ function s.ovop(e,tp,eg,ep,ev,re,r,rp)
     for tc in eg:Iter() do
         if tc:IsCode(id) and tc:IsPreviousLocation(LOCATION_SZONE) and tc:IsLocation(LOCATION_OVERLAY) then
             local ec=tc:GetPreviousEquipTarget()
-            -- Drastea's conversion is an effect-based overlay, so the material may
-            -- carry REASON_EFFECT rather than REASON_XYZ. The paired move itself
-            -- confirms the equipped monster became Xyz Material.
             if ec and eg:IsContains(ec) and ec:IsPreviousLocation(LOCATION_MZONE) and ec:IsLocation(LOCATION_OVERLAY) then
-                Ourogear.CreateLaunchHarnessToken(tc:GetControler(),tc)
+                local host=tc:GetOverlayTarget()
+                if host and ec:GetOverlayTarget()==host then
+                    Ourogear.CreateLaunchHarnessToken(host:GetControler(),tc)
+                end
+            end
+        end
+    end
+end
+function s.ovadj(e,tp)
+    -- Duel.Overlay moves cards straight into LOCATION_OVERLAY without raising
+    -- EVENT_MOVE. The previous Equip Target survives as the paired material.
+    local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,LOCATION_MZONE)
+    for host in g:Iter() do
+        if host:IsType(TYPE_XYZ) then
+            for tc in host:GetOverlayGroup():Iter() do
+                if tc:IsCode(id) then
+                    local ec=tc:GetPreviousEquipTarget()
+                    if ec and ec:IsLocation(LOCATION_OVERLAY) and ec:GetOverlayTarget()==host then
+                        Ourogear.CreateLaunchHarnessToken(host:GetControler(),tc)
+                    end
+                end
             end
         end
     end
