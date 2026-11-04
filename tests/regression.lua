@@ -286,7 +286,7 @@ test('Harness watcher creates a Token when Drastea overlays it with its Xyz mate
     Ourogear.CreateLaunchHarnessToken=function(tp,source)
         eq(tp,0); eq(source,harness); created=created+1
     end
-    functions[15].ovop(e,0,group({harness}),0,0,nil,0,0)
+    functions[15].ovop(e,0,group({harness,target}),0,0,nil,0,0)
     eq(created,1)
     Ourogear.CreateLaunchHarnessToken=saved
 end)
