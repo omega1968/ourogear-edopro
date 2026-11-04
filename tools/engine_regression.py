@@ -98,7 +98,7 @@ for variant in (False,True):
                         seq=next(i for i in range(7) if not blocked&(1<<i))
                         response=bytes([player,4,seq])
                     elif packet[0]==16 and packet[3]==0:
-                        response=struct.pack('<i',0 if args.accept_optional else -1)  # Optionally accept the scenario trigger.
+                        response=struct.pack('<i',0 if args.accept_optional and packet[2]>0 else -1)  # Accept an offered trigger; pass when none are available.
                     elif packet[0]==11:  # Activate the test-only ignition effect.
                         offset=2
                         for entry_size in (10,10,7,10,10):
