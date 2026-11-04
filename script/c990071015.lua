@@ -36,7 +36,6 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_SINGLE|EFFECT_TYPE_TRIGGER_F)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_TO_GRAVE)
-    e2:SetCountLimit(1,{id,2})
     e2:SetCondition(s.tkcon)
     e2:SetTarget(s.tktg)
     e2:SetOperation(s.tkop)
@@ -45,10 +44,9 @@ function s.initial_effect(c)
     local e3=Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id,4))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_TRIGGER_O)
+    e3:SetType(EFFECT_TYPE_SINGLE|EFFECT_TYPE_TRIGGER_O)
     e3:SetProperty(EFFECT_FLAG_DELAY)
     e3:SetCode(EVENT_EQUIP)
-    e3:SetRange(LOCATION_SZONE)
     e3:SetCountLimit(1,{id,3})
     e3:SetCondition(s.eqspcon)
     e3:SetTarget(s.eqsp_tg)
@@ -108,14 +106,14 @@ function s.tkcon(e,tp,eg,ep,ev,re,r,rp)
     return ritual_material or xyz_material
 end
 function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return Ourogear.CanCreateToken(e,tp) end
+    if chk==0 then return Ourogear.CanCreateLaunchHarnessToken(tp) end
     Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
-function s.tkop(e,tp) Ourogear.CreateToken(tp,e:GetHandler()) end
+function s.tkop(e,tp) Ourogear.CreateLaunchHarnessToken(tp,e:GetHandler()) end
 
 function s.eqspcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
-    if not eg or not eg:IsContains(c) then return false end
+    if not c:GetEquipTarget() then return false end
     -- Suppress the trigger from this card's own activation effect.
     if c:GetFlagEffect(id+100)>0 then
         c:ResetFlagEffect(id+100)
