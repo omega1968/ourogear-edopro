@@ -187,7 +187,8 @@ function OG.MakeTokenUnreleasableThisTurn(token,source)
 end
 
 function OG.CanCreateLaunchHarnessToken(tp)
-    return Duel.GetFlagEffect(tp,OG.FLAG_LAUNCH_HARNESS_TOKEN)==0 and OG.CanCreateToken(nil,tp)
+    return Duel.GetFlagEffect(tp,OG.FLAG_LAUNCH_HARNESS_TOKEN)==0
+        and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 end
 function OG.CreateLaunchHarnessToken(tp,source)
     if not OG.CanCreateLaunchHarnessToken(tp) then return nil end
