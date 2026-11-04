@@ -98,7 +98,7 @@ for variant in (False,True):
                         if blocked & 0x1f00:  # Select a free Spell/Trap Zone for effect-based equips.
                             mask=(blocked>>8)&0x1f
                             seq=next(i for i in range(5) if mask&(1<<i))
-                            response=bytes([player,4,seq])
+                            response=bytes([player,8,seq])
                         else:
                             seq=next(i for i in range(7) if not blocked&(1<<i))
                             response=bytes([player,4,seq])
