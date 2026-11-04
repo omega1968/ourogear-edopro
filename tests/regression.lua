@@ -36,6 +36,8 @@ function Card:IsRace(r) return ((self.race or 0)&r)~=0 end
 function Card:IsAttribute(a) return ((self.attribute or 0)&a)~=0 end
 function Card:IsControler(tp) return self.player==tp end
 function Card:GetControler() return self.player end
+function Card:GetEquipTarget() return self.equip_target end
+function Card:GetPreviousEquipTarget() return self.previous_equip_target end
 function Card:IsLocation(loc) return ((self.location or 0)&loc)~=0 end
 function Card:IsFaceup() return self.faceup~=false end
 function Card:GetRank() return self.rank or 0 end
@@ -270,8 +272,22 @@ test('Siege battle attach is mandatory',function() eq(effect_for(13,EVENT_BATTLE
 test('Harness material Token trigger is mandatory',function() eq(effect_for(15,EVENT_TO_GRAVE).Type&EFFECT_TYPE_TRIGGER_F,EFFECT_TYPE_TRIGGER_F) end)
 test('Harness trigger activates when another effect equips it',function()
     local harness=cards[15]
-    local equipped={IsContains=function(_,c) return c==harness end}
-    eq(functions[15].eqspcon(Effect.CreateEffect(harness),0,equipped),true)
+    harness.equip_target=card({id=777,player=0})
+    eq(functions[15].eqspcon(Effect.CreateEffect(harness),0,nil),true)
+    harness.equip_target=nil
+end)
+test('Harness watcher creates a Token when Drastea overlays it with its Xyz material',function()
+    local harness=card({id=990071015,player=0,location=LOCATION_OVERLAY,previous=LOCATION_SZONE,reason=REASON_XYZ})
+    local target=card({id=92472273,player=0,location=LOCATION_OVERLAY,reason=REASON_XYZ})
+    harness.previous_equip_target=target
+    local created=0
+    local saved=Ourogear.CreateLaunchHarnessToken
+    Ourogear.CreateLaunchHarnessToken=function(tp,source)
+        eq(tp,0); eq(source,harness); created=created+1
+    end
+    functions[15].ovop(e,0,group({harness}),0,0,nil,0,0)
+    eq(created,1)
+    Ourogear.CreateLaunchHarnessToken=saved
 end)
 test('Harness accepts effect-based Xyz material reason without REASON_MATERIAL',function()
     local harness=cards[15]
