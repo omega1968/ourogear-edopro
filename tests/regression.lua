@@ -25,6 +25,7 @@ local function group(items)
     function g:Select() return group({self[select_index]}) end
     function g:GetFirst() return self[1] end
     function g:Includes(c) for _,v in ipairs(self) do if v==c then return true end end; return false end
+    function g:IsContains(c) return self:Includes(c) end
     function g:IsExists(fn,n,excluded,...) return self:FilterCount(fn,excluded,...)>=n end
     return g
 end
