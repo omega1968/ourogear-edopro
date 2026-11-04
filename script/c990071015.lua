@@ -121,7 +121,6 @@ function s.tkop(e,tp) Ourogear.CreateLaunchHarnessToken(tp,e:GetHandler()) end
 
 function s.eqspcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
-    if not c:GetEquipTarget() then return false end
     -- Suppress the trigger from this card's own activation effect.
     if c:GetFlagEffect(id+100)>0 then
         c:ResetFlagEffect(id+100)
@@ -145,10 +144,9 @@ end
 function s.ovop(e,tp,eg,ep,ev,re,r,rp)
     if not eg then return end
     for tc in eg:Iter() do
-        if tc:IsCode(id) and tc:IsPreviousLocation(LOCATION_SZONE) and tc:IsLocation(LOCATION_OVERLAY)
-            and tc:IsReason(REASON_XYZ) then
+        if tc:IsCode(id) and tc:IsPreviousLocation(LOCATION_SZONE) and tc:IsLocation(LOCATION_OVERLAY) then
             local ec=tc:GetPreviousEquipTarget()
-            if ec and ec:IsReason(REASON_XYZ) then
+            if ec and eg:IsContains(ec) and ec:IsLocation(LOCATION_OVERLAY) and ec:IsReason(REASON_XYZ) then
                 Ourogear.CreateLaunchHarnessToken(tc:GetControler(),tc)
             end
         end
