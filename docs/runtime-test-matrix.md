@@ -64,7 +64,7 @@ For Ourogear Sovereign:
 
 ## Custom Xyz procedure
 
-Test Rank 4 and Rank 8 separately.
+Test Rank 4 and Rank 8 separately. Rank 8 monsters require 3 Level 4 monsters total, including at least 1 Level 4 Ourogear monster.
 
 - [ ] Normal listed materials work.
 - [ ] A WIND Machine Token can substitute for any required slot.
@@ -95,6 +95,8 @@ Test Rank 4 and Rank 8 separately.
 
 For Siege Leviathan:
 
+- [ ] Xyz Summon using 3 Level 4 monsters, including at least 1 Level 4 Ourogear monster.
+
 - [ ] It can attack every opponent monster once each.
 - [ ] A monster it destroys by battle is attached as material.
 - [ ] ATK/DEF updates by 300 for every currently attached material.
@@ -103,6 +105,8 @@ For Siege Leviathan:
 - [ ] The detach-10 effect banishes the opponent's field, hand, and GY.
 
 For Dominion Ark:
+
+- [ ] Xyz Summon using 3 Level 4 monsters, including at least 1 Level 4 Ourogear monster.
 
 - [ ] Its Quick Effect detaches 1 and banishes a field card until your next End Phase.
 - [ ] The first two legal Extra Deck Special Summon attempts each turn prompt the opponent to destroy 1 card they control.
