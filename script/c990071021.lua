@@ -33,7 +33,10 @@ function s.posop(e,tp,eg)
     end
 end
 function s.deffilter(c) return c:IsDefensePos() end
-function s.lockcon(e,tp) return Duel.GetMatchingGroupCount(s.deffilter,tp,0,LOCATION_MZONE,nil)>=4 end
+function s.lockcon(e)
+    local tp=e:GetHandler():GetControler()
+    return Duel.GetMatchingGroupCount(s.deffilter,1-tp,LOCATION_MZONE,0,nil)>=4
+end
 function s.aclimit(e,re,tp)
     local rc=re:GetHandler()
     return re:IsMonsterEffect() and rc:IsControler(tp) and rc:IsLocation(LOCATION_MZONE) and rc:IsFaceup() and rc:IsDefensePos()
