@@ -15,7 +15,7 @@ function s.initial_effect(c)
     e1:SetTarget(function(_,tc) return tc:IsSetCard(Ourogear.SET) end)
     e1:SetValue(function() return (4<<16)|8 end)
     c:RegisterEffect(e1)
-    -- Quick Ritual Summon an "Ourogear" Ritual Monster from the hand/GY using Level 4 Reptiles from the Deck.
+    -- Quick Ritual Summon an "Ourogear" Ritual Monster from the hand/GY using monsters you control.
     local e2=Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id,0))
     e2:SetCategory(CATEGORY_RELEASE|CATEGORY_SPECIAL_SUMMON)
@@ -45,30 +45,20 @@ function s.ritfilter(c)
     return c:IsSetCard(Ourogear.SET) and c:IsRitualMonster()
         and not (c:IsLocation(LOCATION_GRAVE) and c:GetFlagEffect(Ourogear.FLAG_RITUAL_LEFT_FIELD)>0)
 end
-function s.deckmatfilter(c)
-    return c:IsLocation(LOCATION_DECK) and c:IsRace(RACE_REPTILE) and c:IsLevel(4) and c:IsReleasableByEffect()
-end
-function s.extragroup(e,tp,eg,ep,ev,re,r,rp,chk)
-    return Duel.GetMatchingGroup(function(c)
-        return c:IsRace(RACE_REPTILE) and c:IsLevel(4) and c:IsReleasableByEffect()
-    end,tp,LOCATION_DECK,0,nil)
-end
-function s.extraop(mat,e,tp,eg,ep,ev,re,r,rp,rc)
-    Duel.ReleaseRitualMaterial(mat,true)
+function s.fieldmatfilter(c,e,tp)
+    return c:IsLocation(LOCATION_MZONE) and c:IsControler(tp)
 end
 local ritual_params={
     lvtype=RITPROC_GREATER,
     filter=s.ritfilter,
     location=LOCATION_HAND|LOCATION_GRAVE,
-    extrafil=s.extragroup,
-    extraop=s.extraop,
-    matfilter=s.deckmatfilter
+    matfilter=s.fieldmatfilter
 }
 function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
     local rt=Ritual.Target(ritual_params)
     if chk==0 then return rt(e,tp,eg,ep,ev,re,r,rp,0) end
     rt(e,tp,eg,ep,ev,re,r,rp,1)
-    Duel.SetOperationInfo(0,CATEGORY_RELEASE,nil,1,tp,LOCATION_DECK)
+    Duel.SetOperationInfo(0,CATEGORY_RELEASE,nil,1,tp,LOCATION_MZONE)
 end
 function s.ritop(e,tp,eg,ep,ev,re,r,rp)
     Ritual.Operation(ritual_params)(e,tp,eg,ep,ev,re,r,rp)
