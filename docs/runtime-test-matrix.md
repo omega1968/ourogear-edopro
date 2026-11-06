@@ -5,7 +5,7 @@ This checklist is for one deliberate EDOPro test pass after the automated checks
 ## Core loading
 
 - [ ] EDOPro starts with the expansion installed and reports no Lua/database errors.
-- [ ] Searching `@Ourogear` shows all 21 playable cards and the Token is created by effects correctly.
+- [ ] Searching `@Ourogear` shows all 21 playable cards; Token effects offer Attack or Defense Position.
 - [ ] `Ourogear-Test.ydk` loads without missing-card warnings.
 
 ## Level 4 Effect Monsters
@@ -37,7 +37,7 @@ For Ritefang, Riteveil, and Ritebind:
 
 Specific field/GY effects:
 
-- [ ] Ritefang negates a face-up monster until the End Phase and its GY effect shuffles itself, then searches a Level 4 Ourogear Reptile.
+- [ ] Ritefang negates a face-up monster until the End Phase and its GY effect shuffles itself, then searches a Level 4 Ourogear Reptile other than Ritefang.
 - [ ] Riteveil flips a face-up opponent monster face-down and its GY effect shuffles itself, then searches an Ourogear Spell/Trap.
 - [ ] Ritebind prevents attacking and Fusion/Synchro/Xyz/Link material use for the turn and its GY effect shuffles itself, then Special Summons a Level 4 Reptile from hand or banishment.
 - [ ] GY effects are ignition effects and cannot be used during the opponent's turn.
@@ -83,9 +83,9 @@ Test Rank 4 and Rank 8 separately. Rank 8 monsters require 3 Level 4 monsters to
 
 ## Rank 4 effects / inherited effects
 
-- [ ] Vector Frame detaches 2 and searches exactly 2 differently named Ourogear cards.
+- [ ] Vector Frame detaches 2 and searches exactly 2 differently named Ourogear cards, excluding Vector Frame copies.
 - [ ] A WIND Machine Xyz with Vector Frame as material gains 500 ATK/DEF.
-- [ ] Relay Frame detaches 1 to create a Token that cannot be Tributed that turn.
+- [ ] Relay Frame detaches 1 to create a Token that can be Tributed immediately.
 - [ ] A WIND Machine Xyz with Relay Frame as material can attach 1 monster from an opponent's successful Special Summon.
 - [ ] If that attached monster is itself an Xyz Monster, its former materials do not improperly carry over.
 - [ ] Breach Frame detaches 1 and can destroy 1 or 2 opponent cards.
@@ -97,7 +97,10 @@ For Siege Leviathan:
 
 - [ ] Xyz Summon using 3 Level 4 monsters, including at least 1 Level 4 Ourogear monster.
 
-- [ ] It can attack every opponent monster once each.
+- [ ] It can attack every opponent monster once each, or attack directly if the opponent controls no monsters.
+- [ ] With Twin-Gale Naga's second-attack effect active, it can attack all remaining monsters a second time.
+- [ ] If its first sequence clears all opponent monsters, it can use its second attack to attack directly.
+- [ ] If the opponent controls no monsters, it can attack directly twice while Naga's second-attack effect is active.
 - [ ] A monster it destroys by battle is attached as material.
 - [ ] ATK/DEF updates by 300 for every currently attached material.
 - [ ] The detach-10 Quick Effect is unavailable below 10 materials.
@@ -131,8 +134,8 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 
 ### Skyforge Nexus
 
-- [ ] Searches any Ourogear card once per turn.
-- [ ] Prevents only the first destruction of your Ourogear Spell/Trap by an opponent's card effect each turn.
+- [ ] Searches an Ourogear card once per turn, excluding Skyforge Nexus copies.
+- [ ] Protects another Ourogear Spell/Trap from the first opponent destruction effect each turn; Skyforge Nexus does not protect itself.
 - [ ] Places 1 or 2 Ourogear Continuous Spells/Traps from GY face-up without treating that placement as activation.
 - [ ] Re-placing Skyforge after it leaves the field gives a fresh soft once-per-turn search/placement, matching the printed text.
 
@@ -147,7 +150,7 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 
 ### Recovery Array
 
-- [ ] The +500/+500 and monster-effect targeting protection turn on only while the opponent controls more cards than you.
+- [ ] The +500/+500 and monster-effect targeting protection turn on only while you control both a WIND Machine Xyz Monster and a Reptile Ritual Monster.
 - [ ] It searches only an Ourogear Continuous Spell/Trap other than itself.
 - [ ] Sending itself to the GY creates a Token once per turn.
 
