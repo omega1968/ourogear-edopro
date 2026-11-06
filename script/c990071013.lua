@@ -7,7 +7,18 @@ function s.initial_effect(c)
     local e1=Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_ATTACK_ALL)
-    e1:SetValue(1)
+    e1:SetValue(function(e,tc)
+        local c=e:GetHandler()
+        local tp=c:GetControler()
+        -- Naga's second attack lets Leviathan attack each monster a second time.
+        -- Once the opponent has no monsters, leave the attack-all sequence so the
+        -- remaining attack can be made directly.
+        if c:IsHasEffect(EFFECT_EXTRA_ATTACK) then
+            if Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)==0 then return 0 end
+            return 2
+        end
+        return 1
+    end)
     c:RegisterEffect(e1)
     -- Attach a monster destroyed by battle
     local e2=Effect.CreateEffect(c)
