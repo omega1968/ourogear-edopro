@@ -142,8 +142,9 @@ EDOPro follows normal Yu-Gi-Oh! summon-negation timing. A Special Summon that oc
 ### Rite Circuit
 
 - [ ] Ourogear monsters can provide Ritual Level 4 or 8 as appropriate.
-- [ ] Quick Ritual Summon can summon an Ourogear Ritual from hand using only Level 4 Reptiles from the Deck.
-- [ ] It can also summon from GY using only those Deck materials.
+- [ ] Quick Ritual Summon can summon an Ourogear Ritual from hand by Tributing monsters you control whose total Levels equal or exceed its Level.
+- [ ] It can also summon from GY using monsters you control as Ritual Material.
+- [ ] The effect does not Tribute monsters from the Deck or hand.
 - [ ] A Ritual sent from the field to the GY that same turn cannot be re-Ritual-Summoned from the GY by Rite Circuit.
 - [ ] A Ritual already in the GY from an earlier turn can be summoned.
 - [ ] Sending Rite Circuit itself to the GY creates a Token once per turn.
