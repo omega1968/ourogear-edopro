@@ -56,7 +56,7 @@
     "level": 4,
     "race": 524288,
     "attribute": 8,
-    "desc": "You can discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck by Tributing monsters you control whose total Levels equal or exceed its Level. Once per turn (Quick Effect): You can target 1 face-up monster on the field; negate its effects until the end of this turn. You can shuffle this card from your GY into the Deck; add 1 Level 4 \"Ourogear\" Reptile monster from your Deck to your hand. You can only use each effect of \"Ourogear Ritefang\" once per turn.",
+    "desc": "You can discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck by Tributing monsters you control whose total Levels equal or exceed its Level. Once per turn (Quick Effect): You can target 1 face-up monster on the field; negate its effects until the end of this turn. You can shuffle this card from your GY into the Deck; add 1 Level 4 \"Ourogear\" Reptile monster from your Deck to your hand, except \"Ourogear Ritefang\". You can only use each effect of \"Ourogear Ritefang\" once per turn.",
     "strings": [
       "Discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck",
       "Negate the effects of 1 face-up monster until the end of this turn",
@@ -148,7 +148,7 @@
     "level": 4,
     "race": 32,
     "attribute": 8,
-    "desc": "1 Level 4 monster + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. Once per turn: You can detach 2 materials from this card; add 2 \"Ourogear\" cards with different names from your Deck to your hand. A WIND Machine Xyz Monster that has this card as material gains 500 ATK/DEF. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
+    "desc": "1 Level 4 monster + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. Once per turn: You can detach 2 materials from this card; add 2 \"Ourogear\" cards with different names from your Deck to your hand, except \"Ourogear Vector Frame\". A WIND Machine Xyz Monster that has this card as material gains 500 ATK/DEF. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
     "strings": [
       "Detach 2 materials; add 2 differently named \"Ourogear\" cards from your Deck to your hand"
     ]
@@ -162,7 +162,7 @@
     "level": 4,
     "race": 32,
     "attribute": 8,
-    "desc": "1 Level 4 monster + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. Once per turn: You can detach 1 material from this card; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0), but it cannot be Tributed this turn. A WIND Machine Xyz Monster that has this card as material gains this effect. ● Once per turn, if your opponent Special Summons a monster(s): You can attach 1 of those monsters to this card as material. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
+    "desc": "1 Level 4 monster + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. Once per turn: You can detach 1 material from this card; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). A WIND Machine Xyz Monster that has this card as material gains this effect. ● Once per turn, if your opponent Special Summons a monster(s): You can attach 1 of those monsters to this card as material. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
     "strings": [
       "Detach 1 material; Special Summon an \"Ourogear Token\" that cannot be Tributed this turn",
       "Attach 1 monster your opponent just Special Summoned to this card as material"
@@ -241,7 +241,7 @@
     "level": 0,
     "race": 0,
     "attribute": 0,
-    "desc": "Once per turn: You can add 1 \"Ourogear\" card from your Deck to your hand. The first time each turn another \"Ourogear\" Spell/Trap you control would be destroyed by an opponent's card effect, it is not destroyed. Once per turn: You can target up to 2 \"Ourogear\" Continuous Spells/Traps in your GY; place them face-up in your Spell & Trap Zones.",
+    "desc": "Once per turn: You can add 1 \"Ourogear\" card from your Deck to your hand, except \"Ourogear Skyforge Nexus\". The first time each turn another \"Ourogear\" Spell/Trap you control would be destroyed by an opponent's card effect, it is not destroyed. Once per turn: You can target up to 2 \"Ourogear\" Continuous Spells/Traps in your GY; place them face-up in your Spell & Trap Zones.",
     "strings": [
       "Add 1 \"Ourogear\" card from your Deck to your hand",
       "Place up to 2 \"Ourogear\" Continuous Spells/Traps from your GY face-up"
