@@ -169,7 +169,10 @@ function OG.CreateToken(tp,source,pos)
     if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return nil end
     local token=Duel.CreateToken(tp,OG.TOKEN)
     OG.RegisterTokenRestrictions(token,source)
-    if Duel.SpecialSummon(token,0,tp,tp,false,false,pos or POS_FACEUP_DEFENSE)>0 then
+    if not pos then
+        pos=Duel.SelectPosition(tp,token,POS_FACEUP_ATTACK|POS_FACEUP_DEFENSE)
+    end
+    if Duel.SpecialSummon(token,0,tp,tp,false,false,pos)>0 then
         return token
     end
     return nil
