@@ -68,6 +68,8 @@ For Ourogear Sovereign:
 
 Test Rank 4 and Rank 8 separately. Rank 8 monsters require 3 Level 4 monsters total, including at least 1 Level 4 Ourogear monster.
 
+- [ ] Intercept Frame Xyz Summons with 2 Level 4 monsters, including at least 1 Ourogear monster.
+- [ ] During the opponent's turn, Intercept Frame can detach 1 and return a face-up opponent card to the hand.
 - [ ] Normal listed materials work.
 - [ ] A WIND Machine Token can substitute for any required slot.
 - [ ] Multiple Tokens can substitute in the same Xyz Summon.
