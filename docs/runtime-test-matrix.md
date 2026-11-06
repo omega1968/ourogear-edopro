@@ -100,11 +100,11 @@ For Siege Leviathan:
 - [ ] ATK/DEF updates by 300 for every currently attached material.
 - [ ] The detach-10 Quick Effect is unavailable below 10 materials.
 - [ ] With 9 materials and an unused Material Loom replacement, the detach-10 effect can be paid by first attaching the top card.
-- [ ] The detach-10 effect banishes all cards the opponent currently controls.
+- [ ] The detach-10 effect banishes the opponent's field, hand, and GY.
 
 For Dominion Ark:
 
-- [ ] Its Quick Effect detaches 1 and temporarily banishes a field card until the End Phase.
+- [ ] Its Quick Effect detaches 1 and banishes a field card until your next End Phase.
 - [ ] The first two legal Extra Deck Special Summon attempts each turn prompt the opponent to destroy 1 card they control.
 - [ ] If they successfully destroy a card, the Summon proceeds.
 - [ ] If they decline/cannot successfully destroy a card, the Summon attempt is negated.
