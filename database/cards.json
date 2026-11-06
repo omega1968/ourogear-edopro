@@ -256,9 +256,9 @@
     "level": 0,
     "race": 0,
     "attribute": 0,
-    "desc": "\"Ourogear\" monsters you control can be treated as Level 4 or Level 8 when used for the Ritual Summon of a Reptile Ritual Monster. Once per turn (Quick Effect): You can Ritual Summon 1 \"Ourogear\" Ritual Monster from your hand or GY by Tributing Level 4 Reptile monsters from your Deck whose total Levels equal or exceed its Level. You cannot Ritual Summon a monster from your GY with this effect during the turn that monster was sent from the field to the GY. Once per turn: You can send this face-up card to the GY; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each activated effect of \"Ourogear Rite Circuit\" once per turn.",
+    "desc": "\"Ourogear\" monsters you control can be treated as Level 4 or Level 8 when used for the Ritual Summon of a Reptile Ritual Monster. Once per turn (Quick Effect): You can Ritual Summon 1 \"Ourogear\" Ritual Monster from your hand or GY by Tributing monsters you control whose total Levels equal or exceed its Level. You cannot Ritual Summon a monster from your GY with this effect during the turn that monster was sent from the field to the GY. Once per turn: You can send this face-up card to the GY; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each activated effect of \"Ourogear Rite Circuit\" once per turn.",
     "strings": [
-      "Ritual Summon 1 \"Ourogear\" Ritual Monster from your hand or GY using Level 4 Reptiles from your Deck",
+      "Ritual Summon 1 \"Ourogear\" Ritual Monster from your hand or GY by Tributing monsters you control",
       "Send this card to the GY; Special Summon an \"Ourogear Token\""
     ]
   },
