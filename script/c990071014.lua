@@ -2,7 +2,7 @@
 if not Ourogear then Duel.LoadScript("ourogear.lua") end
 local s,id=GetID()
 function s.initial_effect(c)
-    Ourogear.AddXyzProcedure(c,8,4,3)
+    Ourogear.AddXyzProcedure(c,4,4,3)
     -- Banish 1 card until your next End Phase
     local e1=Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id,0))
