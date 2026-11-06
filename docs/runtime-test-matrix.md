@@ -64,6 +64,8 @@ For Ourogear Sovereign:
 
 ## Custom Xyz procedure
 
+- [ ] If you choose the Xyz Summon procedure, you can cancel at the start of material selection before choosing any materials.
+
 Test Rank 4 and Rank 8 separately. Rank 8 monsters require 3 Level 4 monsters total, including at least 1 Level 4 Ourogear monster.
 
 - [ ] Normal listed materials work.
