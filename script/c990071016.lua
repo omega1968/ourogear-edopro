@@ -20,7 +20,7 @@ function s.initial_effect(c)
     e3:SetTarget(s.rectg); e3:SetOperation(s.recop); c:RegisterEffect(e3)
 end
 s.listed_series={Ourogear.SET}
-function s.thfilter(c) return c:IsSetCard(Ourogear.SET) and c:IsAbleToHand() end
+function s.thfilter(c) return c:IsSetCard(Ourogear.SET) and not c:IsCode(id) and c:IsAbleToHand() end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk) if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK) end
 function s.thop(e,tp) Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND); local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil); if #g>0 then Duel.SendtoHand(g,nil,REASON_EFFECT); Duel.ConfirmCards(1-tp,g) end end
 function s.indtg(e,c) return c~=e:GetHandler() and c:IsSpellTrap() and c:IsSetCard(Ourogear.SET) end
