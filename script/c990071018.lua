@@ -25,9 +25,14 @@ end
 s.listed_series={Ourogear.SET}
 s.listed_names={Ourogear.TOKEN}
 function s.comeback(e,tp)
-    return Duel.IsExistingMatchingCard(function(c) return c:IsFaceup() and Ourogear.IsWindMachineXyz(c) end,
+    -- Some EDOPro callback paths omit tp for field-effect conditions.
+    -- Derive it from the effect handler so the player argument is always an integer.
+    local c=e:GetHandler()
+    if not c then return false end
+    tp=c:GetControler()
+    return Duel.IsExistingMatchingCard(function(tc) return tc:IsFaceup() and Ourogear.IsWindMachineXyz(tc) end,
         tp,LOCATION_MZONE,0,1,nil)
-        and Duel.IsExistingMatchingCard(function(c) return c:IsFaceup() and c:IsType(TYPE_RITUAL) and c:IsRace(RACE_REPTILE) end,
+        and Duel.IsExistingMatchingCard(function(tc) return tc:IsFaceup() and tc:IsType(TYPE_RITUAL) and tc:IsRace(RACE_REPTILE) end,
             tp,LOCATION_MZONE,0,1,nil)
 end
 function s.thfilter(c) return Ourogear.IsOurogearContinuousST(c) and not c:IsCode(id) and c:IsAbleToHand() end
