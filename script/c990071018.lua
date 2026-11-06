@@ -3,7 +3,7 @@ if not Ourogear then Duel.LoadScript("ourogear.lua") end
 local s,id=GetID()
 function s.initial_effect(c)
     local e0=Effect.CreateEffect(c); e0:SetType(EFFECT_TYPE_ACTIVATE); e0:SetCode(EVENT_FREE_CHAIN); c:RegisterEffect(e0)
-    -- Comeback ATK/DEF boost
+    -- Requires both a WIND Machine Xyz Monster and a Reptile Ritual Monster
     local e1=Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD); e1:SetCode(EFFECT_UPDATE_ATTACK); e1:SetRange(LOCATION_SZONE); e1:SetTargetRange(LOCATION_MZONE,0)
     e1:SetCondition(s.comeback); e1:SetTarget(function(e,c) return c:IsSetCard(Ourogear.SET) end); e1:SetValue(500); c:RegisterEffect(e1)
@@ -24,7 +24,12 @@ function s.initial_effect(c)
 end
 s.listed_series={Ourogear.SET}
 s.listed_names={Ourogear.TOKEN}
-function s.comeback(e,tp) return Duel.GetFieldGroupCount(tp,0,LOCATION_ONFIELD)>Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0) end
+function s.comeback(e,tp)
+    return Duel.IsExistingMatchingCard(function(c) return c:IsFaceup() and Ourogear.IsWindMachineXyz(c) end,
+        tp,LOCATION_MZONE,0,1,nil)
+        and Duel.IsExistingMatchingCard(function(c) return c:IsFaceup() and c:IsType(TYPE_RITUAL) and c:IsRace(RACE_REPTILE) end,
+            tp,LOCATION_MZONE,0,1,nil)
+end
 function s.thfilter(c) return Ourogear.IsOurogearContinuousST(c) and not c:IsCode(id) and c:IsAbleToHand() end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk) if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK) end
 function s.thop(e,tp) Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND); local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil); if #g>0 then Duel.SendtoHand(g,nil,REASON_EFFECT); Duel.ConfirmCards(1-tp,g) end end
