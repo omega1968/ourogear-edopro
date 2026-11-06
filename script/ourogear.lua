@@ -82,7 +82,7 @@ function OG.XyzTarget(mode,rank,ct)
         if og and #og==ct and rescon(og) then
             sg=og:Clone()
         else
-            sg=aux.SelectUnselectGroup(mg,e,tp,ct,ct,rescon,1,tp,HINTMSG_XMATERIAL,rescon)
+            sg=aux.SelectUnselectGroup(mg,e,tp,ct,ct,rescon,1,tp,HINTMSG_XMATERIAL,rescon,nil,true)
         end
         if not sg or #sg~=ct then return false end
         sg:KeepAlive()
