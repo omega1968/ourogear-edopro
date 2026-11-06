@@ -45,7 +45,7 @@ Specific field/GY effects:
 ## Level 8 / Level 12 Ritual Monsters
 
 - [ ] Aegis Basilisk negates an opponent's card/effect activation and banishes that card if the negation succeeds.
-- [ ] Each opponent card effect can affect at most 1 Ourogear card you control.
+- [ ] Each time your opponent activates a card or effect, it can affect at most 1 Ourogear card you control.
 - [ ] If the opponent controls 2 or more monsters, your Ourogear monsters inflict piercing battle damage.
 - [ ] Twin-Gale Naga can target either a face-up monster or face-up Spell/Trap.
 - [ ] Naga negates the targeted card until the End Phase; a targeted monster also cannot attack or be Fusion/Synchro/Xyz/Link Material that turn.
