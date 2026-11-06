@@ -241,7 +241,7 @@
     "level": 0,
     "race": 0,
     "attribute": 0,
-    "desc": "Once per turn: You can add 1 \"Ourogear\" card from your Deck to your hand. The first time each turn an \"Ourogear\" Spell/Trap you control would be destroyed by an opponent's card effect, it is not destroyed. Once per turn: You can target up to 2 \"Ourogear\" Continuous Spells/Traps in your GY; place them face-up in your Spell & Trap Zones.",
+    "desc": "Once per turn: You can add 1 \"Ourogear\" card from your Deck to your hand. The first time each turn another \"Ourogear\" Spell/Trap you control would be destroyed by an opponent's card effect, it is not destroyed. Once per turn: You can target up to 2 \"Ourogear\" Continuous Spells/Traps in your GY; place them face-up in your Spell & Trap Zones.",
     "strings": [
       "Add 1 \"Ourogear\" card from your Deck to your hand",
       "Place up to 2 \"Ourogear\" Continuous Spells/Traps from your GY face-up"
