@@ -3,7 +3,7 @@ if not Ourogear then Duel.LoadScript("ourogear.lua") end
 local s,id=GetID()
 function s.initial_effect(c)
     Ourogear.AddXyzProcedure(c,8,4,3)
-    -- Temporarily banish 1 card on the field
+    -- Banish 1 card until your next End Phase
     local e1=Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id,0))
     e1:SetCategory(CATEGORY_REMOVE)
@@ -42,16 +42,20 @@ function s.rmop(e,tp)
     local tc=Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
     if Duel.Remove(tc,0,REASON_EFFECT|REASON_TEMPORARY)==0 then return end
-    tc:RegisterFlagEffect(id,RESETS_STANDARD_PHASE_END,0,1)
+    local activation_turn=Duel.GetTurnCount()
     local g=Group.FromCards(tc); g:KeepAlive()
     local e1=Effect.CreateEffect(e:GetHandler())
     e1:SetType(EFFECT_TYPE_FIELD|EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_PHASE|PHASE_END)
-    e1:SetReset(RESET_PHASE|PHASE_END)
+    e1:SetReset(RESET_PHASE|PHASE_END,3)
     e1:SetLabelObject(g)
+    e1:SetCondition(function(e,tp)
+        return Duel.GetTurnPlayer()==tp and Duel.GetTurnCount()>activation_turn
+    end)
     e1:SetOperation(function(e)
         local rg=e:GetLabelObject(); local c=rg:GetFirst(); rg:DeleteGroup()
-        if c and c:GetFlagEffect(id)>0 then Duel.ReturnToField(c) end
+        if c and c:IsLocation(LOCATION_REMOVED) then Duel.ReturnToField(c) end
+        e:Reset()
     end)
     Duel.RegisterEffect(e1,tp)
 end
