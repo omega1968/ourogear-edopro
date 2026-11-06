@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CARDS_JSON = ROOT / "database" / "cards.json"
 CDB = ROOT / "Ourogear.cdb"
 SCRIPT_DIR = ROOT / "script"
-EXPECTED_CARD_IDS = set(range(990071001, 990071022))
+EXPECTED_CARD_IDS = set(range(990071001, 990071023))
 TOKEN_ID = 990071099
 SETCODE = 0x1F99
 
@@ -28,8 +28,8 @@ def main() -> None:
         fail("duplicate card IDs in cards.json")
     if set(ids) != EXPECTED_CARD_IDS | {TOKEN_ID}:
         fail(f"unexpected card ID set: {sorted(set(ids) ^ (EXPECTED_CARD_IDS | {TOKEN_ID}))}")
-    if len(cards) != 22:
-        fail(f"expected 22 database rows (21 cards + Token), got {len(cards)}")
+    if len(cards) != 23:
+        fail(f"expected 23 database rows (22 cards + Token), got {len(cards)}")
 
     # Every non-Token card has exactly one Lua file named for its ID.
     script_ids = set()
