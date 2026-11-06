@@ -184,6 +184,21 @@
     ]
   },
   {
+    "id": 990071022,
+    "name": "Ourogear Intercept Frame",
+    "type": 8388641,
+    "atk": 2100,
+    "def": 2300,
+    "level": 4,
+    "race": 32,
+    "attribute": 8,
+    "desc": "2 Level 4 monsters, including at least 1 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used for this card's Xyz Summon, transfer its materials to this card. If a Token is used for this card's Xyz Summon, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used.\nOnce per turn, during your opponent's turn (Quick Effect): You can detach 1 material from this card, then target 1 face-up card your opponent controls; return it to the hand.\nThis card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
+    "strings": [
+      "Detach 1 material; destroy up to 2 cards your opponent controls",
+      "Destroy 1 card your opponent controls"
+    ]
+  },
+  {
     "id": 990071013,
     "name": "Ourogear Siege Leviathan",
     "type": 8388641,
