@@ -9,7 +9,11 @@
     "race": 524288,
     "attribute": 8,
     "desc": "If you control a WIND Machine monster or a Token: You can Special Summon this card from your hand. If this card is Normal or Special Summoned: You can add 1 \"Ourogear\" monster from your Deck to your hand, except \"Ourogear Windscale\". You can have your opponent randomly choose 1 card in your hand and reveal it; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each effect of \"Ourogear Windscale\" once per turn.",
-    "strings": ["Special Summon this card from your hand", "Add 1 \"Ourogear\" monster from your Deck to your hand", "Reveal a random card and Special Summon an \"Ourogear Token\""]
+    "strings": [
+      "Special Summon this card from your hand",
+      "Add 1 \"Ourogear\" monster from your Deck to your hand",
+      "Reveal a random card and Special Summon an \"Ourogear Token\""
+    ]
   },
   {
     "id": 990071002,
@@ -21,7 +25,11 @@
     "race": 524288,
     "attribute": 8,
     "desc": "If you control a WIND Machine monster or a Token: You can Special Summon this card from your hand. If this card is Normal or Special Summoned: You can add 1 \"Ourogear\" Spell/Trap from your Deck to your hand. You can have your opponent randomly choose 1 card in your hand and reveal it; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each effect of \"Ourogear Coilwright\" once per turn.",
-    "strings": ["Special Summon this card from your hand", "Add 1 \"Ourogear\" Spell/Trap from your Deck to your hand", "Reveal a random card and Special Summon an \"Ourogear Token\""]
+    "strings": [
+      "Special Summon this card from your hand",
+      "Add 1 \"Ourogear\" Spell/Trap from your Deck to your hand",
+      "Reveal a random card and Special Summon an \"Ourogear Token\""
+    ]
   },
   {
     "id": 990071003,
@@ -33,7 +41,11 @@
     "race": 524288,
     "attribute": 8,
     "desc": "If you control a WIND Machine monster or a Token: You can Special Summon this card from your hand. If this card is Normal or Special Summoned: You can draw 2 cards, then place 1 card from your hand on the bottom of the Deck. You can have your opponent randomly choose 1 card in your hand and reveal it; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each effect of \"Ourogear Driftseer\" once per turn.",
-    "strings": ["Special Summon this card from your hand", "Draw 2 cards, then place 1 card from your hand on the bottom of the Deck", "Reveal a random card and Special Summon an \"Ourogear Token\""]
+    "strings": [
+      "Special Summon this card from your hand",
+      "Draw 2 cards, then place 1 card from your hand on the bottom of the Deck",
+      "Reveal a random card and Special Summon an \"Ourogear Token\""
+    ]
   },
   {
     "id": 990071004,
@@ -45,7 +57,11 @@
     "race": 524288,
     "attribute": 8,
     "desc": "You can discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck by Tributing monsters you control whose total Levels equal or exceed its Level. Once per turn (Quick Effect): You can target 1 face-up monster on the field; negate its effects until the end of this turn. You can shuffle this card from your GY into the Deck; add 1 Level 4 \"Ourogear\" Reptile monster from your Deck to your hand. You can only use each effect of \"Ourogear Ritefang\" once per turn.",
-    "strings": ["Discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck", "Negate the effects of 1 face-up monster until the end of this turn", "Shuffle this card into the Deck; add 1 Level 4 \"Ourogear\" Reptile monster"]
+    "strings": [
+      "Discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck",
+      "Negate the effects of 1 face-up monster until the end of this turn",
+      "Shuffle this card into the Deck; add 1 Level 4 \"Ourogear\" Reptile monster"
+    ]
   },
   {
     "id": 990071005,
@@ -57,7 +73,11 @@
     "race": 524288,
     "attribute": 8,
     "desc": "You can discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck by Tributing monsters you control whose total Levels equal or exceed its Level. Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; change it to face-down Defense Position. You can shuffle this card from your GY into the Deck; add 1 \"Ourogear\" Spell/Trap from your Deck to your hand. You can only use each effect of \"Ourogear Riteveil\" once per turn.",
-    "strings": ["Discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck", "Change 1 face-up opponent's monster to face-down Defense Position", "Shuffle this card into the Deck; add 1 \"Ourogear\" Spell/Trap"]
+    "strings": [
+      "Discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck",
+      "Change 1 face-up opponent's monster to face-down Defense Position",
+      "Shuffle this card into the Deck; add 1 \"Ourogear\" Spell/Trap"
+    ]
   },
   {
     "id": 990071006,
@@ -69,7 +89,11 @@
     "race": 524288,
     "attribute": 8,
     "desc": "You can discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck by Tributing monsters you control whose total Levels equal or exceed its Level. Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; until the end of this turn, it cannot attack or be used as material for a Fusion, Synchro, Xyz, or Link Summon. You can shuffle this card from your GY into the Deck; Special Summon 1 Level 4 Reptile monster from your hand or banishment. You can only use each effect of \"Ourogear Ritebind\" once per turn.",
-    "strings": ["Discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck", "Prevent 1 face-up opponent's monster from attacking or being used as Summon material", "Shuffle this card into the Deck; Special Summon 1 Level 4 Reptile monster"]
+    "strings": [
+      "Discard this card; Ritual Summon 1 Reptile Ritual Monster from your Deck",
+      "Prevent 1 face-up opponent's monster from attacking or being used as Summon material",
+      "Shuffle this card into the Deck; Special Summon 1 Level 4 Reptile monster"
+    ]
   },
   {
     "id": 990071007,
@@ -81,7 +105,9 @@
     "race": 524288,
     "attribute": 8,
     "desc": "Once per turn, when your opponent activates a monster effect (Quick Effect): You can negate the activation, and if you do, banish that monster. \"Ourogear\" monsters you control cannot be destroyed by battle.",
-    "strings": ["Negate an opponent's monster effect and banish that monster"]
+    "strings": [
+      "Negate an opponent's monster effect and banish that monster"
+    ]
   },
   {
     "id": 990071008,
@@ -93,7 +119,9 @@
     "race": 524288,
     "attribute": 8,
     "desc": "Once per turn (Quick Effect): You can target 1 face-up card your opponent controls; negate its effects until the end of this turn, and if it is a monster, it cannot attack or be used as material for a Fusion, Synchro, Xyz, or Link Summon this turn. While you control a WIND Machine monster, each \"Ourogear\" monster you control can make a second attack during each Battle Phase.",
-    "strings": ["Negate 1 face-up opponent's card; if it is a monster, lock its attacks and Summon-material use"]
+    "strings": [
+      "Negate 1 face-up opponent's card; if it is a monster, lock its attacks and Summon-material use"
+    ]
   },
   {
     "id": 990071009,
@@ -105,7 +133,11 @@
     "race": 524288,
     "attribute": 8,
     "desc": "Monsters your opponent controls lose 600 ATK/DEF for each other monster your opponent controls. Once per Chain, when your opponent activates a card or effect: Your opponent chooses 1; ● Negate that activated effect. ● Banish 1 random card from their Extra Deck face-down until the End Phase of their next turn. The activated effects of \"Ourogear\" monsters you control cannot be negated by your opponent.",
-    "strings": ["Your opponent must negate their effect or temporarily banish a random Extra Deck card", "Negate the activated effect", "Banish 1 random card from your Extra Deck face-down until the End Phase of your next turn"]
+    "strings": [
+      "Your opponent must negate their effect or temporarily banish a random Extra Deck card",
+      "Negate the activated effect",
+      "Banish 1 random card from your Extra Deck face-down until the End Phase of your next turn"
+    ]
   },
   {
     "id": 990071010,
@@ -116,8 +148,10 @@
     "level": 4,
     "race": 32,
     "attribute": 8,
-    "desc": "2 Level 4 monsters + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. Once per turn: You can detach 2 materials from this card; add 2 \"Ourogear\" cards with different names from your Deck to your hand. A WIND Machine Xyz Monster that has this card as material gains 500 ATK/DEF. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
-    "strings": ["Detach 2 materials; add 2 differently named \"Ourogear\" cards from your Deck to your hand"]
+    "desc": "1 Level 4 monster + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. Once per turn: You can detach 2 materials from this card; add 2 \"Ourogear\" cards with different names from your Deck to your hand. A WIND Machine Xyz Monster that has this card as material gains 500 ATK/DEF. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
+    "strings": [
+      "Detach 2 materials; add 2 differently named \"Ourogear\" cards from your Deck to your hand"
+    ]
   },
   {
     "id": 990071011,
@@ -129,7 +163,10 @@
     "race": 32,
     "attribute": 8,
     "desc": "1 Level 4 monster + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. Once per turn: You can detach 1 material from this card; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0), but it cannot be Tributed this turn. A WIND Machine Xyz Monster that has this card as material gains this effect. ● Once per turn, if your opponent Special Summons a monster(s): You can attach 1 of those monsters to this card as material. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
-    "strings": ["Detach 1 material; Special Summon an \"Ourogear Token\" that cannot be Tributed this turn", "Attach 1 monster your opponent just Special Summoned to this card as material"]
+    "strings": [
+      "Detach 1 material; Special Summon an \"Ourogear Token\" that cannot be Tributed this turn",
+      "Attach 1 monster your opponent just Special Summoned to this card as material"
+    ]
   },
   {
     "id": 990071012,
@@ -141,7 +178,10 @@
     "race": 32,
     "attribute": 8,
     "desc": "1 Level 4 monster + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. Once per turn: You can detach 1 material from this card, then target up to 2 cards your opponent controls; destroy them. A WIND Machine Xyz Monster that has this card as material gains this effect. ● Once per turn: You can target 1 card your opponent controls; destroy it. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
-    "strings": ["Detach 1 material; destroy up to 2 cards your opponent controls", "Destroy 1 card your opponent controls"]
+    "strings": [
+      "Detach 1 material; destroy up to 2 cards your opponent controls",
+      "Destroy 1 card your opponent controls"
+    ]
   },
   {
     "id": 990071013,
@@ -153,7 +193,10 @@
     "race": 32,
     "attribute": 8,
     "desc": "2 Rank 4 Xyz Monsters + 1 Rank 4 \"Ourogear\" Xyz Monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. This card can attack all monsters your opponent controls, once each. If this card destroys an opponent's monster by battle: Attach that destroyed monster to this card as material. This card gains 300 ATK/DEF for each material attached to it. Once per turn (Quick Effect): You can detach 10 materials from this card; banish all cards your opponent controls. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
-    "strings": ["Attach a monster this card destroyed by battle as material", "Detach 10 materials; banish all cards your opponent controls"]
+    "strings": [
+      "Attach a monster this card destroyed by battle as material",
+      "Detach 10 materials; banish all cards your opponent controls"
+    ]
   },
   {
     "id": 990071014,
@@ -165,7 +208,11 @@
     "race": 32,
     "attribute": 8,
     "desc": "2 Rank 4 Xyz Monsters + 1 Rank 4 \"Ourogear\" Xyz Monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. Once per turn (Quick Effect): You can detach 1 material from this card, then target 1 card on the field; banish it until the End Phase. The first 2 times each turn your opponent would Special Summon a monster(s) from the Extra Deck, they must destroy 1 card they control, or that Summon is negated. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
-    "strings": ["Detach 1 material; temporarily banish 1 card on the field", "Apply the Extra Deck Summon tax", "Destroy 1 card you control to allow this Summon?"]
+    "strings": [
+      "Detach 1 material; temporarily banish 1 card on the field",
+      "Apply the Extra Deck Summon tax",
+      "Destroy 1 card you control to allow this Summon?"
+    ]
   },
   {
     "id": 990071015,
@@ -195,7 +242,10 @@
     "race": 0,
     "attribute": 0,
     "desc": "Once per turn: You can add 1 \"Ourogear\" card from your Deck to your hand. The first time each turn an \"Ourogear\" Spell/Trap you control would be destroyed by an opponent's card effect, it is not destroyed. Once per turn: You can target up to 2 \"Ourogear\" Continuous Spells/Traps in your GY; place them face-up in your Spell & Trap Zones.",
-    "strings": ["Add 1 \"Ourogear\" card from your Deck to your hand", "Place up to 2 \"Ourogear\" Continuous Spells/Traps from your GY face-up"]
+    "strings": [
+      "Add 1 \"Ourogear\" card from your Deck to your hand",
+      "Place up to 2 \"Ourogear\" Continuous Spells/Traps from your GY face-up"
+    ]
   },
   {
     "id": 990071017,
@@ -207,7 +257,10 @@
     "race": 0,
     "attribute": 0,
     "desc": "\"Ourogear\" monsters you control can be treated as Level 4 or Level 8 when used for the Ritual Summon of a Reptile Ritual Monster. Once per turn (Quick Effect): You can Ritual Summon 1 \"Ourogear\" Ritual Monster from your hand or GY by Tributing Level 4 Reptile monsters from your Deck whose total Levels equal or exceed its Level. You cannot Ritual Summon a monster from your GY with this effect during the turn that monster was sent from the field to the GY. Once per turn: You can send this face-up card to the GY; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each activated effect of \"Ourogear Rite Circuit\" once per turn.",
-    "strings": ["Ritual Summon 1 \"Ourogear\" Ritual Monster from your hand or GY using Level 4 Reptiles from your Deck", "Send this card to the GY; Special Summon an \"Ourogear Token\""]
+    "strings": [
+      "Ritual Summon 1 \"Ourogear\" Ritual Monster from your hand or GY using Level 4 Reptiles from your Deck",
+      "Send this card to the GY; Special Summon an \"Ourogear Token\""
+    ]
   },
   {
     "id": 990071018,
@@ -218,8 +271,11 @@
     "level": 0,
     "race": 0,
     "attribute": 0,
-    "desc": "While your opponent controls more cards than you do, \"Ourogear\" monsters you control gain 500 ATK/DEF and cannot be targeted by your opponent's monster effects. Once per turn: You can add 1 \"Ourogear\" Continuous Spell/Trap from your Deck to your hand, except \"Ourogear Recovery Array\". Once per turn: You can send this face-up card to the GY; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each activated effect of \"Ourogear Recovery Array\" once per turn.",
-    "strings": ["Add 1 \"Ourogear\" Continuous Spell/Trap from your Deck to your hand", "Send this card to the GY; Special Summon an \"Ourogear Token\""]
+    "desc": "While you control both a WIND Machine Xyz Monster and a Reptile Ritual Monster, \"Ourogear\" monsters you control gain 500 ATK/DEF and cannot be targeted by your opponent's monster effects. Once per turn: You can add 1 \"Ourogear\" Continuous Spell/Trap from your Deck to your hand, except \"Ourogear Recovery Array\". Once per turn: You can send this face-up card to the GY; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each activated effect of \"Ourogear Recovery Array\" once per turn.",
+    "strings": [
+      "Add 1 \"Ourogear\" Continuous Spell/Trap from your Deck to your hand",
+      "Send this card to the GY; Special Summon an \"Ourogear Token\""
+    ]
   },
   {
     "id": 990071019,
@@ -231,7 +287,11 @@
     "race": 0,
     "attribute": 0,
     "desc": "The first time each WIND Machine Xyz Monster you control would detach material to activate its effect each turn, you can attach the top card of your Deck to that monster as material immediately before detaching. Once per turn: You can target 3 \"Ourogear\" cards with different names in your GY; your opponent randomly chooses 1 of them for you to add to your hand, then shuffle the remaining cards into the Deck. Once per turn: You can send this face-up card to the GY; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). You can only use each activated effect of \"Ourogear Material Loom\" once per turn.",
-    "strings": ["Attach the top card of your Deck before detaching material?", "Recover 1 of 3 differently named \"Ourogear\" cards from your GY at random", "Send this card to the GY; Special Summon an \"Ourogear Token\""]
+    "strings": [
+      "Attach the top card of your Deck before detaching material?",
+      "Recover 1 of 3 differently named \"Ourogear\" cards from your GY at random",
+      "Send this card to the GY; Special Summon an \"Ourogear Token\""
+    ]
   },
   {
     "id": 990071020,
@@ -243,7 +303,10 @@
     "race": 0,
     "attribute": 0,
     "desc": "Once per turn, if your opponent activates a card or effect in their GY: You can target 1 card in their GY; attach it to a WIND Machine Xyz Monster you control as material. Once per turn, if a card(s) leaves your opponent's GY because of their card or effect: You can target 1 other card in their GY; attach it to a WIND Machine Xyz Monster you control as material.",
-    "strings": ["Attach 1 card from your opponent's GY to a WIND Machine Xyz Monster you control", "After a card leaves your opponent's GY, attach another card from their GY as material"]
+    "strings": [
+      "Attach 1 card from your opponent's GY to a WIND Machine Xyz Monster you control",
+      "After a card leaves your opponent's GY, attach another card from their GY as material"
+    ]
   },
   {
     "id": 990071021,
