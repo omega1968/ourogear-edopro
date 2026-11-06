@@ -164,7 +164,7 @@
     "attribute": 8,
     "desc": "1 Level 4 monster + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. Once per turn: You can detach 1 material from this card; Special Summon 1 \"Ourogear Token\" (Machine/WIND/Level 4/ATK 0/DEF 0). A WIND Machine Xyz Monster that has this card as material gains this effect. ● Once per turn, if your opponent Special Summons a monster(s): You can attach 1 of those monsters to this card as material. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
     "strings": [
-      "Detach 1 material; Special Summon an \"Ourogear Token\" that cannot be Tributed this turn",
+      "Detach 1 material; Special Summon an \"Ourogear Token\"",
       "Attach 1 monster your opponent just Special Summoned to this card as material"
     ]
   },
