@@ -27,7 +27,7 @@ function s.initial_effect(c)
     e3:SetValue(function(e) return e:GetHandler():GetOverlayCount()*300 end)
     c:RegisterEffect(e3)
     local e3b=e3:Clone(); e3b:SetCode(EFFECT_UPDATE_DEFENSE); c:RegisterEffect(e3b)
-    -- Detach 10; banish all cards your opponent controls
+    -- Detach 10; banish your opponent's field, hand, and GY
     local e4=Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id,1))
     e4:SetCategory(CATEGORY_REMOVE)
@@ -53,11 +53,13 @@ function s.attop(e,tp)
     if c:IsRelateToEffect(e) and c:IsType(TYPE_XYZ) and bc and bc:IsRelateToEffect(e) then Duel.Overlay(c,bc,true) end
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
-    local g=Duel.GetFieldGroup(tp,0,LOCATION_ONFIELD)
+    local loc=LOCATION_ONFIELD|LOCATION_HAND|LOCATION_GRAVE
+    local g=Duel.GetFieldGroup(tp,0,loc)
     if chk==0 then return #g>0 end
-    Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,#g,1-tp,LOCATION_ONFIELD)
+    Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,#g,1-tp,loc)
 end
 function s.rmop(e,tp)
-    local g=Duel.GetFieldGroup(tp,0,LOCATION_ONFIELD)
+    local loc=LOCATION_ONFIELD|LOCATION_HAND|LOCATION_GRAVE
+    local g=Duel.GetFieldGroup(tp,0,loc)
     if #g>0 then Duel.Remove(g,POS_FACEUP,REASON_EFFECT) end
 end
