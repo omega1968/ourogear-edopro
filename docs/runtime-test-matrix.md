@@ -16,7 +16,7 @@ For Windscale, Coilwright, and Driftseer:
 - [ ] The hand Special Summon is also available while you control any Token.
 - [ ] The hand Special Summon is not available with neither condition.
 - [ ] Each on-summon effect works on both Normal and Special Summon.
-- [ ] The random hand reveal is chosen by the opponent and creates exactly 1 Ourogear Token.
+- [ ] The random hand reveal is chosen by the opponent and creates exactly 1 Ourogear Token; choose Attack or Defense Position.
 - [ ] Each named effect respects its hard once-per-turn limit.
 
 Specific effects:
@@ -44,8 +44,9 @@ Specific field/GY effects:
 
 ## Level 8 / Level 12 Ritual Monsters
 
-- [ ] Aegis Basilisk negates an opponent's monster-effect activation and banishes that monster if the negation succeeds.
-- [ ] Aegis' battle-destruction protection applies to all Ourogear monsters you control.
+- [ ] Aegis Basilisk negates an opponent's card/effect activation and banishes that card if the negation succeeds.
+- [ ] Each opponent card effect can affect at most 1 Ourogear card you control.
+- [ ] If the opponent controls 2 or more monsters, your Ourogear monsters inflict piercing battle damage.
 - [ ] Twin-Gale Naga can target either a face-up monster or face-up Spell/Trap.
 - [ ] Naga negates the targeted card until the End Phase; a targeted monster also cannot attack or be Fusion/Synchro/Xyz/Link Material that turn.
 - [ ] Naga grants a second attack to each Ourogear monster while you control a WIND Machine.
