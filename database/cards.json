@@ -104,9 +104,9 @@
     "level": 8,
     "race": 524288,
     "attribute": 8,
-    "desc": "Once per turn, when your opponent activates a monster effect (Quick Effect): You can negate the activation, and if you do, banish that monster. \"Ourogear\" monsters you control cannot be destroyed by battle.",
+    "desc": "Once per turn, when your opponent activates a card or effect (Quick Effect): You can negate the activation, and if you do, banish that card.\nEach opponent's card effect can affect at most 1 \"Ourogear\" card you control.\nIf your opponent controls 2 or more monsters, \"Ourogear\" monsters you control inflict piercing battle damage.",
     "strings": [
-      "Negate an opponent's monster effect and banish that monster"
+      "Negate an opponent's card or effect activation and banish that card"
     ]
   },
   {
@@ -192,10 +192,10 @@
     "level": 8,
     "race": 32,
     "attribute": 8,
-    "desc": "2 Rank 4 Xyz Monsters + 1 Rank 4 \"Ourogear\" Xyz Monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. This card can attack all monsters your opponent controls, once each. If this card destroys an opponent's monster by battle: Attach that destroyed monster to this card as material. This card gains 300 ATK/DEF for each material attached to it. Once per turn (Quick Effect): You can detach 10 materials from this card; banish all cards your opponent controls. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
+    "desc": "2 Rank 4 Xyz Monsters + 1 Rank 4 \"Ourogear\" Xyz Monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used, transfer its materials to this card. If a Token is used, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used. This card can attack all monsters your opponent controls, once each. If this card destroys an opponent's monster by battle: Attach that destroyed monster to this card as material. This card gains 300 ATK/DEF for each material attached to it. Once per turn (Quick Effect): You can detach 10 materials from this card; banish all cards your opponent controls, and all cards in their hand and GY. This card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
     "strings": [
       "Attach a monster this card destroyed by battle as material",
-      "Detach 10 materials; banish all cards your opponent controls"
+      "Detach 10 materials; banish your opponent's field, hand, and GY"
     ]
   },
   {
