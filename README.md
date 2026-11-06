@@ -4,7 +4,7 @@ A custom Yu-Gi-Oh! archetype for Project Ignis / EDOPro.
 
 ## What is included
 
-- **21 playable custom cards** plus **1 Ourogear Token** database entry.
+- **22 playable custom cards** plus **1 Ourogear Token** database entry.
 - Generated `Ourogear.cdb` with names, stats, card text, archetype setcode, and effect prompt strings.
 - `script/` with all card Lua scripts plus the shared `ourogear.lua` helper.
 - `strings.conf` registering the **Ourogear** archetype name (`0x1f99`).
