@@ -3,7 +3,7 @@ if not Ourogear then Duel.LoadScript("ourogear.lua") end
 local s,id=GetID()
 function s.initial_effect(c)
     Ourogear.AddXyzProcedure(c,4,4,3)
-    -- Negate an effect activated from the opponent's hand and shuffle its card into the Deck
+    -- Negate an effect activated from the opponent's hand or GY and shuffle its card into the Deck
     local e1=Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_NEGATE+CATEGORY_TODECK)
     e1:SetType(EFFECT_TYPE_QUICK_O)
@@ -31,7 +31,7 @@ end
 s.listed_series={Ourogear.SET}
 function s.handnegcon(e,tp,eg,ep,ev,re,r,rp)
     local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION) or 0
-    return rp==1-tp and (loc&LOCATION_HAND)~=0 and Duel.IsChainNegatable(ev)
+    return rp==1-tp and (loc&(LOCATION_HAND|LOCATION_GRAVE))~=0 and Duel.IsChainNegatable(ev)
 end
 function s.handnegop(e,tp,eg,ep,ev,re,r,rp)
     local tc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_CARD)
@@ -53,7 +53,8 @@ end
 function s.searchop(e,tp)
     local g=Duel.GetFieldGroup(tp,0,LOCATION_HAND)
     if #g>0 then
-        local sg=g:RandomSelect(tp,1)
+        Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_TODECK)
+        local sg=g:Select(1-tp,1,1,nil)
         Duel.SendtoDeck(sg,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)
     end
 end
