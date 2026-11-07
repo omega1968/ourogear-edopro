@@ -68,8 +68,6 @@ For Ourogear Sovereign:
 
 Test Rank 4 and Rank 8 separately. Rank 8 monsters require 3 Level 4 monsters total, including at least 1 Level 4 Ourogear monster.
 
-- [ ] Intercept Frame Xyz Summons with 2 Level 4 monsters, including at least 1 Ourogear monster.
-- [ ] During the opponent's turn, Intercept Frame can detach 1 to negate an opponent's on-field monster effect, then return that monster to the hand if it remains on the field.
 - [ ] Normal listed materials work.
 - [ ] A WIND Machine Token can substitute for any required slot.
 - [ ] Multiple Tokens can substitute in the same Xyz Summon.
@@ -96,6 +94,14 @@ Test Rank 4 and Rank 8 separately. Rank 8 monsters require 3 Level 4 monsters to
 - [ ] A WIND Machine Xyz with Breach Frame as material gains the once-per-turn single-card destruction effect.
 
 ## Rank 8 effects
+
+For Ourogear Intercept Colossus:
+
+- [ ] Xyz Summon using 2 Level 4 monsters and 1 Level 4 Ourogear monster.
+- [ ] During the opponent's turn, it can detach 1 to negate an on-field card/effect activation and attach that card as material if it remains on the field.
+- [ ] When the opponent Special Summons, it can detach 1 to attach 1 of those monsters as material.
+- [ ] Each interruption effect can be used once per turn, independently.
+- [ ] Neither effect is available if this card has no Xyz Materials.
 
 For Siege Leviathan:
 
