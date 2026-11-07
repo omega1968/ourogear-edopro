@@ -36,7 +36,7 @@ end
 function s.negop(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
     local tc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_CARD)
-    if Duel.NegateEffect(ev) and tc and tc:IsOnField() and tc:IsRelateToEffect(e) then
+    if Duel.NegateEffect(ev) and tc and tc:IsOnField() and not tc:IsImmuneToEffect(e) then
         Duel.Overlay(c,tc,true)
     end
 end
