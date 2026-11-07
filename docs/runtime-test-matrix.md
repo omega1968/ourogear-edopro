@@ -98,8 +98,8 @@ Test Rank 4 and Rank 8 separately. Rank 8 monsters require 3 Level 4 monsters to
 For Ourogear Signalbreaker Hydra:
 
 - [ ] Xyz Summon using 2 Level 4 monsters and 1 Level 4 Ourogear monster.
-- [ ] When the opponent activates an effect from hand, it can detach 1 to negate that effect and shuffle that card into the Deck.
-- [ ] When the opponent adds a card from Deck to hand other than by drawing, it can detach 1 to randomly shuffle a card from the opponent's hand into the Deck.
+- [ ] When the opponent activates a card/effect from hand or GY, it can detach 1 to negate it and shuffle that card into the Deck.
+- [ ] When the opponent adds a card from Deck to hand other than by drawing, it can detach 1 and have the opponent choose a card from their hand to shuffle into the Deck.
 - [ ] Each interruption is once per turn and can be used independently.
 - [ ] Neither effect can be activated without material to detach.
 
