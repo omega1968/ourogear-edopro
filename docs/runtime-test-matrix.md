@@ -95,13 +95,13 @@ Test Rank 4 and Rank 8 separately. Rank 8 monsters require 3 Level 4 monsters to
 
 ## Rank 8 effects
 
-For Ourogear Intercept Colossus:
+For Ourogear Signalbreaker Hydra:
 
 - [ ] Xyz Summon using 2 Level 4 monsters and 1 Level 4 Ourogear monster.
-- [ ] During the opponent's turn, it can detach 1 to negate an on-field card/effect activation and attach that card as material if it remains on the field.
-- [ ] When the opponent Special Summons, it can detach 1 to attach 1 of those monsters as material.
-- [ ] Each interruption effect can be used once per turn, independently.
-- [ ] Neither effect is available if this card has no Xyz Materials.
+- [ ] When the opponent activates an effect from hand, it can detach 1 to negate that effect and shuffle that card into the Deck.
+- [ ] When the opponent adds a card from Deck to hand other than by drawing, it can detach 1 to randomly shuffle a card from the opponent's hand into the Deck.
+- [ ] Each interruption is once per turn and can be used independently.
+- [ ] Neither effect can be activated without material to detach.
 
 For Siege Leviathan:
 
