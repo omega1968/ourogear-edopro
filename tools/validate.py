@@ -26,6 +26,8 @@ def main() -> None:
     ids = [int(c["id"]) for c in cards]
     if len(ids) != len(set(ids)):
         fail("duplicate card IDs in cards.json")
+    if ids != sorted(ids):
+        fail("cards.json entries are not sorted by ID")
     if set(ids) != EXPECTED_CARD_IDS | {TOKEN_ID}:
         fail(f"unexpected card ID set: {sorted(set(ids) ^ (EXPECTED_CARD_IDS | {TOKEN_ID}))}")
     if len(cards) != 23:
@@ -106,7 +108,7 @@ def main() -> None:
             if counts[(mode,cid)] > 3:
                 fail(f"test deck has more than 3 copies of {cid} in {mode}")
 
-    print("Ourogear validation passed: 21 scripted cards + 1 Token, database and string references are consistent.")
+    print("Ourogear validation passed: 22 scripted cards + 1 Token; database and string references are consistent.")
 
 
 if __name__ == "__main__":
