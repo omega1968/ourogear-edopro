@@ -184,21 +184,6 @@
     ]
   },
   {
-    "id": 990071022,
-    "name": "Ourogear Signalbreaker Hydra",
-    "type": 8388641,
-    "atk": 3000,
-    "def": 2700,
-    "level": 8,
-    "race": 32,
-    "attribute": 8,
-    "desc": "2 Level 4 monsters + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used for this card's Xyz Summon, transfer its materials to this card. If a Token is used for this card's Xyz Summon, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used.\nOnce per turn, when your opponent activates a card or effect in their hand or GY (Quick Effect): You can detach 1 material from this card; negate that effect, and if you do, shuffle that card into the Deck.\nOnce per turn, if your opponent adds a card(s) from their Deck to their hand, except by drawing it: You can detach 1 material from this card; your opponent chooses 1 card from their hand to shuffle into the Deck.\nThis card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
-    "strings": [
-      "Detach 1 material; destroy up to 2 cards your opponent controls",
-      "Destroy 1 card your opponent controls"
-    ]
-  },
-  {
     "id": 990071013,
     "name": "Ourogear Siege Leviathan",
     "type": 8388641,
@@ -334,6 +319,21 @@
     "attribute": 0,
     "desc": "If your opponent Special Summons a monster(s) in Attack Position: Change those monsters to Defense Position. Monsters changed to Defense Position by this effect cannot change their battle positions while this card remains face-up on the field. While your opponent controls 4 or more Defense Position monsters, they cannot activate the effects of Defense Position monsters.",
     "strings": []
+  },
+  {
+    "id": 990071022,
+    "name": "Ourogear Signalbreaker Hydra",
+    "type": 8388641,
+    "atk": 3000,
+    "def": 2700,
+    "level": 8,
+    "race": 32,
+    "attribute": 8,
+    "desc": "2 Level 4 monsters + 1 Level 4 \"Ourogear\" monster\nFor this card's Xyz Summon, you can substitute any required material with 1 WIND Machine Token or 1 WIND Machine Xyz Monster. If a WIND Machine Xyz Monster is used for this card's Xyz Summon, transfer its materials to this card. If a Token is used for this card's Xyz Summon, after this card is Xyz Summoned, attach the top card of your Deck to it as material for each Token used.\nOnce per turn, when your opponent activates a card or effect in their hand or GY (Quick Effect): You can detach 1 material from this card; negate that effect, and if you do, shuffle that card into the Deck.\nOnce per turn, if your opponent adds a card(s) from their Deck to their hand, except by drawing it: You can detach 1 material from this card; your opponent chooses 1 card from their hand to shuffle into the Deck.\nThis card can be used as material for the Ritual Summon of a Reptile Ritual Monster, and if you do, treat its Rank as its Level.",
+    "strings": [
+      "Detach 1 material; destroy up to 2 cards your opponent controls",
+      "Destroy 1 card your opponent controls"
+    ]
   },
   {
     "id": 990071099,
