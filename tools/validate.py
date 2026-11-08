@@ -68,7 +68,7 @@ def main() -> None:
     try:
         datas = con.execute("SELECT id,ot,setcode,type,atk,def,level,race,attribute FROM datas ORDER BY id").fetchall()
         texts = con.execute("SELECT id,name,desc FROM texts ORDER BY id").fetchall()
-        if len(datas) != 22 or len(texts) != 22:
+        if len(datas) != 23 or len(texts) != 23:
             fail(f"database row count mismatch: datas={len(datas)} texts={len(texts)}")
         db_ids = {row[0] for row in datas}
         if db_ids != set(ids):
