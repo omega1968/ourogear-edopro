@@ -5,7 +5,7 @@ This checklist is for one deliberate EDOPro test pass after the automated checks
 ## Core loading
 
 - [ ] EDOPro starts with the expansion installed and reports no Lua/database errors.
-- [ ] Searching `@Ourogear` shows all 21 playable cards; Token effects offer Attack or Defense Position.
+- [ ] Searching `@Ourogear` shows all 22 playable cards; Token effects offer Attack or Defense Position.
 - [ ] `Ourogear-Test.ydk` loads without missing-card warnings.
 
 ## Level 4 Effect Monsters
