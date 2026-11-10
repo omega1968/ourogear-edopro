@@ -70,5 +70,13 @@ function s.protop(e,tp,eg,ep,ev,re,r,rp)
     end
 end
 function s.piercecon(e,tp)
-    return Duel.GetMatchingGroupCount(Card.IsMonster,tp,0,LOCATION_MZONE,nil)>=2
+    local g=Duel.GetFieldGroup(tp,0,LOCATION_MZONE)
+    local count=0
+    for tc in g:Iter() do
+        if tc:IsMonster() then
+            count=count+1
+            if count>=2 then return true end
+        end
+    end
+    return false
 end
